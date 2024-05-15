@@ -1,4 +1,4 @@
-package de.cloud.master.delta203.main.server;
+package de.cloud.master.delta203.main.sockets;
 
 import de.cloud.master.delta203.core.handlers.Channel;
 import de.cloud.master.delta203.main.Cloud;

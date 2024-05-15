@@ -4,7 +4,7 @@ import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.main.processes.Main;
 import de.cloud.master.delta203.main.processes.Setup;
 import de.cloud.master.delta203.main.processes.Start;
-import de.cloud.master.delta203.main.server.Server;
+import de.cloud.master.delta203.main.sockets.Server;
 
 import java.io.IOException;
 import java.util.Scanner;
