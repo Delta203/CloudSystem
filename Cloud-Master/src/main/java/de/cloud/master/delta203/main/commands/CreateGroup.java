@@ -47,8 +47,21 @@ public class CreateGroup {
     return memory;
   }
 
-  private int amount() {
-    Cloud.console.print("How many server should run permanently?");
+  private int minAmount() {
+    Cloud.console.print("How many servers should run permanently?");
+    int amount = 0;
+    while (amount == 0) {
+      try {
+        amount = Integer.decode(Application.scanner.nextLine());
+      } catch (NumberFormatException e) {
+        Cloud.console.print("You must enter a number!");
+      }
+    }
+    return amount;
+  }
+
+  private int maxAmount() {
+    Cloud.console.print("What is the maximum amount of servers you want to run?");
     int amount = 0;
     while (amount == 0) {
       try {
@@ -94,11 +107,12 @@ public class CreateGroup {
     String name = name();
     GroupType type = type();
     int memory = memory();
-    int amount = amount();
+    int minAmount = minAmount();
+    int maxAmount = maxAmount();
     boolean statisch = statisch();
     boolean maintenance = maintenance();
     if (!confirmed()) return;
-    Group group = new Group(name, type, memory, amount, statisch, maintenance);
+    Group group = new Group(name, type, memory, minAmount, maxAmount, statisch, maintenance);
     group.create();
     Cloud.groups.add(group);
     Cloud.console.print("Configurations are saved...");

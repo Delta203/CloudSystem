@@ -17,18 +17,26 @@ public class Group {
   private String name;
   private GroupType type;
   private int memory;
-  private int amount;
+  private int minAmount;
+  private int maxAmount;
   private boolean statisch;
   private boolean maintenance;
 
   private final FileManager data;
 
   public Group(
-      String name, GroupType type, int memory, int amount, boolean statisch, boolean maintenance) {
+      String name,
+      GroupType type,
+      int memory,
+      int minAmount,
+      int maxAmount,
+      boolean statisch,
+      boolean maintenance) {
     this.name = name;
     this.type = type;
     this.memory = memory;
-    this.amount = amount;
+    this.minAmount = minAmount;
+    this.maxAmount = maxAmount;
     this.statisch = statisch;
     this.maintenance = maintenance;
     data = new FileManager(Cloud.pathManager.getPathDataGroup(), name + ".json");
@@ -44,7 +52,8 @@ public class Group {
     name = content.get("name").getAsString();
     type = GroupType.valueOf(content.get("type").getAsString());
     memory = content.get("memory").getAsInt();
-    amount = content.get("amount").getAsInt();
+    minAmount = content.get("minAmount").getAsInt();
+    maxAmount = content.get("maxAmount").getAsInt();
     statisch = content.get("static").getAsBoolean();
     maintenance = content.get("maintenance").getAsBoolean();
   }
@@ -61,8 +70,12 @@ public class Group {
     return memory;
   }
 
-  public int getAmount() {
-    return amount;
+  public int getMinAmount() {
+    return minAmount;
+  }
+
+  public int getMaxAmount() {
+    return maxAmount;
   }
 
   public boolean isStatic() {
@@ -101,7 +114,8 @@ public class Group {
     content.addProperty("name", name);
     content.addProperty("type", type.name());
     content.addProperty("memory", memory);
-    content.addProperty("amount", amount);
+    content.addProperty("minAmount", minAmount);
+    content.addProperty("maxAmount", maxAmount);
     content.addProperty("static", statisch);
     content.addProperty("maintenance", maintenance);
     data.setData(content);

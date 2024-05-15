@@ -4,6 +4,7 @@ import de.cloud.master.delta203.core.Console;
 import de.cloud.master.delta203.core.Group;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.files.PathManager;
+import de.cloud.master.delta203.main.server.Server;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,11 +13,13 @@ public class Cloud {
 
   public static PathManager pathManager;
   public static FileManager config;
+  public static Server server;
 
   public static Console console;
 
   public static int memory = 0;
   public static List<Group> groups = new ArrayList<>();
+  public static boolean shutdown = false;
 
   public static void main(String[] args) {
     pathManager = new PathManager();

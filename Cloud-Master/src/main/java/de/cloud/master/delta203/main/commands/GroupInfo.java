@@ -29,7 +29,8 @@ public class GroupInfo {
     Cloud.console.print("Group information: " + group.getName());
     Cloud.console.print("Type: " + group.getType().name());
     Cloud.console.print("Memory: " + group.getMemory() + " MB");
-    Cloud.console.print("Amount: " + group.getAmount());
+    Cloud.console.print("Min amount: " + group.getMinAmount());
+    Cloud.console.print("Max amount: " + group.getMaxAmount());
     Cloud.console.print("Static: " + group.isStatic());
     Cloud.console.print("Maintenance: " + group.isMaintenance());
   }

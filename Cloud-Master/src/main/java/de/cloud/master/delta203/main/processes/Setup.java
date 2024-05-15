@@ -16,6 +16,24 @@ public class Setup {
     config = new JsonObject();
   }
 
+  private String ip() {
+    Cloud.console.print("On which ip should the server run?");
+    return Application.scanner.nextLine();
+  }
+
+  private int port() {
+    Cloud.console.print("On which port should the server run? [1550]");
+    int port = 0;
+    while (port == 0) {
+      try {
+        port = Integer.decode(Application.scanner.nextLine());
+      } catch (NumberFormatException e) {
+        Cloud.console.print("You must enter a number!");
+      }
+    }
+    return port;
+  }
+
   private int memory() {
     Cloud.console.print("How much memory should the cloud have in total? (MB)");
     int memory = 0;
@@ -71,6 +89,8 @@ public class Setup {
 
   public void run() {
     Cloud.console.print("The setup has started:");
+    config.addProperty("ip", ip());
+    config.addProperty("port", port());
     config.addProperty("maxMemory", memory());
     JsonObject versions = new JsonObject();
     versions.addProperty("proxy", proxy());
