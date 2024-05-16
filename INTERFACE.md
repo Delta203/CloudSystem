@@ -13,7 +13,7 @@
 ```java
 public void generate() {
   String raw = getRandom() + getDate() + getRandom();
-  key = md5(raw);
+  key = sha256(raw);
 }
 ```
 ## Message Types

@@ -22,7 +22,7 @@ public class KeyGenerator {
     return new Random().nextInt(1000000);
   }
 
-  private String md5(String string) {
+  private String sha256(String string) {
     try {
       MessageDigest messageDigest = MessageDigest.getInstance("sha256");
       byte[] bytesHash = messageDigest.digest(string.getBytes());
@@ -38,7 +38,7 @@ public class KeyGenerator {
 
   public void generate() {
     String raw = getRandom() + getDate() + getRandom();
-    key = md5(raw);
+    key = sha256(raw);
   }
 
   public String getKey() {
