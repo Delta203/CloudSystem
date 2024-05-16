@@ -4,7 +4,7 @@ All necessary messages and information between server and sockets will be docume
 ```json5
 {
   "key": String,    // Server key
-  "type": int,      // Message type
+  "type": String,   // Message type
   "data" {
     ...             // Content          
   }
