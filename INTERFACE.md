@@ -1,7 +1,7 @@
 # Server - API Communication
 All necessary messages and information between server and sockets will be documented in this file.
 ## Structure
-```json
+```json5
 {
   "key": String,    // Server key
   "type": int,      // Message type
@@ -18,7 +18,7 @@ public void generate() {
 }
 ```
 ## Message Types
-```json
+```json5
 Type {
   CONNECT,          // 0
   INGAME,           // 1
@@ -27,7 +27,7 @@ Type {
 ```
 ### Connect:
 A socket connects to the server and is then registered by the server.
-```json
+```json5
 "data": {
   "name": String,   // Server name
   "port": int,      // Server port
@@ -35,7 +35,7 @@ A socket connects to the server and is then registered by the server.
 ```
 ### In game:
 Switch a server to `ingame` and a new server will be started automatically if the cloud storage is not exhausted.
-```json
+```json5
 "data": {}
 ```
 ### Disconnect:
