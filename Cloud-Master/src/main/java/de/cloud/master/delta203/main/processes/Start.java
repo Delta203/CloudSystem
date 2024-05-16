@@ -2,9 +2,12 @@ package de.cloud.master.delta203.main.processes;
 
 import de.cloud.master.delta203.core.Group;
 import de.cloud.master.delta203.core.files.FileManager;
+import de.cloud.master.delta203.core.security.KeyGenerator;
 import de.cloud.master.delta203.main.Cloud;
+import de.cloud.master.delta203.main.sockets.Server;
 
 import java.io.File;
+import java.io.IOException;
 
 public class Start {
 
@@ -26,9 +29,26 @@ public class Start {
     }
   }
 
+  private void key() {
+    KeyGenerator generator = new KeyGenerator();
+    generator.generate();
+    Cloud.key = generator.getKey();
+  }
+
+  private void server() {
+    try {
+      Cloud.server = new Server();
+      Cloud.server.start();
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+
   public void run() {
     config();
     groups();
+    key();
+    server();
     Cloud.console.print("All data has been loaded successfully.");
   }
 }
