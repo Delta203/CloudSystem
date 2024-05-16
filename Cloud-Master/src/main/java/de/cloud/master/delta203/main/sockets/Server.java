@@ -50,6 +50,7 @@ public class Server extends Thread {
     } catch (IOException e) {
       throw new RuntimeException(e);
     }
+    Cloud.console.print("The server socket is closed.");
   }
 
   @Override
@@ -63,6 +64,5 @@ public class Server extends Thread {
       } catch (IOException ignored) {
       }
     }
-    Cloud.console.print("The server socket is closed.");
   }
 }

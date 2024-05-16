@@ -50,6 +50,7 @@ public class Logger {
   }
 
   public void log(String message) {
+    if (message == null || message.isEmpty()) return;
     log.add(message);
     boolean append = !createNewLog();
     try (PrintWriter writer = new PrintWriter(new FileOutputStream(latest, append))) {

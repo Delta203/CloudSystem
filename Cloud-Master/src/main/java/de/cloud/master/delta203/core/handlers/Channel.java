@@ -12,7 +12,9 @@ public class Channel extends Thread {
   private final Socket socket;
   private final BufferedReader reader;
 
-  private String server;
+  private String key;
+  private String name;
+  private int port;
 
   public Channel(Socket socket) throws IOException {
     this.socket = socket;
@@ -21,10 +23,6 @@ public class Channel extends Thread {
 
   public Socket getSocket() {
     return socket;
-  }
-
-  public String getServer() {
-    return server;
   }
 
   public void close() {
@@ -39,8 +37,8 @@ public class Channel extends Thread {
   public void run() {
     try {
       String message = reader.readLine();
-      server = message;
-      Cloud.console.print(server + " connected to the cloud.");
+      name = message;
+      Cloud.console.print(name + " connected to cloud.");
 
       while (!Cloud.shutdown) {
         message = reader.readLine();
@@ -48,7 +46,7 @@ public class Channel extends Thread {
       }
     } catch (IOException ignored) {
       Cloud.server.removeChannel(this);
-      Cloud.console.print(server + " disconnected.");
+      Cloud.console.print(name + " disconnected from cloud.");
     }
   }
 }
