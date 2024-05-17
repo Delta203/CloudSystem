@@ -5,6 +5,7 @@ import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
 import de.cloud.master.delta203.main.commands.CreateGroup;
 import de.cloud.master.delta203.main.commands.GroupInfo;
+import de.cloud.master.delta203.main.commands.Channels;
 import de.cloud.master.delta203.main.commands.ShowKey;
 
 import java.util.ArrayList;
@@ -32,6 +33,9 @@ public class Main {
         case "CREATEGROUP":
           new CreateGroup().execute();
           break;
+        case "CHANNELS":
+          new Channels().execute();
+          break;
         case "SHOWKEY":
           new ShowKey().execute();
           break;
@@ -54,6 +58,7 @@ public class Main {
     Cloud.console.print("shutdown >> Shuts down the cloud.");
     Cloud.console.print("groupInfo <name> >> Shows group information.");
     Cloud.console.print("createGroup >> Create a proxy / server group.");
+    Cloud.console.print("channels >> Shows the list of active channels.");
     Cloud.console.print("showKey >> Shows the communication key.");
     Cloud.console.printRaw("");
     Cloud.console.print("Host: " + Cloud.server.getIp() + ":" + Cloud.server.getPort());
@@ -68,6 +73,6 @@ public class Main {
       groupNames.add(group.getName());
     }
     Cloud.console.print("Groups: " + groupNames);
-    Cloud.console.print("Servers: " + Cloud.server.getChannels().size());
+    Cloud.console.print("Channels (Servers): " + Cloud.server.getChannels().size());
   }
 }

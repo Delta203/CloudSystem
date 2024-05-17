@@ -1,6 +1,5 @@
 package de.cloud.master.delta203.main.sockets;
 
-import de.cloud.master.delta203.core.handlers.Channel;
 import de.cloud.master.delta203.main.Cloud;
 
 import java.io.IOException;
@@ -37,14 +36,12 @@ public class Server extends Thread {
     return channels;
   }
 
-  public void removeChannel(Channel channel) {
-    channels.remove(channel);
-  }
-
   public void close() {
+    // close channels (sockets)
     for (Channel channel : channels) {
       channel.close();
     }
+    // close server socket
     try {
       server.close();
     } catch (IOException e) {
@@ -55,11 +52,12 @@ public class Server extends Thread {
 
   @Override
   public void run() {
+    // run main loop
     while (!Cloud.shutdown) {
       try {
+        // allow new sockets to connect and open a new channel
         Socket socket = server.accept();
         Channel channel = new Channel(socket);
-        channels.add(channel);
         channel.start();
       } catch (IOException ignored) {
       }

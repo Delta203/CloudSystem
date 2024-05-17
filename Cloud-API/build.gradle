@@ -4,3 +4,12 @@ version = '1.0-SNAPSHOT'
 repositories {
     mavenCentral()
 }
+
+jar {
+    manifest {
+        attributes 'Main-Class': 'de.cloud.api.delta203.main.CloudAPI'
+    }
+
+    from sourceSets.main.output
+    from configurations.compileClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+}

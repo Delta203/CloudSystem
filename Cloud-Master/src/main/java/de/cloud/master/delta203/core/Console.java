@@ -8,7 +8,7 @@ import java.util.Calendar;
 
 public class Console extends Logger {
 
-  private final String format = "[%time%] [%sender%]: %string%";
+  private final String format = "[%time%] §8[%sender%§8]§r: %string%";
   private final String defaultSender = "§3Cloud§r";
 
   public Console() {
@@ -20,7 +20,7 @@ public class Console extends Logger {
   }
 
   private String getTime() {
-    return new SimpleDateFormat("HH:mm:ss").format(Calendar.getInstance().getTime());
+    return new SimpleDateFormat("HH:mm:ss.SSS").format(Calendar.getInstance().getTime());
   }
 
   public void clear() {

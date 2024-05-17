@@ -33,6 +33,8 @@ public class Start {
     KeyGenerator generator = new KeyGenerator();
     generator.generate();
     Cloud.key = generator.getKey();
+    // TODO: Remove debug key!!!
+    Cloud.key = "key";
   }
 
   private void server() {
