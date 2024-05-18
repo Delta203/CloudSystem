@@ -1,6 +1,6 @@
 package de.cloud.api.delta203.core;
 
-import de.cloud.api.delta203.core.handlers.Messages;
+import de.cloud.api.delta203.core.handlers.Communication;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -11,7 +11,7 @@ public class Channel extends Thread {
 
   private final String serverIp;
   private final int serverPort;
-  private final Messages messages;
+  private final Communication communication;
 
   private Socket socket;
   private PrintWriter writer;
@@ -20,7 +20,7 @@ public class Channel extends Thread {
   public Channel(String serverIp, int serverPort, String key) {
     this.serverIp = serverIp;
     this.serverPort = serverPort;
-    messages = new Messages(key);
+    communication = new Communication(key);
   }
 
   public Socket getSocket() {
@@ -37,7 +37,7 @@ public class Channel extends Thread {
       socket = new Socket(serverIp, serverPort);
       writer = new PrintWriter(socket.getOutputStream());
       reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      sendMessage(messages.connectMessage(name, port).toString());
+      sendMessage(communication.connectMessage(name, port).toString());
       start();
     } catch (IOException ignored) {
       // server is not accessible

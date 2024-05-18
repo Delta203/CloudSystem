@@ -3,11 +3,11 @@ package de.cloud.api.delta203.core.handlers;
 import com.google.gson.JsonObject;
 import de.cloud.api.delta203.core.utils.MessageType;
 
-public class Messages {
+public class Communication {
 
   private final String key;
 
-  public Messages(String key) {
+  public Communication(String key) {
     this.key = key;
   }
 

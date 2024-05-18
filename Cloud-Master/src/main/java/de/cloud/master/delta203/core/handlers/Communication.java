@@ -5,11 +5,11 @@ import com.google.gson.JsonParser;
 import de.cloud.master.delta203.core.utils.MessageType;
 import de.cloud.master.delta203.main.sockets.Channel;
 
-public class Messages {
+public class Communication {
 
   private final Channel channel;
 
-  public Messages(Channel channel) {
+  public Communication(Channel channel) {
     this.channel = channel;
   }
 

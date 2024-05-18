@@ -7,6 +7,8 @@ import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
 
 import java.io.IOException;
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 
 public class Setup {
 
@@ -16,22 +18,22 @@ public class Setup {
     config = new JsonObject();
   }
 
-  private String ip() {
-    Cloud.console.print("On which ip should the server run?");
-    return Application.scanner.nextLine();
-  }
-
-  private int port() {
-    Cloud.console.print("On which port should the server run? [1550]");
-    int port = 0;
-    while (port == 0) {
-      try {
-        port = Integer.decode(Application.scanner.nextLine());
-      } catch (NumberFormatException e) {
-        Cloud.console.print("You must enter a number!");
-      }
+  private Object[] address() {
+    Cloud.console.print("On which address should the server run?");
+    String ip = "localhost";
+    try {
+      ip = InetAddress.getLocalHost().getHostAddress();
+    } catch (UnknownHostException ignored) {
     }
-    return port;
+    Cloud.console.print("Press enter for default value: " + ip + ":" + 1550);
+    String input = Application.scanner.nextLine();
+    if (input.isEmpty()) return new Object[] {ip, 1550};
+    while (!input.contains(":")) {
+      Cloud.console.print("You must enter a valid address!");
+      input = Application.scanner.nextLine();
+    }
+    String[] address = input.split(":");
+    return new Object[] {address[0], Integer.decode(address[1])};
   }
 
   private int memory() {
@@ -89,8 +91,9 @@ public class Setup {
 
   public void run() {
     Cloud.console.print("The setup has started:");
-    config.addProperty("ip", ip());
-    config.addProperty("port", port());
+    Object[] address = address();
+    config.addProperty("ip", (String) address[0]);
+    config.addProperty("port", (int) address[1]);
     config.addProperty("maxMemory", memory());
     JsonObject versions = new JsonObject();
     versions.addProperty("proxy", proxy());

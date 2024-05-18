@@ -1,6 +1,6 @@
 package de.cloud.master.delta203.main.sockets;
 
-import de.cloud.master.delta203.core.handlers.Messages;
+import de.cloud.master.delta203.core.handlers.Communication;
 import de.cloud.master.delta203.core.utils.ServerState;
 import de.cloud.master.delta203.main.Cloud;
 
@@ -13,7 +13,7 @@ public class Channel extends Thread {
 
   private final Socket socket;
   private final BufferedReader reader;
-  private final Messages messages;
+  private final Communication communication;
 
   private ServerState state;
   private String name;
@@ -22,7 +22,7 @@ public class Channel extends Thread {
   public Channel(Socket socket) throws IOException {
     this.socket = socket;
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    messages = new Messages(this);
+    communication = new Communication(this);
   }
 
   public ServerState getChannelState() {
@@ -65,13 +65,13 @@ public class Channel extends Thread {
         // read message
         String message = reader.readLine();
         // check message
-        if (!messages.isValid(Cloud.key, message)) {
+        if (!communication.isValid(Cloud.key, message)) {
           // invalid -> close socket and stop loop
           socket.close();
           return;
         }
         // valid -> handle message
-        messages.handle(message);
+        communication.handle(message);
       } catch (IOException e) {
         // happens when reader can not read anything <=> socket disconnected
         Cloud.server.getChannels().remove(this);
