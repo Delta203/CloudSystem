@@ -3,10 +3,7 @@ package de.cloud.master.delta203.main.processes;
 import de.cloud.master.delta203.core.Group;
 import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
-import de.cloud.master.delta203.main.commands.CreateGroup;
-import de.cloud.master.delta203.main.commands.GroupInfo;
-import de.cloud.master.delta203.main.commands.Channels;
-import de.cloud.master.delta203.main.commands.ShowKey;
+import de.cloud.master.delta203.main.commands.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,7 +22,6 @@ public class Main {
           break;
         case "SHUTDOWN":
           Cloud.shutdown = true;
-          Cloud.server.close();
           break;
         case "GROUPINFO":
           new GroupInfo(command).execute();
@@ -44,7 +40,7 @@ public class Main {
           break;
       }
     }
-    Application.scanner.close();
+    new Shutdown().run();
     Cloud.console.print("The cloud is now being shut down...");
   }
 

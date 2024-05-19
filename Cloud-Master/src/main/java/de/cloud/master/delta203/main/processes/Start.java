@@ -8,10 +8,13 @@ import de.cloud.master.delta203.main.sockets.Server;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
 
 public class Start {
 
-  public Start() {}
+  public Start() {
+    Cloud.groups = new ArrayList<>();
+  }
 
   private void config() {
     Cloud.config.load();
@@ -46,11 +49,16 @@ public class Start {
     }
   }
 
+  private void service() {
+    new Service().register();
+  }
+
   public void run() {
     config();
     groups();
     key();
-    server();
     Cloud.console.print("All data has been loaded successfully.");
+    server();
+    service();
   }
 }

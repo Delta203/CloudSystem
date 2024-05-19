@@ -2,10 +2,10 @@ package de.cloud.master.delta203.main;
 
 import de.cloud.master.delta203.core.Console;
 import de.cloud.master.delta203.core.Group;
+import de.cloud.master.delta203.core.VServer;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.files.PathManager;
 import de.cloud.master.delta203.main.sockets.Server;
-import java.util.ArrayList;
 import java.util.List;
 
 public class Cloud {
@@ -18,7 +18,8 @@ public class Cloud {
 
   public static String key;
   public static int memory = 0;
-  public static List<Group> groups = new ArrayList<>();
+  public static List<Group> groups;
+  public static List<VServer> services;
 
   public static boolean shutdown = false;
 

@@ -7,6 +7,8 @@ public class Constants {
   public static class Locals {
     public static String VERSION = "1.0-SNAPSHOT";
     public static String ROOT = "cloud";
+    public static String START_WIN =
+        "java -Xmx%memory%M -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
   }
 
   public static class Links {

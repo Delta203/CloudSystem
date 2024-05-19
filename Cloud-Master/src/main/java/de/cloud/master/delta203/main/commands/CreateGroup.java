@@ -1,6 +1,7 @@
 package de.cloud.master.delta203.main.commands;
 
 import de.cloud.master.delta203.core.Group;
+import de.cloud.master.delta203.core.VServer;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
@@ -80,6 +81,7 @@ public class CreateGroup {
       Cloud.console.print("You must enter a boolean!");
       statisch = Application.scanner.nextLine();
     }
+    if (statisch.equals("true")) Cloud.console.print("Amount of server has been set to 1.");
     return Boolean.parseBoolean(statisch);
   }
 
@@ -102,6 +104,14 @@ public class CreateGroup {
     return true;
   }
 
+  private void register(Group group) {
+    VServer server = new VServer(group);
+    server.register();
+    server.copyFiles();
+    server.addFiles();
+    server.runProcess();
+  }
+
   public void execute() {
     Cloud.console.print("Create a group:");
     String name = name();
@@ -110,6 +120,10 @@ public class CreateGroup {
     int minAmount = minAmount();
     int maxAmount = maxAmount();
     boolean statisch = statisch();
+    if (statisch) {
+      minAmount = 1;
+      maxAmount = 1;
+    }
     boolean maintenance = maintenance();
     if (!confirmed()) return;
     Group group = new Group(name, type, memory, minAmount, maxAmount, statisch, maintenance);
@@ -117,5 +131,6 @@ public class CreateGroup {
     Cloud.groups.add(group);
     Cloud.console.print("Configurations are saved...");
     Cloud.console.print("§2The group has been created and registered!");
+    register(group);
   }
 }

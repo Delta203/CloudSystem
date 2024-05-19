@@ -4,13 +4,7 @@ import com.google.gson.JsonObject;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Cloud;
-
 import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 public class Group {
 
@@ -87,26 +81,21 @@ public class Group {
   }
 
   private void mkdir() {
-    new File(Cloud.pathManager.getPathTemplates() + "/" + name).mkdirs();
+    String target =
+        statisch ? Cloud.pathManager.getPathServicesStatic() : Cloud.pathManager.getPathTemplates();
+    new File(target + "/" + name).mkdirs();
   }
 
   private void copyFiles() {
-    String file;
-    Path from;
-    Path to;
-    if (type == GroupType.PROXY) {
-      file = Cloud.config.getData().get("versions").getAsJsonObject().get("proxy").getAsString();
-      from = Paths.get(Cloud.pathManager.getPathAssetsProxy() + "/" + file);
-    } else {
-      file = Cloud.config.getData().get("versions").getAsJsonObject().get("server").getAsString();
-      from = Paths.get(Cloud.pathManager.getPathAssetsServer() + "/" + file);
-    }
-    to = Paths.get(Cloud.pathManager.getPathTemplates() + "/" + name + "/" + file);
-    try {
-      Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    String assets =
+        type == GroupType.PROXY
+            ? Cloud.pathManager.getPathAssetsProxy()
+            : Cloud.pathManager.getPathAssetsServer();
+    String target =
+        statisch ? Cloud.pathManager.getPathServicesStatic() : Cloud.pathManager.getPathTemplates();
+    File from = new File(assets + "/" + type.version);
+    File to = new File(target + "/" + name + "/" + type.version);
+    Cloud.pathManager.copyFile(from.toPath(), to.toPath());
   }
 
   public void create() {
