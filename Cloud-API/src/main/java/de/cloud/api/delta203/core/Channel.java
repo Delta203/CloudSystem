@@ -33,6 +33,8 @@ public class Channel extends Thread {
   }
 
   public void connect(String name, int port) {
+    System.out.println(
+        "[" + name + "] [" + port + "] connecting to " + serverIp + ":" + serverPort);
     try {
       socket = new Socket(serverIp, serverPort);
       writer = new PrintWriter(socket.getOutputStream());
