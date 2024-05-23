@@ -9,6 +9,8 @@ public class Constants {
     public static String ROOT = "cloud";
     public static String START_WIN =
         "java -Xmx%memory%M -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
+    public static int DEFAULT_PORT = 25565;
+    public static int START_PORT = 40001;
   }
 
   public static class Links {

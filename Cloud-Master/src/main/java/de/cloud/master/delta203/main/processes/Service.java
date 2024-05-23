@@ -17,7 +17,7 @@ public class Service {
         VServer server = new VServer(group);
         server.register();
         server.copyFiles();
-        server.addFiles();
+        server.changePort();
         server.runProcess();
       }
     }

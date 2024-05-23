@@ -4,6 +4,8 @@ import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.*;
+import java.util.ArrayList;
+import java.util.List;
 
 public class VServer {
 
@@ -11,12 +13,14 @@ public class VServer {
   private Process process;
 
   private String name;
+  private int port = 25565;
   private final String pathTarget;
 
   public VServer(Group group) {
     this.group = group;
     pathTarget = Cloud.pathManager.getPathServicesTemp();
     setName();
+    setPort();
   }
 
   private boolean nameExists(String name) {
@@ -36,6 +40,25 @@ public class VServer {
     this.name = name;
   }
 
+  private boolean portExists(int port) {
+    for (VServer server : Cloud.services) {
+      if (server.port == port) return true;
+    }
+    return false;
+  }
+
+  private void setPort() {
+    if (group.getType() == GroupType.PROXY) {
+      port = Constants.Locals.DEFAULT_PORT;
+      return;
+    }
+    int i = Constants.Locals.START_PORT;
+    while (portExists(i)) {
+      i++;
+    }
+    port = i;
+  }
+
   public Group getGroup() {
     return group;
   }
@@ -48,7 +71,7 @@ public class VServer {
     new File(pathTarget + "/" + name).mkdirs();
   }
 
-  private void copyDefaults() {
+  private void copyDefault() {
     String defaults =
         group.getType() == GroupType.PROXY
             ? Cloud.pathManager.getPathTemplatesDefaultProxy()
@@ -58,10 +81,7 @@ public class VServer {
     Cloud.pathManager.copyDirectory(from.toPath(), to.toPath());
   }
 
-  public void copyFiles() {
-    if (group.isStatic()) return;
-    mkdir();
-    copyDefaults();
+  private void copyTemplate() {
     File from = new File(Cloud.pathManager.getPathTemplates() + "/" + group.getName());
     File to = new File(pathTarget + "/" + name);
     Cloud.pathManager.copyDirectory(from.toPath(), to.toPath());
@@ -79,28 +99,48 @@ public class VServer {
     }
   }
 
-  private void addConfig() {
+  public void copyFiles() {
+    if (group.isStatic()) return;
+    mkdir();
+    copyDefault();
+    copyTemplate();
+    if (group.getType() == GroupType.SERVER) addEula();
+  }
+
+  private void changePortProxy() {
+    String file = pathTarget + "/" + name + "/" + "config.yml";
+    List<String> data = new ArrayList<>();
+    if (new File(file).exists()) {
+      try (BufferedReader reader = new BufferedReader(new FileReader(file))) {
+        String line;
+        while ((line = reader.readLine()) != null) {
+          if (line.startsWith("  host:")) data.add("  host: " + Cloud.server.getIp() + ":" + port);
+          else data.add(line);
+        }
+      } catch (IOException e) {
+        throw new RuntimeException(e);
+      }
+    } else {
+      data.add("ip_forward: true");
+      data.add("listeners:");
+      data.add("- query_port: 25577");
+      data.add("  query_enabled: false");
+      data.add("  bind_local_address: true");
+      data.add("  host: " + Cloud.server.getIp() + ":" + port);
+    }
     try (PrintWriter writer =
         new PrintWriter(new FileOutputStream(pathTarget + "/" + name + "/config.yml", false))) {
-      writer.println("# Cloud System generated file");
-      writer.println("connection_throttle: 0");
-      writer.println("ip_forward: true");
-      writer.println("listeners:");
-      writer.println("- query_port: 25565");
-      writer.println("  query_enabled: false");
-      writer.println("  bind_local_address: true");
-      writer.println("  host: 0.0.0.0:25565");
-      writer.println("groups:");
-      writer.println("  Delta203:");
-      writer.println("  - admin");
+      for (String s : data) writer.println(s);
     } catch (FileNotFoundException e) {
       throw new RuntimeException(e);
     }
   }
 
-  public void addFiles() {
-    if (group.getType() == GroupType.PROXY) addConfig();
-    else addEula();
+  private void changePortServer() {}
+
+  public void changePort() {
+    if (group.getType() == GroupType.PROXY) changePortProxy();
+    else changePortServer();
   }
 
   public void register() {
@@ -127,6 +167,8 @@ public class VServer {
 
     new Thread(
             () -> {
+              System.out.println("TODO: Run VServers...");
+              /*
               try {
                 process = processBuilder.start();
                 process.waitFor();
@@ -136,6 +178,7 @@ public class VServer {
               } catch (IOException | InterruptedException e) {
                 throw new RuntimeException(e);
               }
+              */
             })
         .start();
   }
