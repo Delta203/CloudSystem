@@ -11,16 +11,18 @@ public class Channel extends Thread {
 
   private final String serverIp;
   private final int serverPort;
+  private final String serverKey;
   private final Communication communication;
 
   private Socket socket;
   private PrintWriter writer;
   private BufferedReader reader;
 
-  public Channel(String serverIp, int serverPort, String key) {
+  public Channel(String serverIp, int serverPort, String serverKey) {
     this.serverIp = serverIp;
     this.serverPort = serverPort;
-    communication = new Communication(key);
+    this.serverKey = serverKey;
+    communication = new Communication(serverKey);
   }
 
   public Socket getSocket() {
@@ -34,7 +36,15 @@ public class Channel extends Thread {
 
   public void connect(String name, int port) {
     System.out.println(
-        "[" + name + "] [" + port + "] connecting to " + serverIp + ":" + serverPort);
+        "Channel connecting to "
+            + serverIp
+            + ":"
+            + serverPort
+            + " (Name: "
+            + name
+            + ", Key: "
+            + serverKey
+            + ")");
     try {
       socket = new Socket(serverIp, serverPort);
       writer = new PrintWriter(socket.getOutputStream());

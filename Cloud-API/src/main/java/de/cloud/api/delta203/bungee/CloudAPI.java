@@ -2,10 +2,8 @@ package de.cloud.api.delta203.bungee;
 
 import de.cloud.api.delta203.core.Channel;
 import de.cloud.api.delta203.core.utils.ServerState;
-import net.md_5.bungee.api.chat.TextComponent;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
-import org.bukkit.ChatColor;
 
 public class CloudAPI extends Plugin {
 
