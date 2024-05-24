@@ -22,6 +22,8 @@ public void generate() {
 Type {
   CONNECT,          // 0
   INGAME,           // 1
+  ADDSERVER,        // 2
+  REMOVESERVER,     // 3
   DISCONNECT        // Automatically
 }
 ```
@@ -30,7 +32,23 @@ A socket connects to the server and is then registered by the server.
 ```json5
 "data": {
   "name": String,   // Server name
-  "port": int,      // Server port
+  "port": int       // Server port
+}
+```
+### Add Server:
+The cloud sends this message to the proxy to add a server.
+```json5
+"data": {
+  "name": String,   // Server name
+  "ip":   String,   // Server ip
+  "port": int       // Server port
+}
+```
+### Remove Server:
+The cloud sends this message to the proxy to remove a server.
+```json5
+"data": {
+  "name": String    // Server name
 }
 ```
 ### In game:
