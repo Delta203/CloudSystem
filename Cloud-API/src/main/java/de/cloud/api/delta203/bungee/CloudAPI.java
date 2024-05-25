@@ -62,7 +62,7 @@ public class CloudAPI extends Plugin {
     ServerInfo serverInfo =
         ProxyServer.getInstance().constructServerInfo(name, address, "Cloud server", false);
     ProxyServer.getInstance().getServers().put(name, serverInfo);
-    if (name.startsWith("Lobby")) {
+    if (name.toLowerCase().startsWith("lobby")) {
       CloudAPI.fallbacks.add(serverInfo);
       updateFallbacks();
     }
@@ -78,7 +78,7 @@ public class CloudAPI extends Plugin {
   public static void removeServer(String name) {
     ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(name);
     ProxyServer.getInstance().getServers().remove(name);
-    if (name.startsWith("Lobby")) {
+    if (name.toLowerCase().startsWith("lobby")) {
       CloudAPI.fallbacks.remove(serverInfo);
       updateFallbacks();
     }
