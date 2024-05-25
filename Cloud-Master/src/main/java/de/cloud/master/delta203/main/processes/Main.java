@@ -29,6 +29,9 @@ public class Main {
         case "CREATEGROUP":
           new CreateGroup().execute();
           break;
+        case "CONSOLE":
+          new Console(command).execute();
+          break;
         case "CHANNELS":
           new Channels().execute();
           break;
@@ -41,7 +44,7 @@ public class Main {
       }
     }
     new Shutdown().run();
-    Cloud.console.print("The cloud is now being shut down...");
+    Cloud.console.print("Good bye!");
   }
 
   private void sendTypeHelp() {
@@ -54,6 +57,7 @@ public class Main {
     Cloud.console.print("shutdown >> Shuts down the cloud.");
     Cloud.console.print("groupInfo <name> >> Shows group information.");
     Cloud.console.print("createGroup >> Create a proxy / server group.");
+    Cloud.console.print("console <service> >> Shows the server console of service.");
     Cloud.console.print("channels >> Shows the list of active channels.");
     Cloud.console.print("showKey >> Shows the communication key.");
     Cloud.console.printRaw("");
@@ -69,6 +73,7 @@ public class Main {
       groupNames.add(group.getName());
     }
     Cloud.console.print("Groups: " + groupNames);
-    Cloud.console.print("Channels (Servers): " + Cloud.server.getChannels().size());
+    Cloud.console.print("Services: " + Cloud.services.size());
+    Cloud.console.print("Channels: " + Cloud.server.getChannels().size());
   }
 }

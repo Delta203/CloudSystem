@@ -7,11 +7,13 @@ import de.cloud.master.delta203.main.Cloud;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
+import java.io.PrintWriter;
 import java.net.Socket;
 
 public class Channel extends Thread {
 
   private final Socket socket;
+  private final PrintWriter writer;
   private final BufferedReader reader;
   private final Communication communication;
 
@@ -21,6 +23,7 @@ public class Channel extends Thread {
 
   public Channel(Socket socket) throws IOException {
     this.socket = socket;
+    writer = new PrintWriter(socket.getOutputStream());
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
     communication = new Communication(this);
   }
@@ -57,6 +60,11 @@ public class Channel extends Thread {
     }
   }
 
+  public void sendMessage(String string) {
+    writer.println(string);
+    writer.flush();
+  }
+
   @Override
   public void run() {
     // run main loop
@@ -79,5 +87,6 @@ public class Channel extends Thread {
       }
     }
     Cloud.console.print(name + ":" + port + " has disconnected.", "§bChannel§r");
+    communication.broadcast(communication.removeServerMessage(name).toString());
   }
 }

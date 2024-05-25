@@ -11,6 +11,7 @@ public class PathManager {
   private final String root;
 
   private final File logs;
+  private final File assets_api;
   private final File assets_proxy;
   private final File assets_server;
   private final File data_groups;
@@ -22,6 +23,7 @@ public class PathManager {
   public PathManager() {
     root = Constants.Locals.ROOT;
     logs = new File(root + "/logs");
+    assets_api = new File(root + "/assets/api");
     assets_proxy = new File(root + "/assets/proxy");
     assets_server = new File(root + "/assets/server");
     data_groups = new File(root + "/data/groups");
@@ -33,6 +35,7 @@ public class PathManager {
 
   public boolean mkdir() {
     return logs.mkdirs()
+        && assets_api.mkdirs()
         && assets_proxy.mkdirs()
         && assets_server.mkdirs()
         && data_groups.mkdirs()
@@ -44,6 +47,10 @@ public class PathManager {
 
   public String getPathLogs() {
     return root + "/logs";
+  }
+
+  public String getPathAssetsAPI() {
+    return root + "/assets/api";
   }
 
   public String getPathAssetsProxy() {

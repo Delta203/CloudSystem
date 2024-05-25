@@ -7,8 +7,9 @@ public class Constants {
   public static class Locals {
     public static String VERSION = "1.0-SNAPSHOT";
     public static String ROOT = "cloud";
+    public static String API = "no api";
     public static String START_WIN =
-        "java -Xmx%memory%M -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
+        "java -Xms%memory%M -Xmx%memory%M -XX:+UseG1GC -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
     public static int DEFAULT_PORT = 25565;
     public static int START_PORT = 40001;
   }

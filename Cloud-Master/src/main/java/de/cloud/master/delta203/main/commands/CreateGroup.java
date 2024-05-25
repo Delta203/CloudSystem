@@ -1,7 +1,7 @@
 package de.cloud.master.delta203.main.commands;
 
 import de.cloud.master.delta203.core.Group;
-import de.cloud.master.delta203.core.VServer;
+import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
@@ -95,8 +95,22 @@ public class CreateGroup {
     return Boolean.parseBoolean(maintenance);
   }
 
-  private boolean confirmed() {
-    Cloud.console.print("Press enter to create the group or write \"cancel\".");
+  private boolean confirmed(
+      String name, GroupType type, int memory, int minAmount, int maxAmount, boolean statisch) {
+    Cloud.console.print(
+        "Press enter to create the group or write \"cancel\". ("
+            + name
+            + ", "
+            + type.name()
+            + ", "
+            + memory
+            + ", "
+            + minAmount
+            + ", "
+            + maxAmount
+            + ", "
+            + statisch
+            + ")");
     if (Application.scanner.nextLine().equals("cancel")) {
       Cloud.console.print("§cThe group has not been created!");
       return false;
@@ -104,33 +118,34 @@ public class CreateGroup {
     return true;
   }
 
-  private void register(Group group) {
-    VServer server = new VServer(group);
-    server.register();
-    server.copyFiles();
-    server.changePort();
-    server.runProcess();
-  }
-
   public void execute() {
     Cloud.console.print("Create a group:");
     String name = name();
     GroupType type = type();
     int memory = memory();
-    int minAmount = minAmount();
-    int maxAmount = maxAmount();
-    boolean statisch = statisch();
+    int minAmount = 1;
+    int maxAmount = 1;
+    boolean statisch = false;
+    if (type == GroupType.SERVER) {
+      minAmount = minAmount();
+      maxAmount = maxAmount();
+      statisch = statisch();
+    }
     if (statisch) {
       minAmount = 1;
       maxAmount = 1;
     }
     boolean maintenance = maintenance();
-    if (!confirmed()) return;
+    if (!confirmed(name, type, memory, minAmount, maxAmount, statisch)) return;
     Group group = new Group(name, type, memory, minAmount, maxAmount, statisch, maintenance);
     group.create();
     Cloud.groups.add(group);
     Cloud.console.print("Configurations are saved...");
     Cloud.console.print("§2The group has been created and registered!");
-    register(group);
+    // start services
+    for (int i = 0; i < group.getMinAmount(); i++) {
+      Service service = new Service(group);
+      if (service.register()) service.start();
+    }
   }
 }
