@@ -70,7 +70,10 @@ public class Channel extends Thread {
           System.out.println("Cloud server socket disconnected!");
           return;
         }
-        System.out.println(message);
+        if (communication.isValid(serverKey, message)) {
+          // valid -> handle message
+          communication.handle(message);
+        }
       } catch (IOException e) {
         // happens when reader can not read anything <=> socket disconnected
         System.out.println("Cloud server socket disconnected!");
