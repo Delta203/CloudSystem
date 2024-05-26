@@ -23,14 +23,20 @@ public class Main {
         case "SHUTDOWN":
           Cloud.shutdown = true;
           break;
-        case "GROUPINFO":
-          new GroupInfo(command).execute();
-          break;
         case "CREATEGROUP":
           new CreateGroup().execute();
           break;
+        case "GROUPINFO":
+          new GroupInfo(command).execute();
+          break;
         case "CONSOLE":
           new Console(command).execute();
+          break;
+        case "STOP":
+          new Stop(command).execute();
+          break;
+        case "SERVICES":
+          new Services().execute();
           break;
         case "CHANNELS":
           new Channels().execute();
@@ -52,14 +58,14 @@ public class Main {
   }
 
   private void sendHelp() {
-    Cloud.console.print("Help and information:");
-    Cloud.console.print("help >> Shows help and information.");
-    Cloud.console.print("shutdown >> Shuts down the cloud.");
-    Cloud.console.print("groupInfo <name> >> Shows group information.");
-    Cloud.console.print("createGroup >> Create a proxy / server group.");
-    Cloud.console.print("console <service> >> Shows the server console of service.");
-    Cloud.console.print("channels >> Shows the list of active channels.");
-    Cloud.console.print("showKey >> Shows the communication key.");
+    Cloud.console.print("§fshutdown§r - Shuts down the cloud.");
+    Cloud.console.print("§fcreateGroup§r - Create a proxy / server group.");
+    Cloud.console.print("§fgroupInfo <group>§r - Shows group information.");
+    Cloud.console.print("§fconsole <service>§r - Shows the server console of service.");
+    Cloud.console.print("§fstop <service>§r - Stop a specific service.");
+    Cloud.console.print("§fservices§r - Shows the list of active services.");
+    Cloud.console.print("§fchannels§r - Shows the list of connected channels.");
+    Cloud.console.print("§fshowKey§r - Shows the communication key.");
     Cloud.console.printRaw("");
     Cloud.console.print("Host: " + Cloud.server.getIp() + ":" + Cloud.server.getPort());
     Cloud.console.print(

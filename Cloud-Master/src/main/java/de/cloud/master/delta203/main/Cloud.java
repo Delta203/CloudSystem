@@ -6,6 +6,8 @@ import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.files.PathManager;
 import de.cloud.master.delta203.main.sockets.Server;
+
+import java.util.HashMap;
 import java.util.List;
 
 public class Cloud {
@@ -19,7 +21,7 @@ public class Cloud {
   public static String key;
   public static int memory = 0;
   public static List<Group> groups;
-  public static List<Service> services;
+  public static HashMap<String, Service> services;
 
   public static boolean shutdown = false;
 

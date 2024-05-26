@@ -12,7 +12,7 @@ public class Shutdown {
 
   public void run() {
     Application.scanner.close();
-    for (Service service : Cloud.services) {
+    for (Service service : Cloud.services.values()) {
       service.stopProcess();
     }
     Cloud.console.print("The cloud stops in 5 seconds...");

@@ -1,6 +1,8 @@
 package de.cloud.master.delta203.main.sockets;
 
+import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.handlers.Communication;
+import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.ServerState;
 import de.cloud.master.delta203.main.Cloud;
 
@@ -20,6 +22,7 @@ public class Channel extends Thread {
   private ServerState state;
   private String name;
   private int port;
+  private Service service;
 
   public Channel(Socket socket) throws IOException {
     this.socket = socket;
@@ -40,12 +43,28 @@ public class Channel extends Thread {
     return port;
   }
 
+  public GroupType getGroupType() {
+    return service.getServiceGroup().getType();
+  }
+
   public void initialise(String name, int port) {
     state = ServerState.LOBBY;
     this.name = name;
     this.port = port;
+    service = Cloud.services.get(name);
     Cloud.server.getChannels().add(this);
     Cloud.console.print(this.name + ":" + this.port + " successfully connected.", "§bChannel§r");
+    if (getGroupType() == GroupType.PROXY) {
+      // broadcast online channels to new proxy
+      for (Channel channel : Cloud.server.getChannels()) {
+        if (channel.service.getServiceGroup().getType() != GroupType.SERVER) continue;
+        communication.broadcastProxies(
+            communication.addServerMessage(channel.name, channel.port).toString());
+      }
+    } else {
+      // broadcast new service to proxy
+      communication.broadcastProxies(communication.addServerMessage(name, port).toString());
+    }
   }
 
   /**
@@ -87,6 +106,7 @@ public class Channel extends Thread {
       }
     }
     Cloud.console.print(name + ":" + port + " has disconnected.", "§bChannel§r");
-    communication.broadcast(communication.removeServerMessage(name).toString());
+    communication.broadcastProxies(communication.removeServerMessage(name).toString());
+    service.stopProcess();
   }
 }

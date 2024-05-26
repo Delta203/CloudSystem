@@ -14,25 +14,17 @@ public class Group {
   private int minAmount;
   private int maxAmount;
   private boolean statisch;
-  private boolean maintenance;
 
   private final FileManager data;
 
   public Group(
-      String name,
-      GroupType type,
-      int memory,
-      int minAmount,
-      int maxAmount,
-      boolean statisch,
-      boolean maintenance) {
+      String name, GroupType type, int memory, int minAmount, int maxAmount, boolean statisch) {
     this.name = name;
     this.type = type;
     this.memory = memory;
     this.minAmount = minAmount;
     this.maxAmount = maxAmount;
     this.statisch = statisch;
-    this.maintenance = maintenance;
     data = new FileManager(Cloud.pathManager.getPathDataGroup(), name + ".json");
   }
 
@@ -49,7 +41,6 @@ public class Group {
     minAmount = content.get("minAmount").getAsInt();
     maxAmount = content.get("maxAmount").getAsInt();
     statisch = content.get("static").getAsBoolean();
-    maintenance = content.get("maintenance").getAsBoolean();
   }
 
   public String getName() {
@@ -74,10 +65,6 @@ public class Group {
 
   public boolean isStatic() {
     return statisch;
-  }
-
-  public boolean isMaintenance() {
-    return maintenance;
   }
 
   private void mkdir() {
@@ -106,10 +93,20 @@ public class Group {
     content.addProperty("minAmount", minAmount);
     content.addProperty("maxAmount", maxAmount);
     content.addProperty("static", statisch);
-    content.addProperty("maintenance", maintenance);
     data.setData(content);
     data.save();
     mkdir();
     copyFiles();
+  }
+
+  public void runServices() {
+    int online = 0;
+    for (Service service : Cloud.services.values()) {
+      if (service.getServiceGroup().equals(this)) online++;
+    }
+    for (int i = 0; (i < minAmount - online) && i < maxAmount; i++) {
+      Service service = new Service(this);
+      if (service.register()) service.start();
+    }
   }
 }

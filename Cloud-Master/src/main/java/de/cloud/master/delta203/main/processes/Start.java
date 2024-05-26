@@ -1,17 +1,16 @@
 package de.cloud.master.delta203.main.processes;
 
 import de.cloud.master.delta203.core.Group;
-import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.security.KeyGenerator;
 import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.main.Cloud;
 import de.cloud.master.delta203.main.sockets.Server;
-
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Objects;
 
 public class Start {
@@ -70,12 +69,9 @@ public class Start {
 
   private void service() {
     Cloud.pathManager.deleteDirectory(Paths.get(Cloud.pathManager.getPathServicesTemp()));
-    Cloud.services = new ArrayList<>();
+    Cloud.services = new HashMap<>();
     for (Group group : Cloud.groups) {
-      for (int i = 0; i < group.getMinAmount(); i++) {
-        Service service = new Service(group);
-        if (service.register()) service.start();
-      }
+      group.runServices();
     }
   }
 

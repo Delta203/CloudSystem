@@ -2,6 +2,7 @@ package de.cloud.master.delta203.core.handlers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.MessageType;
 import de.cloud.master.delta203.main.Cloud;
 import de.cloud.master.delta203.main.sockets.Channel;
@@ -36,13 +37,13 @@ public class Communication {
   }
 
   public void handle(String string) {
+    assert channel != null;
     JsonObject message = JsonParser.parseString(string).getAsJsonObject();
     switch (MessageType.valueOf(message.get("type").getAsString())) {
       case CONNECT:
         String name = message.get("data").getAsJsonObject().get("name").getAsString();
         int port = message.get("data").getAsJsonObject().get("port").getAsInt();
         channel.initialise(name, port);
-        broadcast(addServerMessage(name, port).toString());
         break;
       case INGAME:
         System.out.println(MessageType.INGAME);
@@ -50,8 +51,9 @@ public class Communication {
     }
   }
 
-  public void broadcast(String message) {
+  public void broadcastProxies(String message) {
     for (Channel channels : Cloud.server.getChannels()) {
+      if (channels.getGroupType() == GroupType.SERVER) continue;
       channels.sendMessage(message);
     }
   }

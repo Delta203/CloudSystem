@@ -3,18 +3,18 @@ package de.cloud.master.delta203.main.commands;
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.main.Cloud;
 
-public class Console {
+public class Stop {
 
   private final String command;
 
-  public Console(String command) {
+  public Stop(String command) {
     this.command = command;
   }
 
   public void execute() {
     String[] args = command.split(" ");
     if (args.length != 2) {
-      Cloud.console.print("Usage: console <service>");
+      Cloud.console.print("Usage: stop <service>");
       return;
     }
     String name = args[1];
@@ -23,7 +23,6 @@ public class Console {
       return;
     }
     Service service = Cloud.services.get(name);
-    Cloud.console.print("Toggled console log of service " + name + ".");
-    service.debug = !service.debug;
+    service.stopProcess();
   }
 }

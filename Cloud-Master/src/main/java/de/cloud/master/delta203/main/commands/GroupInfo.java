@@ -14,7 +14,7 @@ public class GroupInfo {
   public void execute() {
     String[] args = command.split(" ");
     if (args.length != 2) {
-      Cloud.console.print("Usage: groupInfo <name>");
+      Cloud.console.print("Usage: groupInfo <group>");
       return;
     }
     String name = args[1];
@@ -32,6 +32,5 @@ public class GroupInfo {
     Cloud.console.print("Min amount: " + group.getMinAmount());
     Cloud.console.print("Max amount: " + group.getMaxAmount());
     Cloud.console.print("Static: " + group.isStatic());
-    Cloud.console.print("Maintenance: " + group.isMaintenance());
   }
 }

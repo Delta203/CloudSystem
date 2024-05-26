@@ -1,7 +1,6 @@
 package de.cloud.master.delta203.main.commands;
 
 import de.cloud.master.delta203.core.Group;
-import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
@@ -85,16 +84,6 @@ public class CreateGroup {
     return Boolean.parseBoolean(statisch);
   }
 
-  private boolean maintenance() {
-    Cloud.console.print("Should the group be in maintenance? [true, false]");
-    String maintenance = Application.scanner.nextLine();
-    while (!maintenance.equals("true") && !maintenance.equals("false")) {
-      Cloud.console.print("You must enter a boolean!");
-      maintenance = Application.scanner.nextLine();
-    }
-    return Boolean.parseBoolean(maintenance);
-  }
-
   private boolean confirmed(
       String name, GroupType type, int memory, int minAmount, int maxAmount, boolean statisch) {
     Cloud.console.print(
@@ -135,17 +124,13 @@ public class CreateGroup {
       minAmount = 1;
       maxAmount = 1;
     }
-    boolean maintenance = maintenance();
     if (!confirmed(name, type, memory, minAmount, maxAmount, statisch)) return;
-    Group group = new Group(name, type, memory, minAmount, maxAmount, statisch, maintenance);
+    Group group = new Group(name, type, memory, minAmount, maxAmount, statisch);
     group.create();
     Cloud.groups.add(group);
     Cloud.console.print("Configurations are saved...");
     Cloud.console.print("§2The group has been created and registered!");
     // start services
-    for (int i = 0; i < group.getMinAmount(); i++) {
-      Service service = new Service(group);
-      if (service.register()) service.start();
-    }
+    group.runServices();
   }
 }

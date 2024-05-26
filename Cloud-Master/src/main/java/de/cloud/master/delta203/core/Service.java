@@ -4,6 +4,7 @@ import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.*;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,24 +31,17 @@ public class Service extends Thread {
    * Initialise service data
    */
 
-  private boolean nameExists(String name) {
-    for (Service service : Cloud.services) {
-      if (service.name.equals(name)) return true;
-    }
-    return false;
-  }
-
   private void setName() {
     int id = 1;
     name = group.getName() + "-" + id;
-    while (nameExists(name)) {
+    while (Cloud.services.containsKey(name)) {
       id++;
       name = group.getName() + "-" + id;
     }
   }
 
   private boolean portExists(int port) {
-    for (Service service : Cloud.services) {
+    for (Service service : Cloud.services.values()) {
       if (service.port == port) return true;
     }
     return false;
@@ -61,6 +55,14 @@ public class Service extends Thread {
 
   public String getServiceName() {
     return name;
+  }
+
+  public int getServicePort() {
+    return port;
+  }
+
+  public Group getServiceGroup() {
+    return group;
   }
 
   /*
@@ -202,7 +204,7 @@ public class Service extends Thread {
     modifyProxy();
     modifyServer();
     addCloudAPI();
-    Cloud.services.add(this);
+    Cloud.services.put(name, this);
     Cloud.memory += group.getMemory();
     Cloud.console.print(name + " files loaded...", "§3Service§r");
     return true;
@@ -238,13 +240,28 @@ public class Service extends Thread {
       process.waitFor();
       int exitCode = process.exitValue();
       Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
+      unregister();
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
     }
   }
 
+  private void unregister() {
+    if (Cloud.shutdown) return;
+    Cloud.pathManager.deleteDirectory(Paths.get(path));
+    Cloud.services.remove(name);
+    Cloud.memory -= group.getMemory();
+    // restart services if needed
+    try {
+      Thread.sleep(2000);
+    } catch (InterruptedException e) {
+      throw new RuntimeException(e);
+    }
+    group.runServices();
+  }
+
   public void stopProcess() {
     if (process == null || !process.isAlive()) return;
-    process.destroyForcibly();
+    process.destroy();
   }
 }
