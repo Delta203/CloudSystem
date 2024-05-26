@@ -35,6 +35,11 @@ A socket connects to the server and is then registered by the server.
   "port": int       // Server port
 }
 ```
+### In game:
+Switch a server to `ingame` and a new server will be started automatically if the cloud storage is not exhausted.
+```json5
+"data": {}
+```
 ### Add Server:
 The cloud sends this message to the proxy to add a server.
 ```json5
@@ -50,11 +55,6 @@ The cloud sends this message to the proxy to remove a server.
 "data": {
   "name": String    // Server name
 }
-```
-### In game:
-Switch a server to `ingame` and a new server will be started automatically if the cloud storage is not exhausted.
-```json5
-"data": {}
 ```
 ### Disconnect:
 As soon as a socket is closed, it automatically disconnects from the server. Therefore, the message is not required manually.
