@@ -8,7 +8,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class CloudAPI extends JavaPlugin {
 
   public static CloudAPI plugin;
-  public static Configuration config;
 
   public static ServerState state;
   public static String name;
@@ -29,7 +28,7 @@ public class CloudAPI extends JavaPlugin {
     FileManager configYml = new FileManager("config.yml");
     configYml.create();
     configYml.load();
-    config = configYml.get();
+    Configuration config = configYml.get();
     name = config.getString("name");
     serverIp = config.getString("server.ip");
     serverPort = config.getInt("server.port");

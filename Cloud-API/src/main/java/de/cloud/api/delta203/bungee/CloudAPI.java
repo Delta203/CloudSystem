@@ -14,8 +14,8 @@ import net.md_5.bungee.config.Configuration;
 public class CloudAPI extends Plugin {
 
   public static CloudAPI plugin;
-  public static Configuration config;
-  public static List<ServerInfo> fallbacks;
+  private static List<ServerInfo> fallbacks;
+  private static final String fallback = "lobby";
 
   public static ServerState state;
   public static String name;
@@ -37,7 +37,7 @@ public class CloudAPI extends Plugin {
     FileManager configYml = new FileManager("config.yml");
     configYml.create();
     configYml.load();
-    config = configYml.get();
+    Configuration config = configYml.get();
     name = config.getString("name");
     serverIp = config.getString("server.ip");
     serverPort = config.getInt("server.port");
@@ -60,25 +60,20 @@ public class CloudAPI extends Plugin {
 
   public static void addServer(String name, SocketAddress address) {
     ServerInfo serverInfo =
-        ProxyServer.getInstance().constructServerInfo(name, address, "Cloud server", false);
+        ProxyServer.getInstance().constructServerInfo(name, address, "Cloud Server", false);
     ProxyServer.getInstance().getServers().put(name, serverInfo);
-    if (name.toLowerCase().startsWith("lobby")) {
+    if (name.toLowerCase().startsWith(fallback)) {
       CloudAPI.fallbacks.add(serverInfo);
       updateFallbacks();
     }
-    System.out.println(
-        "+ "
-            + name
-            + (CloudAPI.fallbacks.contains(serverInfo) ? "*" : "")
-            + " ("
-            + address.toString()
-            + ")");
+    String suffix = CloudAPI.fallbacks.contains(serverInfo) ? "*" : "";
+    System.out.println("+ " + name + suffix + " (" + address.toString() + ")");
   }
 
   public static void removeServer(String name) {
     ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(name);
     ProxyServer.getInstance().getServers().remove(name);
-    if (name.toLowerCase().startsWith("lobby")) {
+    if (name.toLowerCase().startsWith(fallback)) {
       CloudAPI.fallbacks.remove(serverInfo);
       updateFallbacks();
     }

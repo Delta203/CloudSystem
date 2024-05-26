@@ -36,7 +36,6 @@ public class Communication {
   }
 
   public void handle(String string) {
-    if (CloudAPI.plugin == null) return;
     JsonObject message = JsonParser.parseString(string).getAsJsonObject();
     switch (MessageType.valueOf(message.get("type").getAsString())) {
       case ADDSERVER:
@@ -45,7 +44,6 @@ public class Communication {
           String name = data.get("name").getAsString();
           String ip = data.get("ip").getAsString();
           int port = data.get("port").getAsInt();
-          if (port == 25565) return;
           CloudAPI.addServer(name, Util.getAddr(ip + ":" + port));
           break;
         }
