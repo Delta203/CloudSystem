@@ -129,7 +129,7 @@ public class CreateGroup {
     group.create();
     Cloud.groups.add(group);
     Cloud.console.print("Configurations are saved...");
-    Cloud.console.print("§2The group has been created and registered!");
+    Cloud.console.print("§aThe group has been created and registered!");
     // start services
     group.runServices();
   }

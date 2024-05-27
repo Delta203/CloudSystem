@@ -3,7 +3,10 @@ package de.cloud.master.delta203.core;
 import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.OSType;
+import de.cloud.master.delta203.core.utils.ServerState;
 import de.cloud.master.delta203.main.Cloud;
+import de.cloud.master.delta203.main.sockets.Channel;
+
 import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -18,12 +21,17 @@ public class Service extends Thread {
 
   private String name;
   private int port;
+  private ServerState state;
+
+  private Channel channel;
   private Process process;
 
   public Service(Group group) {
     this.group = group;
     setName();
     setPort();
+    state = ServerState.LOBBY;
+    channel = null;
     if (group.isStatic()) path = Cloud.pathManager.getPathServicesStatic() + "/" + name;
     else path = Cloud.pathManager.getPathServicesTemp() + "/" + name;
   }
@@ -54,6 +62,10 @@ public class Service extends Thread {
     while (portExists(port)) port++;
   }
 
+  public Group getServiceGroup() {
+    return group;
+  }
+
   public String getServiceName() {
     return name;
   }
@@ -62,8 +74,16 @@ public class Service extends Thread {
     return port;
   }
 
-  public Group getServiceGroup() {
-    return group;
+  public ServerState getServiceState() {
+    return state;
+  }
+
+  public Channel getServiceChannel() {
+    return channel;
+  }
+
+  public void setServiceInGame() {
+    state = ServerState.INGAME;
   }
 
   /*
@@ -211,6 +231,15 @@ public class Service extends Thread {
     return true;
   }
 
+  /**
+   * This method registers a channel as soon as it has connected to the socket {@link
+   * de.cloud.master.delta203.main.sockets.Server}.
+   */
+  public void registerChannel(Channel channel) {
+    this.channel = channel;
+    Cloud.console.print(name + ":" + port + " successfully connected.", "§bChannel§r");
+  }
+
   /*
    * Process functions
    */
@@ -270,6 +299,8 @@ public class Service extends Thread {
 
   public void stopProcess() {
     if (process == null || !process.isAlive()) return;
+    if (channel != null)
+      Cloud.console.print(name + ":" + port + " has disconnected.", "§bChannel§r");
     process.destroy();
   }
 }

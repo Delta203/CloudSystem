@@ -3,9 +3,7 @@ package de.cloud.master.delta203.main.sockets;
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.handlers.Communication;
 import de.cloud.master.delta203.core.utils.GroupType;
-import de.cloud.master.delta203.core.utils.ServerState;
 import de.cloud.master.delta203.main.Cloud;
-
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -17,54 +15,41 @@ public class Channel extends Thread {
   private final Socket socket;
   private final PrintWriter writer;
   private final BufferedReader reader;
-  private final Communication communication;
 
-  private ServerState state;
-  private String name;
-  private int port;
+  private final Communication communication;
   private Service service;
 
   public Channel(Socket socket) throws IOException {
     this.socket = socket;
     writer = new PrintWriter(socket.getOutputStream());
     reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-    communication = new Communication(this);
+    communication = new Communication();
   }
 
-  public ServerState getChannelState() {
-    return state;
-  }
-
-  public String getChannelName() {
-    return name;
-  }
-
-  public int getChannelPort() {
-    return port;
-  }
-
-  public GroupType getGroupType() {
-    return service.getServiceGroup().getType();
-  }
-
-  public void initialise(String name, int port) {
-    state = ServerState.LOBBY;
-    this.name = name;
-    this.port = port;
+  public void initialise(String name) {
     service = Cloud.services.get(name);
-    Cloud.server.getChannels().add(this);
-    Cloud.console.print(this.name + ":" + this.port + " successfully connected.", "§bChannel§r");
-    if (getGroupType() == GroupType.PROXY) {
+    service.registerChannel(this);
+    if (service.getServiceGroup().getType() == GroupType.PROXY) {
       // broadcast online channels to new proxy
-      for (Channel channel : Cloud.server.getChannels()) {
-        if (channel.service.getServiceGroup().getType() != GroupType.SERVER) continue;
+      for (Service connected : Cloud.services.values()) {
+        if (connected.getServiceGroup().getType() != GroupType.SERVER) continue;
+        if (connected.getServiceChannel() == null) continue;
         communication.broadcastProxies(
-            communication.addServerMessage(channel.name, channel.port).toString());
+            communication
+                .addServerMessage(connected.getServiceName(), connected.getServicePort())
+                .toString());
       }
     } else {
       // broadcast new service to proxy
-      communication.broadcastProxies(communication.addServerMessage(name, port).toString());
+      communication.broadcastProxies(
+          communication
+              .addServerMessage(service.getServiceName(), service.getServicePort())
+              .toString());
     }
+  }
+
+  public Communication getCommunication() {
+    return communication;
   }
 
   /**
@@ -98,15 +83,14 @@ public class Channel extends Thread {
           return;
         }
         // valid -> handle message
-        communication.handle(message);
+        communication.handle(this, message);
       } catch (IOException e) {
         // happens when reader can not read anything <=> socket disconnected
-        Cloud.server.getChannels().remove(this);
         break;
       }
     }
-    Cloud.console.print(name + ":" + port + " has disconnected.", "§bChannel§r");
-    communication.broadcastProxies(communication.removeServerMessage(name).toString());
+    communication.broadcastProxies(
+        communication.removeServerMessage(service.getServiceName()).toString());
     service.stopProcess();
   }
 }

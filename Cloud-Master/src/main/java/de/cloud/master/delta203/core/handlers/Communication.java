@@ -2,6 +2,7 @@ package de.cloud.master.delta203.core.handlers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
+import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.MessageType;
 import de.cloud.master.delta203.main.Cloud;
@@ -9,11 +10,7 @@ import de.cloud.master.delta203.main.sockets.Channel;
 
 public class Communication {
 
-  private final Channel channel;
-
-  public Communication(Channel channel) {
-    this.channel = channel;
-  }
+  public Communication() {}
 
   private boolean isEmpty(String string) {
     return (string == null || string.isEmpty());
@@ -36,14 +33,12 @@ public class Communication {
     return message.get("key").getAsString().equals(key);
   }
 
-  public void handle(String string) {
-    assert channel != null;
+  public void handle(Channel channel, String string) {
     JsonObject message = JsonParser.parseString(string).getAsJsonObject();
     switch (MessageType.valueOf(message.get("type").getAsString())) {
       case CONNECT:
         String name = message.get("data").getAsJsonObject().get("name").getAsString();
-        int port = message.get("data").getAsJsonObject().get("port").getAsInt();
-        channel.initialise(name, port);
+        channel.initialise(name);
         break;
       case INGAME:
         System.out.println(MessageType.INGAME);
@@ -52,11 +47,16 @@ public class Communication {
   }
 
   public void broadcastProxies(String message) {
-    for (Channel channels : Cloud.server.getChannels()) {
-      if (channels.getGroupType() == GroupType.SERVER) continue;
-      channels.sendMessage(message);
+    for (Service service : Cloud.services.values()) {
+      if (service.getServiceGroup().getType() == GroupType.SERVER) continue;
+      Channel channel = service.getServiceChannel();
+      channel.sendMessage(message);
     }
   }
+
+  /*
+   * Message builders
+   */
 
   public JsonObject addServerMessage(String name, int port) {
     JsonObject message = new JsonObject();
@@ -76,6 +76,16 @@ public class Communication {
     message.addProperty("type", MessageType.REMOVESERVER.name());
     JsonObject data = new JsonObject();
     data.addProperty("name", name);
+    message.add("data", data);
+    return message;
+  }
+
+  public JsonObject dispatchCommandMessage(String command) {
+    JsonObject message = new JsonObject();
+    message.addProperty("key", Cloud.key);
+    message.addProperty("type", MessageType.COMMAND.name());
+    JsonObject data = new JsonObject();
+    data.addProperty("command", command);
     message.add("data", data);
     return message;
   }

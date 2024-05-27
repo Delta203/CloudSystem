@@ -1,12 +1,10 @@
 package de.cloud.master.delta203.main.sockets;
 
+import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.main.Cloud;
-
 import java.io.IOException;
 import java.net.ServerSocket;
 import java.net.Socket;
-import java.util.ArrayList;
-import java.util.List;
 
 public class Server extends Thread {
 
@@ -14,13 +12,11 @@ public class Server extends Thread {
   private final int port;
 
   private final ServerSocket server;
-  private final List<Channel> channels;
 
   public Server() throws IOException {
     ip = Cloud.config.getData().get("ip").getAsString();
     port = Cloud.config.getData().get("port").getAsInt();
     server = new ServerSocket(port);
-    channels = new ArrayList<>();
     Cloud.console.print("Server socket listening to: " + ip + ":" + port);
   }
 
@@ -32,14 +28,11 @@ public class Server extends Thread {
     return port;
   }
 
-  public List<Channel> getChannels() {
-    return channels;
-  }
-
   public void close() {
     // close channels (sockets)
-    for (Channel channel : channels) {
-      channel.close();
+    for (Service service : Cloud.services.values()) {
+      if (service.getServiceChannel() == null) continue;
+      service.getServiceChannel().close();
     }
     // close server socket
     try {

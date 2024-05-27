@@ -51,7 +51,7 @@ public class Downloader {
       outputStream.close();
       inputStream.close();
       System.out.print("\r");
-      Cloud.console.print("§2" + name + " successfully downloaded!");
+      Cloud.console.print("§a" + name + " successfully downloaded!");
     }
   }
 

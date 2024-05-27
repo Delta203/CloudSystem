@@ -32,14 +32,14 @@ public class Main {
         case "CONSOLE":
           new Console(command).execute();
           break;
+        case "COMMAND":
+          new Command(command).execute();
+          break;
         case "STOP":
           new Stop(command).execute();
           break;
         case "SERVICES":
           new Services().execute();
-          break;
-        case "CHANNELS":
-          new Channels().execute();
           break;
         case "SHOWKEY":
           new ShowKey().execute();
@@ -62,9 +62,9 @@ public class Main {
     Cloud.console.print("§fcreateGroup§r - Create a proxy / server group.");
     Cloud.console.print("§fgroupInfo <group>§r - Shows group information.");
     Cloud.console.print("§fconsole <service>§r - Shows the server console of service.");
+    Cloud.console.print("§fcommand <service> <args>§r - Dispatch a command on a service.");
     Cloud.console.print("§fstop <service>§r - Stop a specific service.");
     Cloud.console.print("§fservices§r - Shows the list of active services.");
-    Cloud.console.print("§fchannels§r - Shows the list of connected channels.");
     Cloud.console.print("§fshowKey§r - Shows the communication key.");
     Cloud.console.printRaw("");
     Cloud.console.print("Host: " + Cloud.server.getIp() + ":" + Cloud.server.getPort());
@@ -80,6 +80,5 @@ public class Main {
     }
     Cloud.console.print("Groups: " + groupNames);
     Cloud.console.print("Services: " + Cloud.services.size());
-    Cloud.console.print("Channels: " + Cloud.server.getChannels().size());
   }
 }
