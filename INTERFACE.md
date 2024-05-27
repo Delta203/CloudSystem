@@ -32,7 +32,6 @@ A socket connects to the server and is then registered by the server.
 ```json5
 "data": {
   "name": String,   // Server name
-  "port": int       // Server port
 }
 ```
 ### In game:
