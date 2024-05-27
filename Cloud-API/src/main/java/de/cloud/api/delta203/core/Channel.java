@@ -34,7 +34,7 @@ public class Channel extends Thread {
     writer.flush();
   }
 
-  public void connect(String name, int port) {
+  public void connect(String name) {
     System.out.println(
         "Channel connecting to "
             + serverIp
@@ -49,7 +49,7 @@ public class Channel extends Thread {
       socket = new Socket(serverIp, serverPort);
       writer = new PrintWriter(socket.getOutputStream());
       reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      sendMessage(communication.connectMessage(name, port).toString());
+      sendMessage(communication.connectMessage(name).toString());
       start();
     } catch (IOException ignored) {
       // server is not accessible

@@ -5,6 +5,9 @@ import com.google.gson.JsonParser;
 import de.cloud.api.delta203.bungee.CloudAPI;
 import de.cloud.api.delta203.core.utils.MessageType;
 import net.md_5.bungee.Util;
+import net.md_5.bungee.api.ProxyServer;
+import org.bukkit.Bukkit;
+import org.bukkit.scheduler.BukkitRunnable;
 
 public class Communication {
 
@@ -54,16 +57,37 @@ public class Communication {
           CloudAPI.removeServer(name);
           break;
         }
+      case COMMAND:
+        {
+          JsonObject data = message.get("data").getAsJsonObject();
+          String command = data.get("command").getAsString();
+          if (CloudAPI.plugin != null) {
+            // proxy server
+            ProxyServer.getInstance()
+                .getPluginManager()
+                .dispatchCommand(ProxyServer.getInstance().getConsole(), command);
+          } else {
+            // server server
+            Bukkit.getScheduler()
+                .runTask(
+                    de.cloud.api.delta203.spigot.CloudAPI.plugin,
+                    () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
+          }
+          break;
+        }
     }
   }
 
-  public JsonObject connectMessage(String name, int port) {
+  /*
+   * Message builders
+   */
+
+  public JsonObject connectMessage(String name) {
     JsonObject message = new JsonObject();
     message.addProperty("key", key);
     message.addProperty("type", MessageType.CONNECT.name());
     JsonObject data = new JsonObject();
     data.addProperty("name", name);
-    data.addProperty("port", port);
     message.add("data", data);
     return message;
   }

@@ -37,6 +37,6 @@ public class CloudAPI extends JavaPlugin {
 
   private void connect() {
     Channel channel = new Channel(serverIp, serverPort, serverKey);
-    channel.connect(name, getServer().getPort());
+    channel.connect(name);
   }
 }

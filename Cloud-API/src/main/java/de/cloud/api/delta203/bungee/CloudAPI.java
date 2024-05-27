@@ -46,7 +46,7 @@ public class CloudAPI extends Plugin {
 
   private void connect() {
     Channel channel = new Channel(serverIp, serverPort, serverKey);
-    channel.connect(name, 25565);
+    channel.connect(name);
   }
 
   private static void updateFallbacks() {

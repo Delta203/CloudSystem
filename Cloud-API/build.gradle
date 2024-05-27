@@ -1,5 +1,5 @@
 group = 'de.cloud.api.delta203.core'
-version = '1.0.3'
+version = '1.0.4'
 
 repositories {
     mavenCentral()
