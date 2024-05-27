@@ -2,6 +2,7 @@ package de.cloud.master.delta203.core;
 
 import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
+import de.cloud.master.delta203.core.utils.OSType;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.*;
 import java.nio.file.Paths;
@@ -216,10 +217,17 @@ public class Service extends Thread {
 
   private ProcessBuilder buildProcess() {
     String[] command =
-        Constants.Locals.START_WIN
+        Constants.Locals.START_LINUX
             .replace("%memory%", String.valueOf(group.getMemory()))
             .replace("%file%", group.getType().version)
             .split(" ");
+    if (OSType.valueOf(Cloud.config.getData().get("os").getAsString()) == OSType.WINDOWS) {
+      command =
+          Constants.Locals.START_WINDOWS
+              .replace("%memory%", String.valueOf(group.getMemory()))
+              .replace("%file%", group.getType().version)
+              .split(" ");
+    }
     ProcessBuilder builder = new ProcessBuilder(command);
     builder.directory(new File(path));
     return builder;

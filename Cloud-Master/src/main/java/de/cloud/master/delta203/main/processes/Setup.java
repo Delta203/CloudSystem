@@ -3,6 +3,7 @@ package de.cloud.master.delta203.main.processes;
 import com.google.gson.JsonObject;
 import de.cloud.master.delta203.core.files.Downloader;
 import de.cloud.master.delta203.core.utils.Constants;
+import de.cloud.master.delta203.core.utils.OSType;
 import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
 
@@ -16,6 +17,17 @@ public class Setup {
 
   public Setup() {
     config = new JsonObject();
+  }
+
+  private String os() {
+    Cloud.console.print(
+        "On which system is the cloud running? [" + OSType.LINUX + ", " + OSType.WINDOWS + "]");
+    String os = Application.scanner.nextLine();
+    while (!os.equals(OSType.LINUX.name()) && !os.equals(OSType.WINDOWS.name())) {
+      Cloud.console.print("The specified os version is invalid.");
+      os = Application.scanner.nextLine();
+    }
+    return os;
   }
 
   private Object[] address() {
@@ -91,6 +103,7 @@ public class Setup {
 
   public void run() {
     Cloud.console.print("The setup has started:");
+    config.addProperty("os", os());
     Object[] address = address();
     config.addProperty("ip", (String) address[0]);
     config.addProperty("port", (int) address[1]);

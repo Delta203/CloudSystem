@@ -8,10 +8,13 @@ public class Constants {
     public static String VERSION = "1.0-SNAPSHOT";
     public static String ROOT = "cloud";
     public static String API = "no api";
-    public static String START_WIN =
-        "java -Xms%memory%M -Xmx%memory%M -XX:+UseG1GC -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
+
     public static int DEFAULT_PORT = 25565;
     public static int START_PORT = 40001;
+
+    public static String START_LINUX = "Linux start";
+    public static String START_WINDOWS =
+        "java -Xms%memory%M -Xmx%memory%M -XX:+UseG1GC -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
   }
 
   public static class Links {
