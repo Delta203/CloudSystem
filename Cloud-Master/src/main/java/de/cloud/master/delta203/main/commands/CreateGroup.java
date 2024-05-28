@@ -47,6 +47,16 @@ public class CreateGroup {
     return memory;
   }
 
+  private boolean statisch() {
+    Cloud.console.print("Should the group be static? [true, false]");
+    String statisch = Application.scanner.nextLine();
+    while (!statisch.equals("true") && !statisch.equals("false")) {
+      Cloud.console.print("You must enter a boolean!");
+      statisch = Application.scanner.nextLine();
+    }
+    return Boolean.parseBoolean(statisch);
+  }
+
   private int minAmount() {
     Cloud.console.print("How many servers should run permanently?");
     int amount = 0;
@@ -71,17 +81,6 @@ public class CreateGroup {
       }
     }
     return amount;
-  }
-
-  private boolean statisch() {
-    Cloud.console.print("Should the group be static? [true, false]");
-    String statisch = Application.scanner.nextLine();
-    while (!statisch.equals("true") && !statisch.equals("false")) {
-      Cloud.console.print("You must enter a boolean!");
-      statisch = Application.scanner.nextLine();
-    }
-    if (statisch.equals("true")) Cloud.console.print("Amount of server has been set to 1.");
-    return Boolean.parseBoolean(statisch);
   }
 
   private boolean confirmed(
@@ -116,13 +115,11 @@ public class CreateGroup {
     int maxAmount = 1;
     boolean statisch = false;
     if (type == GroupType.SERVER) {
-      minAmount = minAmount();
-      maxAmount = maxAmount();
       statisch = statisch();
-    }
-    if (statisch) {
-      minAmount = 1;
-      maxAmount = 1;
+      if (!statisch) {
+        minAmount = minAmount();
+        maxAmount = maxAmount();
+      }
     }
     if (!confirmed(name, type, memory, minAmount, maxAmount, statisch)) return;
     Group group = new Group(name, type, memory, minAmount, maxAmount, statisch);

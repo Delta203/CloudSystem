@@ -41,6 +41,10 @@ public class Service extends Thread {
    */
 
   private void setName() {
+    if (group.isStatic()) {
+      name = group.getName();
+      return;
+    }
     int id = 1;
     name = group.getName() + "-" + id;
     while (Cloud.services.containsKey(name)) {
@@ -219,8 +223,10 @@ public class Service extends Thread {
       Cloud.console.print("§c" + name + " not enough memory!", "§3Service§r");
       return false;
     }
-    copyDefault();
-    copyTemplate();
+    if (!group.isStatic()) {
+      copyDefault();
+      copyTemplate();
+    }
     addEula();
     modifyProxy();
     modifyServer();
@@ -238,6 +244,27 @@ public class Service extends Thread {
   public void registerChannel(Channel channel) {
     this.channel = channel;
     Cloud.console.print(name + ":" + port + " successfully connected.", "§bChannel§r");
+    if (group.getType() == GroupType.PROXY) {
+      // broadcast online channels to new proxy
+      for (Service connected : Cloud.services.values()) {
+        if (connected.group.getType() != GroupType.SERVER) continue;
+        if (connected.channel == null) continue;
+        connected
+            .channel
+            .getCommunication()
+            .broadcastProxies(
+                connected
+                    .channel
+                    .getCommunication()
+                    .addServerMessage(connected.getServiceName(), connected.getServicePort())
+                    .toString());
+      }
+    } else {
+      // broadcast new service to proxy
+      channel
+          .getCommunication()
+          .broadcastProxies(channel.getCommunication().addServerMessage(name, port).toString());
+    }
   }
 
   /*
@@ -285,7 +312,7 @@ public class Service extends Thread {
 
   private void unregister() {
     if (Cloud.shutdown) return;
-    Cloud.pathManager.deleteDirectory(Paths.get(path));
+    if (!group.isStatic()) Cloud.pathManager.deleteDirectory(Paths.get(path));
     Cloud.services.remove(name);
     Cloud.memory -= group.getMemory();
     // restart services if needed

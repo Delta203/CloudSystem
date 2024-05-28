@@ -2,7 +2,6 @@ package de.cloud.master.delta203.main.sockets;
 
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.handlers.Communication;
-import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -26,30 +25,13 @@ public class Channel extends Thread {
     communication = new Communication();
   }
 
+  public Communication getCommunication() {
+    return communication;
+  }
+
   public void initialise(String name) {
     service = Cloud.services.get(name);
     service.registerChannel(this);
-    if (service.getServiceGroup().getType() == GroupType.PROXY) {
-      // broadcast online channels to new proxy
-      for (Service connected : Cloud.services.values()) {
-        if (connected.getServiceGroup().getType() != GroupType.SERVER) continue;
-        if (connected.getServiceChannel() == null) continue;
-        communication.broadcastProxies(
-            communication
-                .addServerMessage(connected.getServiceName(), connected.getServicePort())
-                .toString());
-      }
-    } else {
-      // broadcast new service to proxy
-      communication.broadcastProxies(
-          communication
-              .addServerMessage(service.getServiceName(), service.getServicePort())
-              .toString());
-    }
-  }
-
-  public Communication getCommunication() {
-    return communication;
   }
 
   /**
