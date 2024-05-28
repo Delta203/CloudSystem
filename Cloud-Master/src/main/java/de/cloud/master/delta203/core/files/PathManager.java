@@ -22,15 +22,15 @@ public class PathManager {
 
   public PathManager() {
     root = Constants.Locals.ROOT;
-    logs = new File(root + "/logs");
-    assets_api = new File(root + "/assets/api");
-    assets_proxy = new File(root + "/assets/proxy");
-    assets_server = new File(root + "/assets/server");
-    data_groups = new File(root + "/data/groups");
-    templates_default_proxy = new File(root + "/templates/default/proxy");
-    templates_default_server = new File(root + "/templates/default/server");
-    services_static = new File(root + "/services/static");
-    services_temp = new File(root + "/services/temp");
+    logs = new File(root + "logs");
+    assets_api = new File(root + "assets/api");
+    assets_proxy = new File(root + "assets/proxy");
+    assets_server = new File(root + "assets/server");
+    data_groups = new File(root + "data/groups");
+    templates_default_proxy = new File(root + "templates/default/proxy");
+    templates_default_server = new File(root + "templates/default/server");
+    services_static = new File(root + "services/static");
+    services_temp = new File(root + "services/temp");
   }
 
   public boolean mkdir() {
@@ -46,47 +46,47 @@ public class PathManager {
   }
 
   public String getPathLogs() {
-    return root + "/logs";
+    return root + "logs";
   }
 
   public String getPathAssetsAPI() {
-    return root + "/assets/api";
+    return root + "assets/api";
   }
 
   public String getPathAssetsProxy() {
-    return root + "/assets/proxy";
+    return root + "assets/proxy";
   }
 
   public String getPathAssetsServer() {
-    return root + "/assets/server";
+    return root + "assets/server";
   }
 
   public String getPathData() {
-    return root + "/data";
+    return root + "data";
   }
 
   public String getPathDataGroup() {
-    return root + "/data/groups";
+    return root + "data/groups";
   }
 
   public String getPathTemplates() {
-    return root + "/templates";
+    return root + "templates";
   }
 
   public String getPathTemplatesDefaultProxy() {
-    return root + "/templates/default/proxy";
+    return root + "templates/default/proxy";
   }
 
   public String getPathTemplatesDefaultServer() {
-    return root + "/templates/default/server";
+    return root + "templates/default/server";
   }
 
   public String getPathServicesStatic() {
-    return root + "/services/static";
+    return root + "services/static";
   }
 
   public String getPathServicesTemp() {
-    return root + "/services/temp";
+    return root + "services/temp";
   }
 
   public void copyFile(Path from, Path to) {

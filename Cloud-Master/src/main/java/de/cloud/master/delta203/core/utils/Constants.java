@@ -6,7 +6,7 @@ public class Constants {
 
   public static class Locals {
     public static String VERSION = "1.0-SNAPSHOT";
-    public static String ROOT = "cloud";
+    public static String ROOT = "cloud/";
     public static String API = "no api";
 
     public static int DEFAULT_PORT = 25565;

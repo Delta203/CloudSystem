@@ -5,6 +5,7 @@ import de.cloud.master.delta203.core.Group;
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.files.PathManager;
+import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.main.sockets.Server;
 
 import java.util.HashMap;
@@ -26,6 +27,9 @@ public class Cloud {
   public static boolean shutdown = false;
 
   public static void main(String[] args) {
+    if (args.length == 1) {
+      if (args[0].equalsIgnoreCase("-NOROOT")) Constants.Locals.ROOT = "";
+    }
     pathManager = new PathManager();
     boolean doSetup = pathManager.mkdir();
     config = new FileManager(pathManager.getPathData(), "config.json");
