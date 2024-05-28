@@ -1,5 +1,6 @@
 package de.cloud.api.delta203.bungee;
 
+import de.cloud.api.delta203.bungee.commands.Lobby;
 import de.cloud.api.delta203.core.Channel;
 import de.cloud.api.delta203.core.utils.ServerState;
 import java.net.SocketAddress;
@@ -14,7 +15,7 @@ import net.md_5.bungee.config.Configuration;
 public class CloudAPI extends Plugin {
 
   public static CloudAPI plugin;
-  private static List<ServerInfo> fallbacks;
+  public static List<ServerInfo> fallbacks;
   private static final String fallback = "lobby";
 
   public static ServerState state;
@@ -42,6 +43,10 @@ public class CloudAPI extends Plugin {
     serverIp = config.getString("server.ip");
     serverPort = config.getInt("server.port");
     serverKey = config.getString("server.key");
+
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new Lobby("lobby"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new Lobby("l"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new Lobby("hub"));
   }
 
   private void connect() {
