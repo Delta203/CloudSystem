@@ -1,10 +1,4 @@
 # Cloud-API
-- More OOP
-- More stuff (for modules soon)
-## Core
-- Close socket on disable
-## Bungee
-- Listeners registration in onEnable
 
 # Cloud-Master
 - License header

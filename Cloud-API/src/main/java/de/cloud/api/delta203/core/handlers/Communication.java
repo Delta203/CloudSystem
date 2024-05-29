@@ -1,3 +1,19 @@
+/*
+ * Copyright 2024 Cloud System by Delta203
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
 package de.cloud.api.delta203.core.handlers;
 
 import com.google.gson.JsonObject;
@@ -7,7 +23,6 @@ import de.cloud.api.delta203.core.utils.MessageType;
 import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
-import org.bukkit.scheduler.BukkitRunnable;
 
 public class Communication {
 
@@ -47,14 +62,14 @@ public class Communication {
           String name = data.get("name").getAsString();
           String ip = data.get("ip").getAsString();
           int port = data.get("port").getAsInt();
-          CloudAPI.addServer(name, Util.getAddr(ip + ":" + port));
+          CloudAPI.serverManager.addServer(name, Util.getAddr(ip + ":" + port));
           break;
         }
       case REMOVESERVER:
         {
           JsonObject data = message.get("data").getAsJsonObject();
           String name = data.get("name").getAsString();
-          CloudAPI.removeServer(name);
+          CloudAPI.serverManager.removeServer(name);
           break;
         }
       case COMMAND:
