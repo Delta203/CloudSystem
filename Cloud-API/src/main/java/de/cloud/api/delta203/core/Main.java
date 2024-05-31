@@ -16,6 +16,7 @@
 
 package de.cloud.api.delta203.core;
 
+/** This is an empty main class. */
 public class Main {
 
   public static void main(String[] args) {}

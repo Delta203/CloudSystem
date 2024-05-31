@@ -29,6 +29,10 @@ public class Channel extends Thread {
     return communication;
   }
 
+  public Service getService() {
+    return service;
+  }
+
   public void initialise(String name) {
     service = Cloud.services.get(name);
     service.registerChannel(this);
@@ -71,6 +75,9 @@ public class Channel extends Thread {
         break;
       }
     }
+    Cloud.console.print(
+        service.getServiceName() + ":" + service.getServicePort() + " has disconnected.",
+        "§bChannel§r");
     communication.broadcastProxies(
         communication.removeServerMessage(service.getServiceName()).toString());
     service.stopProcess();

@@ -25,24 +25,37 @@ import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
 
+/** This class manages the incoming servers and registers them as fallbacks if necessary. */
 public class ServerManager {
 
   private final List<ServerInfo> fallbacks;
-
   private final String fallbackPrefix = "lobby";
 
+  /** Create a server manager to add and remove servers from proxy. */
   public ServerManager() {
     fallbacks = new ArrayList<>();
   }
 
+  /**
+   * This method checks if server is a fallback server.
+   *
+   * @param serverInfo the server to be checked
+   * @return server is a fallback
+   */
   public boolean isFallback(ServerInfo serverInfo) {
     return fallbacks.contains(serverInfo);
   }
 
+  /**
+   * This method gets a fallback server randomly.
+   *
+   * @return a random fallback server
+   */
   public ServerInfo getRandomFallback() {
     return fallbacks.get(new Random().nextInt(fallbacks.size()));
   }
 
+  /** This method updates the proxy fallback config. */
   private void updateFallbacks() {
     for (ListenerInfo info : ProxyServer.getInstance().getConfig().getListeners()) {
       info.getServerPriority().clear();
@@ -52,6 +65,12 @@ public class ServerManager {
     }
   }
 
+  /**
+   * This method adds a new server to proxy main config.
+   *
+   * @param name the server name
+   * @param address the server address
+   */
   public void addServer(String name, SocketAddress address) {
     ServerInfo serverInfo =
         ProxyServer.getInstance().constructServerInfo(name, address, "Cloud Server", false);
@@ -65,6 +84,11 @@ public class ServerManager {
     System.out.println("+ " + name + suffix + " (" + address.toString() + ")");
   }
 
+  /**
+   * This method removes a server from the proxy main config.
+   *
+   * @param name the server name
+   */
   public void removeServer(String name) {
     ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(name);
     ProxyServer.getInstance().getServers().remove(name);

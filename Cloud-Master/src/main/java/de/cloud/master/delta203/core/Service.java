@@ -86,8 +86,13 @@ public class Service extends Thread {
     return channel;
   }
 
+  public boolean isProcessAlive() {
+    return process != null && process.isAlive();
+  }
+
   public void setServiceInGame() {
     state = ServerState.INGAME;
+    group.runServices();
   }
 
   /*
@@ -326,8 +331,11 @@ public class Service extends Thread {
 
   public void stopProcess() {
     if (process == null || !process.isAlive()) return;
-    if (channel != null)
-      Cloud.console.print(name + ":" + port + " has disconnected.", "§bChannel§r");
-    process.destroy();
+    if (channel != null) {
+      String command = group.getType() == GroupType.PROXY ? "end" : "stop";
+      channel.sendMessage(channel.getCommunication().dispatchCommandMessage(command).toString());
+    } else {
+      process.destroy();
+    }
   }
 }

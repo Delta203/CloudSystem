@@ -16,16 +16,13 @@
 
 package de.cloud.api.delta203.bungee;
 
-import de.cloud.api.delta203.bungee.commands.Lobby;
+import de.cloud.api.delta203.bungee.commands.CloudCommand;
+import de.cloud.api.delta203.bungee.commands.LobbyCommand;
 import de.cloud.api.delta203.bungee.utils.ServerManager;
 import de.cloud.api.delta203.core.Channel;
-import de.cloud.api.delta203.core.utils.ServerState;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
-
-import java.io.IOException;
-import java.net.Socket;
 
 public class CloudAPI extends Plugin {
 
@@ -39,17 +36,14 @@ public class CloudAPI extends Plugin {
   public static ServerManager serverManager;
 
   private static String name;
-  private static ServerState state;
 
   private String serverIp;
   private int serverPort;
   private String serverKey;
-  private Channel channel;
 
   @Override
   public void onEnable() {
     plugin = this;
-    state = ServerState.LOBBY;
     loadConfig();
     serverManager = new ServerManager();
 
@@ -60,20 +54,10 @@ public class CloudAPI extends Plugin {
 
     connect();
 
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new Lobby("l"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new Lobby("lobby"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new Lobby("hub"));
-  }
-
-  @Override
-  public void onDisable() {
-    Socket socket = channel.getSocket();
-    if (socket == null || !socket.isConnected()) return;
-    try {
-      socket.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCommand("cloud"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new LobbyCommand("l"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new LobbyCommand("lobby"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new LobbyCommand("hub"));
   }
 
   private void loadConfig() {
@@ -84,7 +68,7 @@ public class CloudAPI extends Plugin {
   }
 
   private void connect() {
-    channel = new Channel(serverIp, serverPort, serverKey);
+    Channel channel = new Channel(serverIp, serverPort, serverKey);
     channel.connect(name);
   }
 
@@ -95,19 +79,5 @@ public class CloudAPI extends Plugin {
    */
   public static String getServiceName() {
     return name;
-  }
-
-  /**
-   * This method gets the service server state.
-   *
-   * @return the server state
-   */
-  public static ServerState getServiceState() {
-    return state;
-  }
-
-  /** This method sets the {@link ServerState} to INGAME. */
-  public static void updateServiceState() {
-    state = ServerState.INGAME;
   }
 }

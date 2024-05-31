@@ -1,6 +1,10 @@
 name: Cloud-API
-version: 0.0.5
+version: 1.0.0-SNAPSHOT
 api-version: 1.13
 author: Delta203
 
 main: de.cloud.api.delta203.spigot.CloudAPI
+
+commands:
+  updateState:
+    description: Set the server state to INGAME

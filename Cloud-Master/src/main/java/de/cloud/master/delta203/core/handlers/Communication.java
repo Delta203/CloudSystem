@@ -41,7 +41,8 @@ public class Communication {
         channel.initialise(name);
         break;
       case INGAME:
-        System.out.println(MessageType.INGAME);
+        Service service = channel.getService();
+        service.setServiceInGame();
         break;
     }
   }

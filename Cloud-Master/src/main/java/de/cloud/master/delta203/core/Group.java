@@ -3,6 +3,7 @@ package de.cloud.master.delta203.core;
 import com.google.gson.JsonObject;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.utils.GroupType;
+import de.cloud.master.delta203.core.utils.ServerState;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.File;
 
@@ -100,11 +101,16 @@ public class Group {
   }
 
   public void runServices() {
+    int total = 0;
     int online = 0;
     for (Service service : Cloud.services.values()) {
-      if (service.getServiceGroup().equals(this)) online++;
+      if (service.getServiceGroup().equals(this)) {
+        total++;
+        if (service.getServiceState() == ServerState.LOBBY) online++;
+      }
     }
-    for (int i = 0; (i < minAmount - online) && i < maxAmount; i++) {
+    int needed = minAmount - online;
+    for (int i = 0; i < needed && total < maxAmount; i++) {
       Service service = new Service(this);
       if (service.register()) service.start();
     }

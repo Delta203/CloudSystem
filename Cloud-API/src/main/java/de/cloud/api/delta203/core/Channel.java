@@ -41,26 +41,19 @@ public class Channel extends Thread {
     communication = new Communication(serverKey);
   }
 
-  public Socket getSocket() {
-    return socket;
+  public Communication getCommunication() {
+    return communication;
   }
 
-  private void sendMessage(String string) {
+  public void sendMessage(String string) {
     writer.println(string);
     writer.flush();
   }
 
   public void connect(String name) {
-    System.out.println(
-        "Channel connecting to "
-            + serverIp
-            + ":"
-            + serverPort
-            + " (Name: "
-            + name
-            + ", Key: "
-            + serverKey
-            + ")");
+    System.out.println("Channel connecting to:");
+    System.out.println("Address: " + serverIp + ":" + serverPort);
+    System.out.println("Key: " + serverKey);
     try {
       socket = new Socket(serverIp, serverPort);
       writer = new PrintWriter(socket.getOutputStream());

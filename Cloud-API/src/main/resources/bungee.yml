@@ -1,5 +1,5 @@
 name: Cloud-API
-version: 0.0.5
+version: 1.0.0-SNAPSHOT
 author: Delta203
 
 main: de.cloud.api.delta203.bungee.CloudAPI

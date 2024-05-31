@@ -38,6 +38,9 @@ public class Main {
         case "STOP":
           new Stop(command).execute();
           break;
+        case "STOPGROUP":
+          new StopGroup(command).execute();
+          break;
         case "SERVICES":
           new Services().execute();
           break;
@@ -64,6 +67,7 @@ public class Main {
     Cloud.console.print("§fconsole <service>§r - Shows the server console of service.");
     Cloud.console.print("§fcommand <service> <args>§r - Dispatch a command on a service.");
     Cloud.console.print("§fstop <service>§r - Stop a specific service.");
+    Cloud.console.print("§fstopGroup <group>§r - Stop a server group.");
     Cloud.console.print("§fservices§r - Shows the list of active services.");
     Cloud.console.print("§fshowKey§r - Shows the communication key.");
     Cloud.console.printRaw("");

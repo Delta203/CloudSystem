@@ -11,17 +11,30 @@ public class Shutdown {
   public Shutdown() {}
 
   public void run() {
+    Cloud.console.print("The cloud is stopping...");
     Application.scanner.close();
     for (Service service : Cloud.services.values()) {
       service.stopProcess();
     }
-    Cloud.console.print("The cloud stops in 5 seconds...");
-    try {
-      Thread.sleep(5000);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+    while (aServiceIsActive()) {
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
     Cloud.server.close();
     Cloud.pathManager.deleteDirectory(Paths.get(Cloud.pathManager.getPathServicesTemp()));
+  }
+
+  private boolean aServiceIsActive() {
+    boolean active = false;
+    for (Service service : Cloud.services.values()) {
+      if (service.isProcessAlive()) {
+        active = true;
+        break;
+      }
+    }
+    return active;
   }
 }

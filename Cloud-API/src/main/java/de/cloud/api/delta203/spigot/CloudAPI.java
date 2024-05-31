@@ -18,13 +18,11 @@ package de.cloud.api.delta203.spigot;
 
 import de.cloud.api.delta203.core.Channel;
 import de.cloud.api.delta203.core.utils.ServerState;
+import de.cloud.api.delta203.spigot.commands.UpdateStateCommand;
 import de.cloud.api.delta203.spigot.listeners.Login;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.io.IOException;
-import java.net.Socket;
 
 public class CloudAPI extends JavaPlugin {
 
@@ -40,7 +38,7 @@ public class CloudAPI extends JavaPlugin {
   public static String serverIp;
   private int serverPort;
   private String serverKey;
-  private Channel channel;
+  private static Channel channel;
 
   @Override
   public void onEnable() {
@@ -55,18 +53,8 @@ public class CloudAPI extends JavaPlugin {
 
     connect();
 
+    getCommand("updateState").setExecutor(new UpdateStateCommand());
     Bukkit.getPluginManager().registerEvents(new Login(), plugin);
-  }
-
-  @Override
-  public void onDisable() {
-    Socket socket = channel.getSocket();
-    if (socket == null || !socket.isConnected()) return;
-    try {
-      socket.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
   }
 
   private void loadConfig() {
@@ -102,5 +90,6 @@ public class CloudAPI extends JavaPlugin {
   /** This method sets the {@link ServerState} to INGAME. */
   public static void updateServiceState() {
     state = ServerState.INGAME;
+    channel.sendMessage(channel.getCommunication().inGameMessage().toString());
   }
 }

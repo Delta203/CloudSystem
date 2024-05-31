@@ -21,6 +21,8 @@ public class Services {
               + service.getServicePort()
               + " ["
               + (connected ? "§aCONNECTED§r" : "WAITING")
+              + "] ["
+              + service.getServiceState().name()
               + "]");
     }
   }
