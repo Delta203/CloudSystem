@@ -20,23 +20,24 @@ import de.cloud.api.delta203.bungee.CloudAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
+import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-/** This class is a command and displays the current version of the cloud system. */
-public class CloudCommand extends Command {
+public class CloudCmdLobby extends Command {
 
-  public CloudCommand(String name) {
+  public CloudCmdLobby(String name) {
     super(name);
   }
 
   @Override
   public void execute(CommandSender sender, String[] args) {
-    TextComponent message =
-        new TextComponent(
-            ChatColor.BLUE
-                + "This server is running CloudSystem version Cloud-Master:"
-                + CloudAPI.plugin.getDescription().getVersion()
-                + " by Delta203");
-    sender.sendMessage(message);
+    if (sender instanceof ProxiedPlayer p) {
+      if (CloudAPI.serverManager.isFallback(p.getServer().getInfo())) {
+        // player is already on a lobby server
+        p.sendMessage(new TextComponent(ChatColor.RED + "You are already on a lobby server!"));
+        return;
+      }
+      p.connect(CloudAPI.serverManager.getRandomFallback());
+    }
   }
 }

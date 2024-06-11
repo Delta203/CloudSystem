@@ -16,7 +16,7 @@
 
 package de.cloud.api.delta203.spigot.commands;
 
-import de.cloud.api.delta203.core.utils.ServerState;
+import de.cloud.api.delta203.core.utils.CloudServerState;
 import de.cloud.api.delta203.spigot.CloudAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -27,7 +27,7 @@ import org.bukkit.command.CommandSender;
  * This class is a command executor and sets the current server state to INGAME. It will be used
  * mostly for test purposes.
  */
-public class UpdateStateCommand implements CommandExecutor {
+public class CloudCmdUpdateState implements CommandExecutor {
 
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
@@ -35,7 +35,10 @@ public class UpdateStateCommand implements CommandExecutor {
       sender.sendMessage(ChatColor.RED + "You must be op to execute the command!");
       return false;
     }
-    if (CloudAPI.getServiceState() == ServerState.INGAME) return false;
+    if (CloudAPI.getServiceState() == CloudServerState.INGAME) {
+      sender.sendMessage(ChatColor.RED + "The server state is already INGAME!");
+      return false;
+    }
     CloudAPI.updateServiceState();
     sender.sendMessage(ChatColor.GREEN + "Successfully set the server state to INGAME.");
     return false;

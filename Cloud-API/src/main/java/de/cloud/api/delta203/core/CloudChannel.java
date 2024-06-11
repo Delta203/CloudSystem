@@ -16,54 +16,64 @@
 
 package de.cloud.api.delta203.core;
 
-import de.cloud.api.delta203.core.handlers.Communication;
+import de.cloud.api.delta203.core.handlers.CloudCommunication;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
 
-public class Channel extends Thread {
+public class CloudChannel extends Thread {
 
+  private final String name;
   private final String serverIp;
   private final int serverPort;
   private final String serverKey;
-  private final Communication communication;
+
+  private final CloudCommunication communication;
 
   private Socket socket;
   private PrintWriter writer;
   private BufferedReader reader;
 
-  public Channel(String serverIp, int serverPort, String serverKey) {
+  public CloudChannel(String name, String serverIp, int serverPort, String serverKey) {
+    this.name = name;
     this.serverIp = serverIp;
     this.serverPort = serverPort;
     this.serverKey = serverKey;
-    communication = new Communication(serverKey);
+    communication = new CloudCommunication();
   }
 
-  public Communication getCommunication() {
-    return communication;
-  }
-
-  public void sendMessage(String string) {
-    writer.println(string);
-    writer.flush();
-  }
-
-  public void connect(String name) {
-    System.out.println("Channel connecting to:");
+  /**
+   * This method connects the channel to the server socket.
+   *
+   * @return if the channel is connected
+   */
+  public boolean connect() {
+    System.out.println("Channel " + name + " connecting to:");
     System.out.println("Address: " + serverIp + ":" + serverPort);
     System.out.println("Key: " + serverKey);
     try {
       socket = new Socket(serverIp, serverPort);
       writer = new PrintWriter(socket.getOutputStream());
       reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
-      sendMessage(communication.connectMessage(name).toString());
-      start();
+      System.out.println("Channel successfully connected!");
+      return true;
     } catch (IOException ignored) {
       // server is not accessible
       System.out.println("Channel can not connect to cloud server!");
     }
+    return false;
+  }
+
+  /**
+   * This method sends a message to the server socket.
+   *
+   * @param string the message to be sent
+   */
+  public void sendMessage(String string) {
+    writer.println(string);
+    writer.flush();
   }
 
   @Override

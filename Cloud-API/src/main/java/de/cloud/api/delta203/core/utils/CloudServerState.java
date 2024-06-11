@@ -14,10 +14,9 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.core;
+package de.cloud.api.delta203.core.utils;
 
-/** This is an empty main class. */
-public class Main {
-
-  public static void main(String[] args) {}
+public enum CloudServerState {
+  LOBBY,
+  INGAME
 }

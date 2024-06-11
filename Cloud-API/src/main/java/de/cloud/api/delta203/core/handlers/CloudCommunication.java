@@ -19,23 +19,31 @@ package de.cloud.api.delta203.core.handlers;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.cloud.api.delta203.bungee.CloudAPI;
-import de.cloud.api.delta203.core.utils.MessageType;
+import de.cloud.api.delta203.core.utils.CloudMessageType;
 import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
 
-public class Communication {
+public class CloudCommunication {
 
-  private final String key;
+  public CloudCommunication() {}
 
-  public Communication(String key) {
-    this.key = key;
-  }
-
+  /**
+   * This method checks if the message is empty.
+   *
+   * @param string the message
+   * @return the message is empty
+   */
   private boolean isEmpty(String string) {
     return (string == null || string.isEmpty());
   }
 
+  /**
+   * This method checks if the message is not in JSON format.
+   *
+   * @param string the message
+   * @return the message is not in JSON format
+   */
   private boolean notJson(String string) {
     try {
       JsonParser.parseString(string).getAsJsonObject();
@@ -45,6 +53,13 @@ public class Communication {
     }
   }
 
+  /**
+   * This method checks if the message is a valid server, channel message.
+   *
+   * @param key the server socket key
+   * @param string the message
+   * @return the message is valid
+   */
   public boolean isValid(String key, String string) {
     if (isEmpty(string)) return false;
     if (notJson(string)) return false;
@@ -53,9 +68,14 @@ public class Communication {
     return message.get("key").getAsString().equals(key);
   }
 
+  /**
+   * This method handles every valid message from the incoming channel.
+   *
+   * @param string the message
+   */
   public void handle(String string) {
     JsonObject message = JsonParser.parseString(string).getAsJsonObject();
-    switch (MessageType.valueOf(message.get("type").getAsString())) {
+    switch (CloudMessageType.valueOf(message.get("type").getAsString())) {
       case ADDSERVER:
         {
           JsonObject data = message.get("data").getAsJsonObject();
@@ -91,27 +111,5 @@ public class Communication {
           break;
         }
     }
-  }
-
-  /*
-   * Message builders
-   */
-
-  public JsonObject connectMessage(String name) {
-    JsonObject message = new JsonObject();
-    message.addProperty("key", key);
-    message.addProperty("type", MessageType.CONNECT.name());
-    JsonObject data = new JsonObject();
-    data.addProperty("name", name);
-    message.add("data", data);
-    return message;
-  }
-
-  public JsonObject inGameMessage() {
-    JsonObject message = new JsonObject();
-    message.addProperty("key", key);
-    message.addProperty("type", MessageType.INGAME.name());
-    message.add("data", new JsonObject());
-    return message;
   }
 }

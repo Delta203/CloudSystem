@@ -26,13 +26,13 @@ import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.config.ServerInfo;
 
 /** This class manages the incoming servers and registers them as fallbacks if necessary. */
-public class ServerManager {
+public class CloudServerManager {
 
   private final List<ServerInfo> fallbacks;
   private final String fallbackPrefix = "lobby";
 
   /** Create a server manager to add and remove servers from proxy. */
-  public ServerManager() {
+  public CloudServerManager() {
     fallbacks = new ArrayList<>();
   }
 
@@ -81,6 +81,7 @@ public class ServerManager {
       updateFallbacks();
     }
     String suffix = fallbacks.contains(serverInfo) ? "*" : "";
+    // debug
     System.out.println("+ " + name + suffix + " (" + address.toString() + ")");
   }
 
@@ -97,6 +98,7 @@ public class ServerManager {
       fallbacks.remove(serverInfo);
       updateFallbacks();
     }
+    // debug
     System.out.println("- " + name);
   }
 }

@@ -27,7 +27,7 @@ import org.bukkit.event.player.PlayerLoginEvent;
  * This class checks if the player joins with the valid proxy server. Nevertheless, it is
  * recommended to install an additional firewall.
  */
-public class Login implements Listener {
+public class CloudListenerOnlyProxy implements Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onLogin(PlayerLoginEvent e) {

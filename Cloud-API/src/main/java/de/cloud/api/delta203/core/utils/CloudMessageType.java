@@ -16,10 +16,10 @@
 
 package de.cloud.api.delta203.core.utils;
 
-public enum MessageType {
+public enum CloudMessageType {
   CONNECT,
+  INGAME,
   ADDSERVER,
   REMOVESERVER,
-  COMMAND,
-  INGAME
+  COMMAND
 }

@@ -20,25 +20,22 @@ import de.cloud.api.delta203.bungee.CloudAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
-/** This class is a command and allows players to return to a lobby server. */
-public class LobbyCommand extends Command {
+public class CloudCmdCloud extends Command {
 
-  public LobbyCommand(String name) {
+  public CloudCmdCloud(String name) {
     super(name);
   }
 
   @Override
   public void execute(CommandSender sender, String[] args) {
-    if (sender instanceof ProxiedPlayer p) {
-      if (CloudAPI.serverManager.isFallback(p.getServer().getInfo())) {
-        // player is already on a lobby server
-        p.sendMessage(new TextComponent(ChatColor.RED + "You are already on a lobby server!"));
-        return;
-      }
-      p.connect(CloudAPI.serverManager.getRandomFallback());
-    }
+    TextComponent message =
+        new TextComponent(
+            ChatColor.BLUE
+                + "This server is running CloudSystem version Cloud-Master:"
+                + CloudAPI.plugin.getDescription().getVersion()
+                + " by Delta203");
+    sender.sendMessage(message);
   }
 }

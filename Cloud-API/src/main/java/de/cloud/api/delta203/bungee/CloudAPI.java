@@ -16,10 +16,11 @@
 
 package de.cloud.api.delta203.bungee;
 
-import de.cloud.api.delta203.bungee.commands.CloudCommand;
-import de.cloud.api.delta203.bungee.commands.LobbyCommand;
-import de.cloud.api.delta203.bungee.utils.ServerManager;
-import de.cloud.api.delta203.core.Channel;
+import de.cloud.api.delta203.bungee.commands.CloudCmdCloud;
+import de.cloud.api.delta203.bungee.commands.CloudCmdLobby;
+import de.cloud.api.delta203.bungee.utils.CloudServerManager;
+import de.cloud.api.delta203.core.CloudChannel;
+import de.cloud.api.delta203.core.packets.CloudPacketConnect;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -33,9 +34,13 @@ public class CloudAPI extends Plugin {
   public static Configuration config;
 
   /** Get the Cloud-API server manager. */
-  public static ServerManager serverManager;
+  public static CloudServerManager serverManager;
 
-  private static String name;
+  /** Get the Cloud-Service name. */
+  public static String name;
+
+  /** Get the Cloud-Service channel. */
+  public static CloudChannel channel;
 
   private String serverIp;
   private int serverPort;
@@ -45,7 +50,7 @@ public class CloudAPI extends Plugin {
   public void onEnable() {
     plugin = this;
     loadConfig();
-    serverManager = new ServerManager();
+    serverManager = new CloudServerManager();
 
     name = config.getString("name");
     serverIp = config.getString("server.ip");
@@ -54,30 +59,33 @@ public class CloudAPI extends Plugin {
 
     connect();
 
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCommand("cloud"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new LobbyCommand("l"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new LobbyCommand("lobby"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new LobbyCommand("hub"));
+    ProxyServer.getInstance()
+        .getPluginManager()
+        .registerCommand(plugin, new CloudCmdCloud("cloud"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCmdLobby("l"));
+    ProxyServer.getInstance()
+        .getPluginManager()
+        .registerCommand(plugin, new CloudCmdLobby("lobby"));
+    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCmdLobby("hub"));
   }
 
   private void loadConfig() {
-    FileManager configYml = new FileManager("config.yml");
+    CloudFileManager configYml = new CloudFileManager("config.yml");
     configYml.create();
     configYml.load();
     config = configYml.get();
   }
 
   private void connect() {
-    Channel channel = new Channel(serverIp, serverPort, serverKey);
-    channel.connect(name);
-  }
-
-  /**
-   * This method gets the service name.
-   *
-   * @return the name of service
-   */
-  public static String getServiceName() {
-    return name;
+    channel = new CloudChannel(name, serverIp, serverPort, serverKey);
+    if (!channel.connect()) return;
+    // send connection packet
+    CloudPacketConnect packetConnect = new CloudPacketConnect();
+    packetConnect.k(serverKey);
+    packetConnect.s(name);
+    System.out.println(packetConnect.message());
+    channel.sendMessage(packetConnect.message());
+    // start main thread
+    channel.start();
   }
 }

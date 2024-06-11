@@ -16,10 +16,12 @@
 
 package de.cloud.api.delta203.spigot;
 
-import de.cloud.api.delta203.core.Channel;
-import de.cloud.api.delta203.core.utils.ServerState;
-import de.cloud.api.delta203.spigot.commands.UpdateStateCommand;
-import de.cloud.api.delta203.spigot.listeners.Login;
+import de.cloud.api.delta203.core.CloudChannel;
+import de.cloud.api.delta203.core.packets.CloudPacketConnect;
+import de.cloud.api.delta203.core.packets.CloudPacketInGame;
+import de.cloud.api.delta203.core.utils.CloudServerState;
+import de.cloud.api.delta203.spigot.commands.CloudCmdUpdateState;
+import de.cloud.api.delta203.spigot.listeners.CloudListenerOnlyProxy;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -32,18 +34,24 @@ public class CloudAPI extends JavaPlugin {
   /** Get the Cloud-API file configuration. */
   public static Configuration config;
 
-  private static String name;
-  private static ServerState state;
+  /** Get the Cloud-Service name. */
+  public static String name;
 
+  /** Get the Cloud-Service channel. */
+  public static CloudChannel channel;
+
+  private static CloudServerState state;
+
+  /** Get the Cloud-Service ip address. */
   public static String serverIp;
+
   private int serverPort;
   private String serverKey;
-  private static Channel channel;
 
   @Override
   public void onEnable() {
     plugin = this;
-    state = ServerState.LOBBY;
+    state = CloudServerState.LOBBY;
     loadConfig();
 
     name = config.getString("name");
@@ -53,43 +61,43 @@ public class CloudAPI extends JavaPlugin {
 
     connect();
 
-    getCommand("updateState").setExecutor(new UpdateStateCommand());
-    Bukkit.getPluginManager().registerEvents(new Login(), plugin);
+    getCommand("updateState").setExecutor(new CloudCmdUpdateState());
+    Bukkit.getPluginManager().registerEvents(new CloudListenerOnlyProxy(), plugin);
   }
 
   private void loadConfig() {
-    FileManager configYml = new FileManager("config.yml");
+    CloudFileManager configYml = new CloudFileManager("config.yml");
     configYml.create();
     configYml.load();
     config = configYml.get();
   }
 
   private void connect() {
-    channel = new Channel(serverIp, serverPort, serverKey);
-    channel.connect(name);
+    channel = new CloudChannel(name, serverIp, serverPort, serverKey);
+    if (!channel.connect()) return;
+    // send connection packet
+    CloudPacketConnect packetConnect = new CloudPacketConnect();
+    packetConnect.k(serverKey);
+    packetConnect.s(name);
+    channel.sendMessage(packetConnect.message());
+    // start main thread
+    channel.start();
   }
 
   /**
-   * This method gets the service name.
+   * This method gets the cloud service state.
    *
-   * @return the name of service
+   * @return the service state
    */
-  public static String getServiceName() {
-    return name;
-  }
-
-  /**
-   * This method gets the service server state.
-   *
-   * @return the server state
-   */
-  public static ServerState getServiceState() {
+  public static CloudServerState getServiceState() {
     return state;
   }
 
-  /** This method sets the {@link ServerState} to INGAME. */
+  /** This method sets the {@link CloudServerState} to INGAME. */
   public static void updateServiceState() {
-    state = ServerState.INGAME;
-    channel.sendMessage(channel.getCommunication().inGameMessage().toString());
+    state = CloudServerState.INGAME;
+    CloudPacketInGame packetInGame = new CloudPacketInGame();
+    packetInGame.k(plugin.serverKey);
+    channel.sendMessage(packetInGame.message());
   }
 }

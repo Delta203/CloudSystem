@@ -1,4 +1,4 @@
-# Server - API Communication
+# Packet Communication
 All necessary messages and information between server and sockets will be documented in this file.
 ## Structure
 ```json5
@@ -17,23 +17,18 @@ public void generate() {
   key = sha256(raw);
 }
 ```
-## Message Types
-```json5
-Type {
-  CONNECT,          // 0
-  ADDSERVER,        // 1
-  REMOVESERVER,     // 2
-  COMMAND,          // 3
-  INGAME,           // 4
-  DISCONNECT        // Automatically
-}
-```
-### Connect:
+## API
+### CloudPacketConnect:
 A socket connects to the server and is then registered by the server.
 ```json5
 "data": {
-  "name": String    // Server name
+  "service": String // Service name
 }
+```
+### CloudPacketInGame:
+Switch a server to `INGAME` and a new server will be started automatically if the cloud storage is not exhausted.
+```json5
+"data": {}
 ```
 ### Add Server:
 The cloud sends this message to the proxy to add a server.
@@ -58,10 +53,3 @@ Send a command to a service.
   "command": String // Command
 }
 ```
-### In game:
-Switch a server to `ingame` and a new server will be started automatically if the cloud storage is not exhausted.
-```json5
-"data": {}
-```
-### Disconnect:
-As soon as a socket is closed, it automatically disconnects from the server. Therefore, the message is not required manually.

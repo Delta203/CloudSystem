@@ -53,7 +53,7 @@ public class Communication {
     JsonObject message = JsonParser.parseString(string).getAsJsonObject();
     switch (MessageType.valueOf(message.get("type").getAsString())) {
       case CONNECT:
-        String name = message.get("data").getAsJsonObject().get("name").getAsString();
+        String name = message.get("data").getAsJsonObject().get("service").getAsString();
         channel.initialise(name);
         break;
       case INGAME:
