@@ -27,7 +27,7 @@ public class CloudPacketConnect {
   public static final CloudMessageType type = CloudMessageType.CONNECT;
 
   private String key;
-  private String service;
+  private String name;
 
   public CloudPacketConnect() {}
 
@@ -35,8 +35,8 @@ public class CloudPacketConnect {
     return key;
   }
 
-  public String getService() {
-    return service;
+  public String getName() {
+    return name;
   }
 
   public JsonObject getAsJson() {
@@ -44,7 +44,7 @@ public class CloudPacketConnect {
     message.addProperty("key", Objects.requireNonNull(key));
     message.addProperty("type", type.name());
     JsonObject data = new JsonObject();
-    data.addProperty("service", Objects.requireNonNull(service));
+    data.addProperty("name", Objects.requireNonNull(name));
     message.add("data", data);
     return message;
   }
@@ -70,9 +70,9 @@ public class CloudPacketConnect {
   /**
    * This method adds the service name to the packet.
    *
-   * @param service the name of service
+   * @param name the name of service
    */
-  public void s(String service) {
-    this.service = service;
+  public void n(String name) {
+    this.name = name;
   }
 }

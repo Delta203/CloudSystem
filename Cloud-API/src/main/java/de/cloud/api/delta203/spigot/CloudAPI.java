@@ -78,7 +78,7 @@ public class CloudAPI extends JavaPlugin {
     // send connection packet
     CloudPacketConnect packetConnect = new CloudPacketConnect();
     packetConnect.k(serverKey);
-    packetConnect.s(name);
+    packetConnect.n(name);
     channel.sendMessage(packetConnect.message());
     // start main thread
     channel.start();
