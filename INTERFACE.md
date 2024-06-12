@@ -22,7 +22,7 @@ A socket connects to the server and is then registered by the server.
 ```json5
 "type": "CONNECT",
 "data": {
-  "service": String // Service name
+  "name": String    // Service name
 }
 ```
 ## CloudPacketInGame:
