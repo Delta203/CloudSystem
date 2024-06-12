@@ -42,7 +42,9 @@ public class CloudAPI extends Plugin {
   /** Get the Cloud-Service channel. */
   public static CloudChannel channel;
 
-  private String serverIp;
+  /** Get the Cloud-Service ip address. */
+  public static String serverIp;
+
   private int serverPort;
   private String serverKey;
 

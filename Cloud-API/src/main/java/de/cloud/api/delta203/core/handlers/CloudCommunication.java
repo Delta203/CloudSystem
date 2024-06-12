@@ -24,6 +24,7 @@ import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
 
+/** This class handles the server socket communication. */
 public class CloudCommunication {
 
   public CloudCommunication() {}
