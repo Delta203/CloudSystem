@@ -16,6 +16,7 @@
 
 package de.cloud.master.delta203.core.utils;
 
+/** This class contains all minecraft alternate color codes as ANSI code. */
 public enum ANSIColors {
   RESET("\033[0m"),
   DARK_RED("\033[38;2;190;0;0m"),
@@ -41,6 +42,14 @@ public enum ANSIColors {
     this.code = code;
   }
 
+  /**
+   * This method translates alternate color codes in a string to ANSI color codes.
+   *
+   * @param altColorChar the character of alternate color code
+   * @param remove if the color code should be removed or be translated
+   * @param textToTranslate the text to translate
+   * @return the translated input message
+   */
   private static String translate(String altColorChar, boolean remove, String textToTranslate) {
     return textToTranslate
         .replace(altColorChar + "4", remove ? "" : DARK_RED.code)
@@ -62,10 +71,24 @@ public enum ANSIColors {
         .replace(altColorChar + "r", remove ? "" : RESET.code);
   }
 
+  /**
+   * This method translates alternate color codes in a string to ANSI color codes.
+   *
+   * @param altColorChar the character of alternate color code
+   * @param textToTranslate the text to translate
+   * @return the translated input message
+   */
   public static String translateAlternateColorCodes(String altColorChar, String textToTranslate) {
     return translate(altColorChar, false, textToTranslate);
   }
 
+  /**
+   * This method removes alternate color codes from a string.
+   *
+   * @param altColorChar the character of alternate color code
+   * @param textToTranslate the text to translate
+   * @return the modified input message
+   */
   public static String removeAlternateColorCodes(String altColorChar, String textToTranslate) {
     return translate(altColorChar, true, textToTranslate);
   }

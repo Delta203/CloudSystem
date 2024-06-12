@@ -19,19 +19,30 @@ package de.cloud.master.delta203.core.handlers;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.cloud.master.delta203.core.Service;
-import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.MessageType;
-import de.cloud.master.delta203.main.Cloud;
 import de.cloud.master.delta203.main.sockets.Channel;
 
+/** This class handles the server socket communication. */
 public class Communication {
 
   public Communication() {}
 
+  /**
+   * This method checks if the message is empty.
+   *
+   * @param string the message
+   * @return the message is empty
+   */
   private boolean isEmpty(String string) {
     return (string == null || string.isEmpty());
   }
 
+  /**
+   * This method checks if the message is not in JSON format.
+   *
+   * @param string the message
+   * @return the message is not in JSON format
+   */
   private boolean notJson(String string) {
     try {
       JsonParser.parseString(string).getAsJsonObject();
@@ -41,6 +52,13 @@ public class Communication {
     }
   }
 
+  /**
+   * This method checks if the message is a valid server, channel message.
+   *
+   * @param key the server socket key
+   * @param string the message
+   * @return the message is valid
+   */
   public boolean isValid(String key, String string) {
     if (isEmpty(string)) return false;
     if (notJson(string)) return false;
@@ -49,11 +67,16 @@ public class Communication {
     return message.get("key").getAsString().equals(key);
   }
 
+  /**
+   * This method handles every valid message from the incoming channel.
+   *
+   * @param string the message
+   */
   public void handle(Channel channel, String string) {
     JsonObject message = JsonParser.parseString(string).getAsJsonObject();
     switch (MessageType.valueOf(message.get("type").getAsString())) {
       case CONNECT:
-        String name = message.get("data").getAsJsonObject().get("service").getAsString();
+        String name = message.get("data").getAsJsonObject().get("name").getAsString();
         channel.initialise(name);
         break;
       case INGAME:
@@ -61,49 +84,5 @@ public class Communication {
         service.setServiceInGame();
         break;
     }
-  }
-
-  public void broadcastProxies(String message) {
-    for (Service service : Cloud.services.values()) {
-      if (service.getServiceGroup().getType() == GroupType.SERVER) continue;
-      Channel channel = service.getServiceChannel();
-      channel.sendMessage(message);
-    }
-  }
-
-  /*
-   * Message builders
-   */
-
-  public JsonObject addServerMessage(String name, int port) {
-    JsonObject message = new JsonObject();
-    message.addProperty("key", Cloud.key);
-    message.addProperty("type", MessageType.ADDSERVER.name());
-    JsonObject data = new JsonObject();
-    data.addProperty("name", name);
-    data.addProperty("ip", Cloud.server.getIp());
-    data.addProperty("port", port);
-    message.add("data", data);
-    return message;
-  }
-
-  public JsonObject removeServerMessage(String name) {
-    JsonObject message = new JsonObject();
-    message.addProperty("key", Cloud.key);
-    message.addProperty("type", MessageType.REMOVESERVER.name());
-    JsonObject data = new JsonObject();
-    data.addProperty("name", name);
-    message.add("data", data);
-    return message;
-  }
-
-  public JsonObject dispatchCommandMessage(String command) {
-    JsonObject message = new JsonObject();
-    message.addProperty("key", Cloud.key);
-    message.addProperty("type", MessageType.COMMAND.name());
-    JsonObject data = new JsonObject();
-    data.addProperty("command", command);
-    message.add("data", data);
-    return message;
   }
 }

@@ -21,19 +21,31 @@ import java.util.HashMap;
 public class Constants {
 
   public static class Locals {
+    /** The version of the cloud master. */
     public static String VERSION = "1.0-SNAPSHOT";
+
+    /** The root directory for the cloud system. */
     public static String ROOT = "cloud/";
+
+    /** The API version for the cloud system. */
     public static String API = "no api";
 
+    /** The default port for minecraft servers. */
     public static int DEFAULT_PORT = 25565;
+
+    /** The starting port for dynamic servers. */
     public static int START_PORT = 40001;
 
+    /** The start command for Linux systems. */
     public static String START_LINUX = "Linux start";
+
+    /** The start command for Windows systems. */
     public static String START_WINDOWS =
         "java -Xms%memory%M -Xmx%memory%M -XX:+UseG1GC -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
   }
 
   public static class Links {
+    /** The map of proxy names to their download urls. */
     public static HashMap<String, String> PROXIES =
         new HashMap<>() {
           {
@@ -42,6 +54,8 @@ public class Constants {
                 "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar");
           }
         };
+
+    /** The map of server names to their download urls. */
     public static HashMap<String, String> SERVERS =
         new HashMap<>() {
           {

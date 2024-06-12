@@ -16,6 +16,8 @@
 
 package de.cloud.master.delta203.core;
 
+import de.cloud.master.delta203.core.packets.PacketAddServer;
+import de.cloud.master.delta203.core.packets.PacketCommand;
 import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.OSType;
@@ -270,21 +272,19 @@ public class Service extends Thread {
       for (Service connected : Cloud.services.values()) {
         if (connected.group.getType() != GroupType.SERVER) continue;
         if (connected.channel == null) continue;
-        connected
-            .channel
-            .getCommunication()
-            .broadcastProxies(
-                connected
-                    .channel
-                    .getCommunication()
-                    .addServerMessage(connected.getServiceName(), connected.getServicePort())
-                    .toString());
+        PacketAddServer addServer = new PacketAddServer();
+        addServer.n(connected.getServiceName());
+        addServer.i(Cloud.server.getIp());
+        addServer.p(connected.getServicePort());
+        connected.channel.broadcast(addServer.message(), true);
       }
     } else {
       // broadcast new service to proxy
-      channel
-          .getCommunication()
-          .broadcastProxies(channel.getCommunication().addServerMessage(name, port).toString());
+      PacketAddServer addServer = new PacketAddServer();
+      addServer.n(name);
+      addServer.i(Cloud.server.getIp());
+      addServer.p(port);
+      channel.broadcast(addServer.message(), true);
     }
   }
 
@@ -349,7 +349,9 @@ public class Service extends Thread {
     if (process == null || !process.isAlive()) return;
     if (channel != null) {
       String command = group.getType() == GroupType.PROXY ? "end" : "stop";
-      channel.sendMessage(channel.getCommunication().dispatchCommandMessage(command).toString());
+      PacketCommand packetCommand = new PacketCommand();
+      packetCommand.c(command);
+      channel.sendMessage(packetCommand.message());
     } else {
       process.destroy();
     }

@@ -18,6 +18,8 @@ package de.cloud.master.delta203.main.sockets;
 
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.handlers.Communication;
+import de.cloud.master.delta203.core.packets.PacketRemoveServer;
+import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.BufferedReader;
 import java.io.IOException;
@@ -66,9 +68,17 @@ public class Channel extends Thread {
     }
   }
 
-  public void sendMessage(String string) {
-    writer.println(string);
+  public void sendMessage(String message) {
+    writer.println(message);
     writer.flush();
+  }
+
+  public void broadcast(String message, boolean onlyProxy) {
+    for (Service service : Cloud.services.values()) {
+      if (onlyProxy && service.getServiceGroup().getType() == GroupType.SERVER) continue;
+      Channel channel = service.getServiceChannel();
+      channel.sendMessage(message);
+    }
   }
 
   @Override
@@ -91,11 +101,15 @@ public class Channel extends Thread {
         break;
       }
     }
+
     Cloud.console.print(
         service.getServiceName() + ":" + service.getServicePort() + " has disconnected.",
         "§bChannel§r");
-    communication.broadcastProxies(
-        communication.removeServerMessage(service.getServiceName()).toString());
+    // send remove server
+    PacketRemoveServer removeServer = new PacketRemoveServer();
+    removeServer.n(service.getServiceName());
+    broadcast(removeServer.message(), true);
+    // stop service
     service.stopProcess();
   }
 }

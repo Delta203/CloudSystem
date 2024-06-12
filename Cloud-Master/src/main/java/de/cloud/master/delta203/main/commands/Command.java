@@ -17,6 +17,7 @@
 package de.cloud.master.delta203.main.commands;
 
 import de.cloud.master.delta203.core.Service;
+import de.cloud.master.delta203.core.packets.PacketCommand;
 import de.cloud.master.delta203.main.Cloud;
 
 public class Command {
@@ -44,10 +45,9 @@ public class Command {
       Cloud.console.print("The service channel is not connected.");
       return;
     }
-    service
-        .getServiceChannel()
-        .sendMessage(
-            service.getServiceChannel().getCommunication().dispatchCommandMessage(cmd).toString());
+    PacketCommand packetCommand = new PacketCommand();
+    packetCommand.c(command);
+    service.getServiceChannel().sendMessage(packetCommand.message());
     Cloud.console.print("The command was successfully sent!");
   }
 }
