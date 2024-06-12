@@ -17,38 +17,42 @@ public void generate() {
   key = sha256(raw);
 }
 ```
-## API
-### CloudPacketConnect:
+## CloudPacketConnect:
 A socket connects to the server and is then registered by the server.
 ```json5
+"type": "CONNECT",
 "data": {
   "service": String // Service name
 }
 ```
-### CloudPacketInGame:
+## CloudPacketInGame:
 Switch a server to `INGAME` and a new server will be started automatically if the cloud storage is not exhausted.
 ```json5
+"type": "INGAME",
 "data": {}
 ```
-### Add Server:
+## PacketAddServer:
 The cloud sends this message to the proxy to add a server.
 ```json5
+"type": "ADDSERVER",
 "data": {
   "name": String,   // Server name
   "ip":   String,   // Server ip
   "port": int       // Server port
 }
 ```
-### Remove Server:
+## PacketRemoveServer
 The cloud sends this message to the proxy to remove a server.
 ```json5
+"type": "REMOVESERVER",
 "data": {
   "name": String    // Server name
 }
 ```
-### Command:
+## PacketCommand:
 Send a command to a service.
 ```json5
+"type": "COMMAND",
 "data": {
   "command": String // Command
 }
