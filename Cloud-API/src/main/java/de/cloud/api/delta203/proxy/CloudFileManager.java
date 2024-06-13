@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.bungee;
+package de.cloud.api.delta203.proxy;
 
 import java.io.File;
 import java.io.IOException;

@@ -14,18 +14,19 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.bungee;
+package de.cloud.api.delta203.server;
 
-import de.cloud.api.delta203.bungee.commands.CloudCmdCloud;
-import de.cloud.api.delta203.bungee.commands.CloudCmdLobby;
-import de.cloud.api.delta203.bungee.utils.CloudServerManager;
 import de.cloud.api.delta203.core.CloudChannel;
 import de.cloud.api.delta203.core.packets.CloudPacketConnect;
-import net.md_5.bungee.api.ProxyServer;
-import net.md_5.bungee.api.plugin.Plugin;
-import net.md_5.bungee.config.Configuration;
+import de.cloud.api.delta203.core.packets.CloudPacketInGame;
+import de.cloud.api.delta203.core.utils.CloudServerState;
+import de.cloud.api.delta203.server.commands.CloudCmdUpdateState;
+import de.cloud.api.delta203.server.listeners.CloudListenerOnlyProxy;
+import org.bukkit.Bukkit;
+import org.bukkit.configuration.Configuration;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public class CloudAPI extends Plugin {
+public class CloudAPI extends JavaPlugin {
 
   /** Get the Cloud-API plugin instance. */
   public static CloudAPI plugin;
@@ -33,14 +34,13 @@ public class CloudAPI extends Plugin {
   /** Get the Cloud-API file configuration. */
   public static Configuration config;
 
-  /** Get the Cloud-API server manager. */
-  public static CloudServerManager serverManager;
-
   /** Get the Cloud-Service name. */
   public static String name;
 
   /** Get the Cloud-Service channel. */
   public static CloudChannel channel;
+
+  private static CloudServerState state;
 
   /** Get the Cloud-Service ip address. */
   public static String serverIp;
@@ -51,8 +51,8 @@ public class CloudAPI extends Plugin {
   @Override
   public void onEnable() {
     plugin = this;
+    state = CloudServerState.LOBBY;
     loadConfig();
-    serverManager = new CloudServerManager();
 
     name = config.getString("name");
     serverIp = config.getString("server.ip");
@@ -61,14 +61,8 @@ public class CloudAPI extends Plugin {
 
     connect();
 
-    ProxyServer.getInstance()
-        .getPluginManager()
-        .registerCommand(plugin, new CloudCmdCloud("cloud"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCmdLobby("l"));
-    ProxyServer.getInstance()
-        .getPluginManager()
-        .registerCommand(plugin, new CloudCmdLobby("lobby"));
-    ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCmdLobby("hub"));
+    getCommand("updateState").setExecutor(new CloudCmdUpdateState());
+    Bukkit.getPluginManager().registerEvents(new CloudListenerOnlyProxy(), plugin);
   }
 
   private void loadConfig() {
@@ -88,5 +82,22 @@ public class CloudAPI extends Plugin {
     channel.sendMessage(packetConnect.message());
     // start main thread
     channel.start();
+  }
+
+  /**
+   * This method gets the cloud service state.
+   *
+   * @return the service state
+   */
+  public static CloudServerState getServiceState() {
+    return state;
+  }
+
+  /** This method sets the {@link CloudServerState} to INGAME. */
+  public static void updateServiceState() {
+    state = CloudServerState.INGAME;
+    CloudPacketInGame packetInGame = new CloudPacketInGame();
+    packetInGame.k(plugin.serverKey);
+    channel.sendMessage(packetInGame.message());
   }
 }

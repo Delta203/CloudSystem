@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.spigot;
+package de.cloud.api.delta203.server;
 
 import java.io.File;
 import java.io.IOException;

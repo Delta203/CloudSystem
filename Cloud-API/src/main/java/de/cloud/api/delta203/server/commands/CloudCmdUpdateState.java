@@ -14,10 +14,10 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.spigot.commands;
+package de.cloud.api.delta203.server.commands;
 
 import de.cloud.api.delta203.core.utils.CloudServerState;
-import de.cloud.api.delta203.spigot.CloudAPI;
+import de.cloud.api.delta203.server.CloudAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

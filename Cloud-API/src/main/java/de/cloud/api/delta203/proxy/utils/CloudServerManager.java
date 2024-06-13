@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.bungee.utils;
+package de.cloud.api.delta203.proxy.utils;
 
 import java.net.SocketAddress;
 import java.util.ArrayList;

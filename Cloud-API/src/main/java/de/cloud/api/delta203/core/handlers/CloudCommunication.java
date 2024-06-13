@@ -18,7 +18,7 @@ package de.cloud.api.delta203.core.handlers;
 
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import de.cloud.api.delta203.bungee.CloudAPI;
+import de.cloud.api.delta203.proxy.CloudAPI;
 import de.cloud.api.delta203.core.utils.CloudMessageType;
 import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
@@ -106,7 +106,7 @@ public class CloudCommunication {
             // server server
             Bukkit.getScheduler()
                 .runTask(
-                    de.cloud.api.delta203.spigot.CloudAPI.plugin,
+                    de.cloud.api.delta203.server.CloudAPI.plugin,
                     () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
           }
           break;

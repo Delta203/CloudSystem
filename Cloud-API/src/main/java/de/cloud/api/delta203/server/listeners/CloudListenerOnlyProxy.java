@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.spigot.listeners;
+package de.cloud.api.delta203.server.listeners;
 
-import de.cloud.api.delta203.spigot.CloudAPI;
+import de.cloud.api.delta203.server.CloudAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
