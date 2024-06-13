@@ -17,6 +17,16 @@ public void generate() {
   key = sha256(raw);
 }
 ```
+## Message Types
+```json5
+Type {
+  CONNECT,          // 0
+  INGAME,           // 1
+  ADDSERVER,        // 2
+  REMOVESERVER,     // 3
+  COMMAND           // 4
+}
+```
 ## CloudPacketConnect:
 A socket connects to the server and is then registered by the server.
 ```json5
