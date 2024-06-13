@@ -27,7 +27,7 @@ Type {
   COMMAND           // proxy
 }
 ```
-## CloudPacketConnect:
+## PacketConnect:
 A socket connects to the server and is then registered by the server.
 ```json5
 "type": "CONNECT",
@@ -35,7 +35,7 @@ A socket connects to the server and is then registered by the server.
   "name": String    // Service name
 }
 ```
-## CloudPacketInGame:
+## PacketInGame:
 Switch a server to `INGAME` and a new server will be started automatically if the cloud storage is not exhausted.
 ```json5
 "type": "INGAME",
