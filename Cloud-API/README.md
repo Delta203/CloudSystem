@@ -67,9 +67,9 @@ public static CloudChannel channel;
 public static String serverIp;
 
 /** This method gets the cloud service state. */
-public static CloudServerState getServiceState() {}
+public static CloudServiceState getServiceState() {}
 
-/** This method sets the CloudServerState to INGAME. */
+/** This method sets the CloudServiceState to INGAME. */
 public static void updateServiceState() {}
 ```
 
