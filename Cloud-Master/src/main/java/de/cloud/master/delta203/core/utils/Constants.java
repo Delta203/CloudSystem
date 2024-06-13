@@ -22,7 +22,7 @@ public class Constants {
 
   public static class Locals {
     /** The version of the cloud master. */
-    public static String VERSION = "1.0-SNAPSHOT";
+    public static String VERSION = "1.0.0-SNAPSHOT";
 
     /** The root directory for the cloud system. */
     public static String ROOT = "cloud/";
