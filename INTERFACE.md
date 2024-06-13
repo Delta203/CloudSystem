@@ -20,11 +20,11 @@ public void generate() {
 ## Message Types
 ```json5
 Type {
-  CONNECT,          // 0
-  INGAME,           // 1
-  ADDSERVER,        // 2
-  REMOVESERVER,     // 3
-  COMMAND           // 4
+  CONNECT,          // server
+  INGAME,           // server
+  ADDSERVER,        // proxy
+  REMOVESERVER,     // proxy
+  COMMAND           // proxy
 }
 ```
 ## CloudPacketConnect:
