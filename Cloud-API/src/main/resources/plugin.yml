@@ -3,7 +3,7 @@ version: 1.0.0-SNAPSHOT
 api-version: 1.13
 author: Delta203
 
-main: de.cloud.api.delta203.spigot.CloudAPI
+main: de.cloud.api.delta203.server.CloudAPI
 
 commands:
   updateState:
