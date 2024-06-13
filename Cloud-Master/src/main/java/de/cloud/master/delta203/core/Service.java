@@ -21,7 +21,7 @@ import de.cloud.master.delta203.core.packets.PacketCommand;
 import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.OSType;
-import de.cloud.master.delta203.core.utils.ServerState;
+import de.cloud.master.delta203.core.utils.ServiceState;
 import de.cloud.master.delta203.main.Cloud;
 import de.cloud.master.delta203.main.sockets.Channel;
 
@@ -39,7 +39,7 @@ public class Service extends Thread {
 
   private String name;
   private int port;
-  private ServerState state;
+  private ServiceState state;
 
   private Channel channel;
   private Process process;
@@ -48,7 +48,7 @@ public class Service extends Thread {
     this.group = group;
     setName();
     setPort();
-    state = ServerState.LOBBY;
+    state = ServiceState.LOBBY;
     channel = null;
     if (group.isStatic()) path = Cloud.pathManager.getPathServicesStatic() + "/" + name;
     else path = Cloud.pathManager.getPathServicesTemp() + "/" + name;
@@ -96,7 +96,7 @@ public class Service extends Thread {
     return port;
   }
 
-  public ServerState getServiceState() {
+  public ServiceState getServiceState() {
     return state;
   }
 
@@ -109,7 +109,7 @@ public class Service extends Thread {
   }
 
   public void setServiceInGame() {
-    state = ServerState.INGAME;
+    state = ServiceState.INGAME;
     group.runServices();
   }
 

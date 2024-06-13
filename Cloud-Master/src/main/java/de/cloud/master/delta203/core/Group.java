@@ -19,7 +19,7 @@ package de.cloud.master.delta203.core;
 import com.google.gson.JsonObject;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.utils.GroupType;
-import de.cloud.master.delta203.core.utils.ServerState;
+import de.cloud.master.delta203.core.utils.ServiceState;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.File;
 
@@ -122,7 +122,7 @@ public class Group {
     for (Service service : Cloud.services.values()) {
       if (service.getServiceGroup().equals(this)) {
         total++;
-        if (service.getServiceState() == ServerState.LOBBY) online++;
+        if (service.getServiceState() == ServiceState.LOBBY) online++;
       }
     }
     int needed = minAmount - online;
