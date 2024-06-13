@@ -33,6 +33,9 @@ public static CloudServerManager serverManager;
 /** Get the Cloud-Service name. */
 public static String name;
 
+/** Get the Cloud-Service state. */
+public static final CloudServiceState state = CloudServiceState.PROXY;
+
 /** Get the Cloud-Service channel. */
 public static CloudChannel channel;
 

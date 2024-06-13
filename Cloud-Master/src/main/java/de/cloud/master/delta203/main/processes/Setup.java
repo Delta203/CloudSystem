@@ -131,7 +131,7 @@ public class Setup {
     Cloud.config.setData(config);
     Cloud.config.save();
     Cloud.console.print("Configurations are saved...");
-    Cloud.console.print("§2The installation has been completed!");
+    Cloud.console.print("§aThe installation has been completed!");
     Cloud.console.clear();
   }
 }

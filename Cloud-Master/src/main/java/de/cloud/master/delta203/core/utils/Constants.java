@@ -62,10 +62,9 @@ public class Constants {
             put("spigot-1.20.6", "https://download.getbukkit.org/spigot/spigot-1.20.6.jar");
             put("spigot-1.20.1", "https://download.getbukkit.org/spigot/spigot-1.20.1.jar");
             put("spigot-1.18.2", "https://download.getbukkit.org/spigot/spigot-1.18.2.jar");
-            put("spigot-1.12.2", "https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar");
-            put(
-                "spigot-1.8.8",
-                "https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar");
+            // put("spigot-1.12.2", "https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar");
+            // put("spigot-1.8.8",
+            // "https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar");
           }
         };
   }

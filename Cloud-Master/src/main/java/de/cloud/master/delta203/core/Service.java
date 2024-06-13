@@ -48,7 +48,7 @@ public class Service extends Thread {
     this.group = group;
     setName();
     setPort();
-    state = ServiceState.LOBBY;
+    state = group.getType() == GroupType.PROXY ? ServiceState.PROXY : ServiceState.LOBBY;
     channel = null;
     if (group.isStatic()) path = Cloud.pathManager.getPathServicesStatic() + "/" + name;
     else path = Cloud.pathManager.getPathServicesTemp() + "/" + name;
@@ -338,7 +338,8 @@ public class Service extends Thread {
     Cloud.memory -= group.getMemory();
     // restart services if needed
     try {
-      Thread.sleep(2000);
+      // 7500 to prevent non access error
+      Thread.sleep(7500);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }

@@ -16,6 +16,7 @@
 
 package de.cloud.api.delta203.proxy;
 
+import de.cloud.api.delta203.core.utils.CloudServiceState;
 import de.cloud.api.delta203.proxy.commands.CloudCmdCloud;
 import de.cloud.api.delta203.proxy.commands.CloudCmdLobby;
 import de.cloud.api.delta203.proxy.utils.CloudServerManager;
@@ -38,6 +39,9 @@ public class CloudAPI extends Plugin {
 
   /** Get the Cloud-Service name. */
   public static String name;
+
+  /** Get the Cloud-Service state. */
+  public static final CloudServiceState state = CloudServiceState.PROXY;
 
   /** Get the Cloud-Service channel. */
   public static CloudChannel channel;
