@@ -33,7 +33,7 @@ public class CloudCmdCloud extends Command {
     TextComponent message =
         new TextComponent(
             ChatColor.BLUE
-                + "This server is running CloudSystem version Cloud-Master:"
+                + "This server is running cloud system version Cloud-Master:"
                 + CloudAPI.plugin.getDescription().getVersion()
                 + " by Delta203");
     sender.sendMessage(message);
