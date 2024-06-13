@@ -16,7 +16,7 @@
 
 package de.cloud.api.delta203.core.utils;
 
-public enum CloudServerState {
+public enum CloudServiceState {
   LOBBY,
   INGAME
 }

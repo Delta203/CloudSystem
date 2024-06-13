@@ -19,7 +19,7 @@ package de.cloud.api.delta203.server;
 import de.cloud.api.delta203.core.CloudChannel;
 import de.cloud.api.delta203.core.packets.CloudPacketConnect;
 import de.cloud.api.delta203.core.packets.CloudPacketInGame;
-import de.cloud.api.delta203.core.utils.CloudServerState;
+import de.cloud.api.delta203.core.utils.CloudServiceState;
 import de.cloud.api.delta203.server.commands.CloudCmdUpdateState;
 import de.cloud.api.delta203.server.listeners.CloudListenerOnlyProxy;
 import org.bukkit.Bukkit;
@@ -40,7 +40,7 @@ public class CloudAPI extends JavaPlugin {
   /** Get the Cloud-Service channel. */
   public static CloudChannel channel;
 
-  private static CloudServerState state;
+  private static CloudServiceState state;
 
   /** Get the Cloud-Service ip address. */
   public static String serverIp;
@@ -51,7 +51,7 @@ public class CloudAPI extends JavaPlugin {
   @Override
   public void onEnable() {
     plugin = this;
-    state = CloudServerState.LOBBY;
+    state = CloudServiceState.LOBBY;
     loadConfig();
 
     name = config.getString("name");
@@ -89,13 +89,13 @@ public class CloudAPI extends JavaPlugin {
    *
    * @return the service state
    */
-  public static CloudServerState getServiceState() {
+  public static CloudServiceState getServiceState() {
     return state;
   }
 
-  /** This method sets the {@link CloudServerState} to INGAME. */
+  /** This method sets the {@link CloudServiceState} to INGAME. */
   public static void updateServiceState() {
-    state = CloudServerState.INGAME;
+    state = CloudServiceState.INGAME;
     CloudPacketInGame packetInGame = new CloudPacketInGame();
     packetInGame.k(plugin.serverKey);
     channel.sendMessage(packetInGame.message());

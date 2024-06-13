@@ -16,7 +16,7 @@
 
 package de.cloud.api.delta203.server.commands;
 
-import de.cloud.api.delta203.core.utils.CloudServerState;
+import de.cloud.api.delta203.core.utils.CloudServiceState;
 import de.cloud.api.delta203.server.CloudAPI;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -35,7 +35,7 @@ public class CloudCmdUpdateState implements CommandExecutor {
       sender.sendMessage(ChatColor.RED + "You must be op to execute the command!");
       return false;
     }
-    if (CloudAPI.getServiceState() == CloudServerState.INGAME) {
+    if (CloudAPI.getServiceState() == CloudServiceState.INGAME) {
       sender.sendMessage(ChatColor.RED + "The server state is already INGAME!");
       return false;
     }
