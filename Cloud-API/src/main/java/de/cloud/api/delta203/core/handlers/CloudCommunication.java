@@ -97,7 +97,7 @@ public class CloudCommunication {
         {
           JsonObject data = message.get("data").getAsJsonObject();
           String command = data.get("command").getAsString();
-          if (CloudAPI.plugin != null) {
+          if (CloudAPI.runningOnProxy()) {
             // proxy server
             ProxyServer.getInstance()
                 .getPluginManager()

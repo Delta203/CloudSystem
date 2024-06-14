@@ -31,8 +31,6 @@ public class CloudListenerOnlyProxy implements Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onLogin(PlayerLoginEvent e) {
-    System.out.println(CloudAPI.serverIp);
-    System.out.println(e.getAddress().getHostAddress());
     if (e.getAddress().getHostAddress().equals(CloudAPI.serverIp)
         || e.getAddress().getHostAddress().equals("localhost")
         || e.getAddress().getHostAddress().equals("127.0.0.1")) return;

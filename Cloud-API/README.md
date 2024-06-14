@@ -41,6 +41,9 @@ public static CloudChannel channel;
 
 /** Get the Cloud-Service ip address. */
 public static String serverIp;
+
+/** This method shows whether the Cloud API is running on a proxy server. */
+public static boolean runningOnProxy() {}
 ```
 
 ### Server Manager

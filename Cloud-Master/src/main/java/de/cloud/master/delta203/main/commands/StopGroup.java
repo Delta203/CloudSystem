@@ -46,6 +46,11 @@ public class StopGroup {
     for (Service service : Cloud.services.values()) {
       if (service.getServiceGroup() != group) continue;
       service.stopProcess();
+      try {
+        Thread.sleep(100);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
   }
 }

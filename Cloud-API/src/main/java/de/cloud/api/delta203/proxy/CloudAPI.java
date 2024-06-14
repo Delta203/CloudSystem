@@ -93,4 +93,13 @@ public class CloudAPI extends Plugin {
     // start main thread
     channel.start();
   }
+
+  /**
+   * This method shows whether the Cloud API is running on a proxy server.
+   *
+   * @return server is running on proxy
+   */
+  public static boolean runningOnProxy() {
+    return plugin != null;
+  }
 }

@@ -338,8 +338,7 @@ public class Service extends Thread {
     Cloud.memory -= group.getMemory();
     // restart services if needed
     try {
-      // 7500 to prevent non access error
-      Thread.sleep(7500);
+      Thread.sleep(2000);
     } catch (InterruptedException e) {
       throw new RuntimeException(e);
     }
@@ -347,7 +346,7 @@ public class Service extends Thread {
   }
 
   public void stopProcess() {
-    if (process == null || !process.isAlive()) return;
+    if (!isProcessAlive()) return;
     if (channel != null) {
       String command = group.getType() == GroupType.PROXY ? "end" : "stop";
       PacketCommand packetCommand = new PacketCommand();
