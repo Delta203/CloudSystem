@@ -36,6 +36,9 @@ public class Constants {
     /** The starting port for dynamic servers. */
     public static int START_PORT = 40001;
 
+    /** The highest port for dynamic servers. Equivalent to max amount of services. */
+    public static int MAX_PORT = 49999;
+
     /** The start command for Linux systems. */
     public static String START_LINUX = "Linux start";
 
@@ -62,9 +65,12 @@ public class Constants {
             put("spigot-1.20.6", "https://download.getbukkit.org/spigot/spigot-1.20.6.jar");
             put("spigot-1.20.1", "https://download.getbukkit.org/spigot/spigot-1.20.1.jar");
             put("spigot-1.18.2", "https://download.getbukkit.org/spigot/spigot-1.18.2.jar");
-            // put("spigot-1.12.2", "https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar");
-            // put("spigot-1.8.8",
-            // "https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar");
+            /* GSON not supported in 1.8 and 1.12!
+            put("spigot-1.12.2", "https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar");
+            put(
+                "spigot-1.8.8",
+                "https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar");
+             */
           }
         };
   }

@@ -21,5 +21,6 @@ public enum MessageType {
   INGAME,
   ADDSERVER,
   REMOVESERVER,
-  COMMAND
+  COMMAND,
+  SERVICEINFO
 }

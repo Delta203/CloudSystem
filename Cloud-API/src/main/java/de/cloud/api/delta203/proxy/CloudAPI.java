@@ -16,12 +16,15 @@
 
 package de.cloud.api.delta203.proxy;
 
+import de.cloud.api.delta203.core.CloudChannel;
+import de.cloud.api.delta203.core.CloudInstance;
+import de.cloud.api.delta203.core.packets.CloudPacketConnect;
 import de.cloud.api.delta203.core.utils.CloudServiceState;
 import de.cloud.api.delta203.proxy.commands.CloudCmdCloud;
 import de.cloud.api.delta203.proxy.commands.CloudCmdLobby;
 import de.cloud.api.delta203.proxy.utils.CloudServerManager;
-import de.cloud.api.delta203.core.CloudChannel;
-import de.cloud.api.delta203.core.packets.CloudPacketConnect;
+import java.util.ArrayList;
+import java.util.HashMap;
 import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.plugin.Plugin;
 import net.md_5.bungee.config.Configuration;
@@ -37,31 +40,23 @@ public class CloudAPI extends Plugin {
   /** Get the Cloud-API server manager. */
   public static CloudServerManager serverManager;
 
-  /** Get the Cloud-Service name. */
-  public static String name;
-
   /** Get the Cloud-Service state. */
   public static final CloudServiceState state = CloudServiceState.PROXY;
-
-  /** Get the Cloud-Service channel. */
-  public static CloudChannel channel;
-
-  /** Get the Cloud-Service ip address. */
-  public static String serverIp;
-
-  private int serverPort;
-  private String serverKey;
 
   @Override
   public void onEnable() {
     plugin = this;
     loadConfig();
     serverManager = new CloudServerManager();
+    CloudInstance.services = new HashMap<>();
+    CloudInstance.services.put(CloudServiceState.PROXY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.LOBBY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.INGAME, new ArrayList<>());
 
-    name = config.getString("name");
-    serverIp = config.getString("server.ip");
-    serverPort = config.getInt("server.port");
-    serverKey = config.getString("server.key");
+    CloudInstance.name = config.getString("name");
+    CloudInstance.ip = config.getString("server.ip");
+    CloudInstance.port = config.getInt("server.port");
+    CloudInstance.key = config.getString("server.key");
 
     connect();
 
@@ -83,15 +78,17 @@ public class CloudAPI extends Plugin {
   }
 
   private void connect() {
-    channel = new CloudChannel(name, serverIp, serverPort, serverKey);
-    if (!channel.connect()) return;
+    CloudInstance.channel =
+        new CloudChannel(
+            CloudInstance.name, CloudInstance.ip, CloudInstance.port, CloudInstance.key);
+    if (!CloudInstance.channel.connect()) return;
     // send connection packet
     CloudPacketConnect packetConnect = new CloudPacketConnect();
-    packetConnect.k(serverKey);
-    packetConnect.n(name);
-    channel.sendMessage(packetConnect.message());
+    packetConnect.k(CloudInstance.key);
+    packetConnect.n(CloudInstance.name);
+    CloudInstance.channel.sendMessage(packetConnect.message());
     // start main thread
-    channel.start();
+    CloudInstance.channel.start();
   }
 
   /**

@@ -16,10 +16,14 @@
 
 package de.cloud.api.delta203.core.handlers;
 
+import com.google.gson.JsonArray;
+import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import de.cloud.api.delta203.proxy.CloudAPI;
+import de.cloud.api.delta203.core.CloudInstance;
 import de.cloud.api.delta203.core.utils.CloudMessageType;
+import de.cloud.api.delta203.core.utils.CloudServiceState;
+import de.cloud.api.delta203.proxy.CloudAPI;
 import net.md_5.bungee.Util;
 import net.md_5.bungee.api.ProxyServer;
 import org.bukkit.Bukkit;
@@ -109,6 +113,21 @@ public class CloudCommunication {
                     de.cloud.api.delta203.server.CloudAPI.plugin,
                     () -> Bukkit.dispatchCommand(Bukkit.getConsoleSender(), command));
           }
+          break;
+        }
+      case SERVICEINFO:
+        {
+          JsonArray data = message.get("data").getAsJsonArray();
+          for (JsonElement element : data) {
+            JsonObject subData = element.getAsJsonObject();
+            String name = subData.get("name").getAsString();
+            String ip = subData.get("ip").getAsString();
+            int port = subData.get("port").getAsInt();
+            CloudServiceState state = CloudServiceState.valueOf(subData.get("state").getAsString());
+            System.out.println(name + " " + ip + " " + port + " " + state);
+          }
+          System.out.println("-----------");
+          System.out.println(CloudInstance.services.toString());
           break;
         }
     }

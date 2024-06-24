@@ -21,5 +21,6 @@ public enum CloudMessageType {
   INGAME,
   ADDSERVER,
   REMOVESERVER,
-  COMMAND
+  COMMAND,
+  SERVICEINFO
 }

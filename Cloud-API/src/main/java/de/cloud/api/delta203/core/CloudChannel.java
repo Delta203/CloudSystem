@@ -50,6 +50,7 @@ public class CloudChannel extends Thread {
    * @return if the channel is connected
    */
   public boolean connect() {
+    System.out.println("--------------------");
     System.out.println("Channel " + name + " connecting to:");
     System.out.println("Address: " + serverIp + ":" + serverPort);
     System.out.println("Key: " + serverKey);
@@ -63,6 +64,7 @@ public class CloudChannel extends Thread {
       // server is not accessible
       System.out.println("Channel can not connect to cloud server!");
     }
+    System.out.println("--------------------");
     return false;
   }
 

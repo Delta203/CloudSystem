@@ -24,7 +24,8 @@ Type {
   INGAME,           // server
   ADDSERVER,        // proxy
   REMOVESERVER,     // proxy
-  COMMAND           // proxy
+  COMMAND,          // proxy
+  SERVICEINFO       // all
 }
 ```
 ## PacketConnect:
@@ -66,4 +67,18 @@ Send a command to a service.
 "data": {
   "command": String // Command
 }
+```
+## PacketServiceInfo
+The cloud sends this message to all services with a map of all groups and servers containing data.
+```json5
+"type": "SERVICEINFO",
+"data": [
+  {
+    "name": String,
+    "ip": String,
+    "port": int,
+    "state": String // Service state
+  },
+  { ... }
+]
 ```

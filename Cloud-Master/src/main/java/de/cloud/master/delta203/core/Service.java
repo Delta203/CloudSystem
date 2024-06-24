@@ -18,6 +18,7 @@ package de.cloud.master.delta203.core;
 
 import de.cloud.master.delta203.core.packets.PacketAddServer;
 import de.cloud.master.delta203.core.packets.PacketCommand;
+import de.cloud.master.delta203.core.packets.PacketServiceInfo;
 import de.cloud.master.delta203.core.utils.Constants;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.core.utils.OSType;
@@ -29,6 +30,7 @@ import java.io.*;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class Service extends Thread {
 
@@ -78,10 +80,16 @@ public class Service extends Thread {
     return false;
   }
 
+  private int generateRandomPort() {
+    Random rdm = new Random();
+    return rdm.nextInt((Constants.Locals.MAX_PORT - Constants.Locals.START_PORT) + 1)
+        + Constants.Locals.START_PORT;
+  }
+
   private void setPort() {
     port = Constants.Locals.DEFAULT_PORT;
-    if (group.getType() == GroupType.SERVER) port = Constants.Locals.START_PORT;
-    while (portExists(port)) port++;
+    if (group.getType() == GroupType.SERVER) port = generateRandomPort();
+    while (portExists(port)) port = generateRandomPort();
   }
 
   public Group getServiceGroup() {
@@ -286,6 +294,10 @@ public class Service extends Thread {
       addServer.p(port);
       channel.broadcast(addServer.message(), true);
     }
+    // broadcast service infos
+    PacketServiceInfo serviceInfo = new PacketServiceInfo();
+    serviceInfo.s(new ArrayList<>(Cloud.services.values()));
+    System.out.println(serviceInfo.message());
   }
 
   /*

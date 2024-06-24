@@ -16,8 +16,32 @@
 
 package de.cloud.api.delta203.core;
 
-/** This is an empty main class. */
-public class CloudMain {
+import de.cloud.api.delta203.core.utils.CloudServiceState;
 
+import java.util.HashMap;
+import java.util.List;
+
+/** This is the cloud main instance class. */
+public class CloudInstance {
+
+  /** Get the Cloud-Service name */
+  public static String name;
+
+  /** Get the Cloud-Service ip address. */
+  public static String ip;
+
+  /** Get the Cloud-Service port. */
+  public static int port;
+
+  /** Get the Cloud-Service key. */
+  public static String key;
+
+  /** Get the Cloud-Service channel. */
+  public static CloudChannel channel;
+
+  /** Get all Cloud-Services with it states. */
+  public static HashMap<CloudServiceState, List<CloudService>> services;
+
+  /** This is an empty main function */
   public static void main(String[] args) {}
 }

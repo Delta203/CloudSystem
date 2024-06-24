@@ -46,7 +46,7 @@ public class Command {
       return;
     }
     PacketCommand packetCommand = new PacketCommand();
-    packetCommand.c(command);
+    packetCommand.c(cmd);
     service.getServiceChannel().sendMessage(packetCommand.message());
     Cloud.console.print("The command was successfully sent!");
   }

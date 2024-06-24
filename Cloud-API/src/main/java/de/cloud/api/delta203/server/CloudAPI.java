@@ -17,6 +17,8 @@
 package de.cloud.api.delta203.server;
 
 import de.cloud.api.delta203.core.CloudChannel;
+import de.cloud.api.delta203.core.CloudInstance;
+import de.cloud.api.delta203.core.CloudService;
 import de.cloud.api.delta203.core.packets.CloudPacketConnect;
 import de.cloud.api.delta203.core.packets.CloudPacketInGame;
 import de.cloud.api.delta203.core.utils.CloudServiceState;
@@ -26,6 +28,10 @@ import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+
 public class CloudAPI extends JavaPlugin {
 
   /** Get the Cloud-API plugin instance. */
@@ -34,30 +40,22 @@ public class CloudAPI extends JavaPlugin {
   /** Get the Cloud-API file configuration. */
   public static Configuration config;
 
-  /** Get the Cloud-Service name. */
-  public static String name;
-
-  /** Get the Cloud-Service channel. */
-  public static CloudChannel channel;
-
   private static CloudServiceState state;
-
-  /** Get the Cloud-Service ip address. */
-  public static String serverIp;
-
-  private int serverPort;
-  private String serverKey;
 
   @Override
   public void onEnable() {
     plugin = this;
-    state = CloudServiceState.LOBBY;
     loadConfig();
+    state = CloudServiceState.LOBBY;
+    CloudInstance.services = new HashMap<>();
+    CloudInstance.services.put(CloudServiceState.PROXY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.LOBBY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.INGAME, new ArrayList<>());
 
-    name = config.getString("name");
-    serverIp = config.getString("server.ip");
-    serverPort = config.getInt("server.port");
-    serverKey = config.getString("server.key");
+    CloudInstance.name = config.getString("name");
+    CloudInstance.ip = config.getString("server.ip");
+    CloudInstance.port = config.getInt("server.port");
+    CloudInstance.key = config.getString("server.key");
 
     connect();
 
@@ -73,19 +71,21 @@ public class CloudAPI extends JavaPlugin {
   }
 
   private void connect() {
-    channel = new CloudChannel(name, serverIp, serverPort, serverKey);
-    if (!channel.connect()) return;
+    CloudInstance.channel =
+        new CloudChannel(
+            CloudInstance.name, CloudInstance.ip, CloudInstance.port, CloudInstance.key);
+    if (!CloudInstance.channel.connect()) return;
     // send connection packet
     CloudPacketConnect packetConnect = new CloudPacketConnect();
-    packetConnect.k(serverKey);
-    packetConnect.n(name);
-    channel.sendMessage(packetConnect.message());
+    packetConnect.k(CloudInstance.key);
+    packetConnect.n(CloudInstance.name);
+    CloudInstance.channel.sendMessage(packetConnect.message());
     // start main thread
-    channel.start();
+    CloudInstance.channel.start();
   }
 
   /**
-   * This method gets the cloud service state.
+   * This method gets the Cloud-Service state.
    *
    * @return the service state
    */
@@ -97,7 +97,7 @@ public class CloudAPI extends JavaPlugin {
   public static void updateServiceState() {
     state = CloudServiceState.INGAME;
     CloudPacketInGame packetInGame = new CloudPacketInGame();
-    packetInGame.k(plugin.serverKey);
-    channel.sendMessage(packetInGame.message());
+    packetInGame.k(CloudInstance.key);
+    CloudInstance.channel.sendMessage(packetInGame.message());
   }
 }
