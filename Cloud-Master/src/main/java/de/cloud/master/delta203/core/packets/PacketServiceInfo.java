@@ -43,6 +43,7 @@ public class PacketServiceInfo {
     JsonArray data = new JsonArray();
     for (Service service : services) {
       if (service.getServiceChannel() == null) continue;
+      if (!service.isProcessAlive()) continue;
       JsonObject subData = new JsonObject();
       subData.addProperty("name", service.getServiceName());
       subData.addProperty("ip", Cloud.server.getIp());

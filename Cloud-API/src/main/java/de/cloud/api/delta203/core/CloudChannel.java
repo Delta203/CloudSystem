@@ -50,7 +50,7 @@ public class CloudChannel extends Thread {
    * @return if the channel is connected
    */
   public boolean connect() {
-    System.out.println("--------------------");
+    System.out.println(" ");
     System.out.println("Channel " + name + " connecting to:");
     System.out.println("Address: " + serverIp + ":" + serverPort);
     System.out.println("Key: " + serverKey);
@@ -59,12 +59,13 @@ public class CloudChannel extends Thread {
       writer = new PrintWriter(socket.getOutputStream());
       reader = new BufferedReader(new InputStreamReader(socket.getInputStream()));
       System.out.println("Channel successfully connected!");
+      System.out.println(" ");
       return true;
     } catch (IOException ignored) {
       // server is not accessible
       System.out.println("Channel can not connect to cloud server!");
     }
-    System.out.println("--------------------");
+    System.out.println(" ");
     return false;
   }
 

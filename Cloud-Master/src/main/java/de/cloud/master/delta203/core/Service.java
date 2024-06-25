@@ -118,6 +118,11 @@ public class Service extends Thread {
 
   public void setServiceInGame() {
     state = ServiceState.INGAME;
+    // broadcast service infos
+    PacketServiceInfo serviceInfo = new PacketServiceInfo();
+    serviceInfo.s(new ArrayList<>(Cloud.services.values()));
+    channel.broadcast(serviceInfo.message(), false);
+    // try to start new services
     group.runServices();
   }
 
@@ -297,7 +302,7 @@ public class Service extends Thread {
     // broadcast service infos
     PacketServiceInfo serviceInfo = new PacketServiceInfo();
     serviceInfo.s(new ArrayList<>(Cloud.services.values()));
-    System.out.println(serviceInfo.message());
+    channel.broadcast(serviceInfo.message(), false);
   }
 
   /*

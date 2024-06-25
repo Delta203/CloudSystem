@@ -69,7 +69,7 @@ Send a command to a service.
 }
 ```
 ## PacketServiceInfo
-The cloud sends this message to all services with a map of all groups and servers containing data.
+The cloud sends this message to all services with a list of all services and its data.
 ```json5
 "type": "SERVICEINFO",
 "data": [

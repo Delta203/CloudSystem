@@ -21,6 +21,7 @@ import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import de.cloud.api.delta203.core.CloudInstance;
+import de.cloud.api.delta203.core.CloudService;
 import de.cloud.api.delta203.core.utils.CloudMessageType;
 import de.cloud.api.delta203.core.utils.CloudServiceState;
 import de.cloud.api.delta203.proxy.CloudAPI;
@@ -117,6 +118,11 @@ public class CloudCommunication {
         }
       case SERVICEINFO:
         {
+          // clear services from key list
+          CloudInstance.services.get(CloudServiceState.PROXY).clear();
+          CloudInstance.services.get(CloudServiceState.LOBBY).clear();
+          CloudInstance.services.get(CloudServiceState.INGAME).clear();
+          // read data
           JsonArray data = message.get("data").getAsJsonArray();
           for (JsonElement element : data) {
             JsonObject subData = element.getAsJsonObject();
@@ -124,10 +130,10 @@ public class CloudCommunication {
             String ip = subData.get("ip").getAsString();
             int port = subData.get("port").getAsInt();
             CloudServiceState state = CloudServiceState.valueOf(subData.get("state").getAsString());
-            System.out.println(name + " " + ip + " " + port + " " + state);
+            CloudService service = new CloudService(name, ip, port, state);
+            CloudInstance.services.get(state).add(service);
           }
-          System.out.println("-----------");
-          System.out.println(CloudInstance.services.toString());
+          System.out.println("Service Map:" + CloudInstance.services.toString());
           break;
         }
     }

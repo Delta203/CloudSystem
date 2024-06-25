@@ -19,6 +19,7 @@ package de.cloud.master.delta203.main.sockets;
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.handlers.Communication;
 import de.cloud.master.delta203.core.packets.PacketRemoveServer;
+import de.cloud.master.delta203.core.packets.PacketServiceInfo;
 import de.cloud.master.delta203.core.utils.GroupType;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.BufferedReader;
@@ -26,6 +27,7 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.PrintWriter;
 import java.net.Socket;
+import java.util.ArrayList;
 
 public class Channel extends Thread {
 
@@ -75,6 +77,9 @@ public class Channel extends Thread {
 
   public void broadcast(String message, boolean onlyProxy) {
     for (Service service : Cloud.services.values()) {
+      // skip unloaded services
+      if (service.getServiceChannel() == null) continue;
+      // only proxy broadcast
       if (onlyProxy && service.getServiceGroup().getType() == GroupType.SERVER) continue;
       Channel channel = service.getServiceChannel();
       channel.sendMessage(message);
@@ -109,6 +114,10 @@ public class Channel extends Thread {
     PacketRemoveServer removeServer = new PacketRemoveServer();
     removeServer.n(service.getServiceName());
     broadcast(removeServer.message(), true);
+    // broadcast service infos
+    PacketServiceInfo serviceInfo = new PacketServiceInfo();
+    serviceInfo.s(new ArrayList<>(Cloud.services.values()));
+    broadcast(serviceInfo.message(), false);
     // stop service
     service.stopProcess();
   }
