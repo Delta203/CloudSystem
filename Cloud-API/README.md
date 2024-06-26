@@ -6,6 +6,31 @@ All necessary API usages and information about the Cloud-API will be documented 
 The `CloudChannel` connects to the server socket and provides communication with the Cloud-Master. 
 The `CloudCommunication` handler handles the messages that are sent between the sockets.
 
+### Cloud Instance
+The `CloudInstance` class contains static service data, which must not be separately saved in the API.
+```java
+/** Get the Cloud-Service name */
+public static String name;
+
+/** Get the Cloud-Service ip address. */
+public static String ip;
+
+/** Get the Cloud-Service port. */
+public static int port;
+
+/** Get the Cloud-Service key. */
+public static String key;
+
+/** Get the Cloud-Service channel. */
+public static CloudChannel channel;
+
+/** Get all Cloud-Services with it states. */
+public static HashMap<CloudServiceState, List<CloudService>> services;
+
+/** This is an empty main function */
+public static void main(String[] args) {}
+```
+
 ### Packets
 The packets represent the messages and act as a message builder, making it easier to convert the 
 messages into JSON format and then send them.
@@ -30,17 +55,8 @@ public static Configuration config;
 /** Get the Cloud-API server manager. */
 public static CloudServerManager serverManager;
 
-/** Get the Cloud-Service name. */
-public static String name;
-
 /** Get the Cloud-Service state. */
-public static final CloudServiceState state = CloudServiceState.PROXY;
-
-/** Get the Cloud-Service channel. */
-public static CloudChannel channel;
-
-/** Get the Cloud-Service ip address. */
-public static String serverIp;
+public static final CloudServiceState state = CloudServiceState.PROXY
 
 /** This method shows whether the Cloud API is running on a proxy server. */
 public static boolean runningOnProxy() {}
@@ -62,15 +78,6 @@ public static CloudAPI plugin;
 
 /** Get the Cloud-API file configuration. */
 public static Configuration config;
-
-/** Get the Cloud-Service name. */
-public static String name;
-
-/** Get the Cloud-Service channel. */
-public static CloudChannel channel;
-
-/** Get the Cloud-Service ip address. */
-public static String serverIp;
 
 /** This method gets the cloud service state. */
 public static CloudServiceState getServiceState() {}
