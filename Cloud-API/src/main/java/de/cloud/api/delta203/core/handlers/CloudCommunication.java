@@ -129,11 +129,11 @@ public class CloudCommunication {
             String name = subData.get("name").getAsString();
             String ip = subData.get("ip").getAsString();
             int port = subData.get("port").getAsInt();
+            // update data
             CloudServiceState state = CloudServiceState.valueOf(subData.get("state").getAsString());
             CloudService service = new CloudService(name, ip, port, state);
             CloudInstance.services.get(state).add(service);
           }
-          System.out.println("Service Map:" + CloudInstance.services.toString());
           break;
         }
     }
