@@ -43,6 +43,12 @@ packetConnect.n(name);                                          // add name
 packetConnect.message();
 ```
 
+### Services HashMap
+The `HashMap<CloudServiceState, List<CloudService>>` contains all services and their state information. It is then updated when:
+- A service is started.
+- A service is stopped.
+- A service changes its state.
+
 ## Proxy
 ### API
 ```java
@@ -91,4 +97,5 @@ public static void updateServiceState() {}
 However, it is recommended to install a firewall to make the network more secure.
 
 ### Commands
+- _/serviceInfo_ Shows the information of current and all connected services.
 - _/updateState_ Set the service state to INGAME.

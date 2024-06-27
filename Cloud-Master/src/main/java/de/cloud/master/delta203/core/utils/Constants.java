@@ -56,6 +56,9 @@ public class Constants {
             put(
                 "BungeeCord",
                 "https://ci.md-5.net/job/BungeeCord/lastSuccessfulBuild/artifact/bootstrap/target/BungeeCord.jar");
+            put(
+                "Waterfall-1.21",
+                "https://api.papermc.io/v2/projects/waterfall/versions/1.21/builds/579/downloads/waterfall-1.21-579.jar");
           }
         };
 
@@ -63,9 +66,15 @@ public class Constants {
     public static HashMap<String, String> SERVERS =
         new HashMap<>() {
           {
-            put("spigot-1.20.6", "https://download.getbukkit.org/spigot/spigot-1.20.6.jar");
-            put("spigot-1.20.1", "https://download.getbukkit.org/spigot/spigot-1.20.1.jar");
             put("spigot-1.18.2", "https://download.getbukkit.org/spigot/spigot-1.18.2.jar");
+            put("spigot-1.20.1", "https://download.getbukkit.org/spigot/spigot-1.20.1.jar");
+            put("spigot-1.20.6", "https://download.getbukkit.org/spigot/spigot-1.20.6.jar");
+            /* TODO: paper support
+            put(
+                "paper-1.20.6",
+                "https://api.papermc.io/v2/projects/paper/versions/1.20.6/builds/147/downloads/paper-1.20.6-147.jar");
+            */
+
             /* GSON not supported in 1.8 and 1.12!
             put("spigot-1.12.2", "https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar");
             put(

@@ -18,19 +18,17 @@ package de.cloud.api.delta203.server;
 
 import de.cloud.api.delta203.core.CloudChannel;
 import de.cloud.api.delta203.core.CloudInstance;
-import de.cloud.api.delta203.core.CloudService;
 import de.cloud.api.delta203.core.packets.CloudPacketConnect;
 import de.cloud.api.delta203.core.packets.CloudPacketInGame;
 import de.cloud.api.delta203.core.utils.CloudServiceState;
+import de.cloud.api.delta203.server.commands.CloudCmdServiceInfo;
 import de.cloud.api.delta203.server.commands.CloudCmdUpdateState;
 import de.cloud.api.delta203.server.listeners.CloudListenerOnlyProxy;
+import java.util.ArrayList;
+import java.util.HashMap;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
 
 public class CloudAPI extends JavaPlugin {
 
@@ -59,6 +57,7 @@ public class CloudAPI extends JavaPlugin {
 
     connect();
 
+    getCommand("serviceInfo").setExecutor(new CloudCmdServiceInfo());
     getCommand("updateState").setExecutor(new CloudCmdUpdateState());
     Bukkit.getPluginManager().registerEvents(new CloudListenerOnlyProxy(), plugin);
   }

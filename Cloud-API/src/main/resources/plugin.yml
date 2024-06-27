@@ -6,5 +6,7 @@ author: Delta203
 main: de.cloud.api.delta203.server.CloudAPI
 
 commands:
+  serviceInfo:
+    description: Shows the information of current and all connected services
   updateState:
     description: Set the server state to INGAME

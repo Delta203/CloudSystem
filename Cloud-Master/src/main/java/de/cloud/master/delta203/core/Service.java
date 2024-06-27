@@ -343,9 +343,10 @@ public class Service extends Thread {
       process.waitFor();
       int exitCode = process.exitValue();
       Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
-      unregister();
     } catch (IOException | InterruptedException e) {
       throw new RuntimeException(e);
+    } finally {
+      unregister();
     }
   }
 

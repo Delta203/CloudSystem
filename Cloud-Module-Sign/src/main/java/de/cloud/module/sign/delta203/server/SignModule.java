@@ -14,14 +14,15 @@
  * limitations under the License.
  */
 
-package de.cloud.api.delta203.core;
+package de.cloud.module.sign.delta203.server;
 
-import de.cloud.api.delta203.core.utils.CloudServiceState;
+import de.cloud.api.delta203.server.CloudAPI;
+import org.bukkit.plugin.java.JavaPlugin;
 
-public record CloudService(String name, String ip, int port, CloudServiceState state) {
+public class SignModule extends JavaPlugin {
 
   @Override
-  public String toString() {
-    return "CloudService{name=" + name + ", port=" + port + "}";
+  public void onEnable() {
+
   }
 }
