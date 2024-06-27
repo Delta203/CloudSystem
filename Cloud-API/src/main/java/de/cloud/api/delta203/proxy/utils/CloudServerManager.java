@@ -55,6 +55,19 @@ public class CloudServerManager {
     return fallbacks.get(new Random().nextInt(fallbacks.size()));
   }
 
+  /**
+   * This method gets a fallback server randomly.
+   *
+   * @param except the server who should not be chosen
+   * @return a random fallback server
+   */
+  public ServerInfo getRandomFallback(ServerInfo except) {
+    List<ServerInfo> fallbacks = this.fallbacks;
+    fallbacks.remove(except);
+    if (fallbacks.isEmpty()) return null;
+    return fallbacks.get(new Random().nextInt(fallbacks.size()));
+  }
+
   /** This method updates the proxy fallback config. */
   private void updateFallbacks() {
     for (ListenerInfo info : ProxyServer.getInstance().getConfig().getListeners()) {

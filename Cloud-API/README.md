@@ -72,6 +72,10 @@ public static boolean runningOnProxy() {}
 The `CloudServerManager` helps the proxy to manage servers. The `CloudChannel` receives the packet and a 
 server is added or removed based on this information.
 
+### Kick Hub
+`CloudListenerKickHub` ensures that a player is not kicked directly from the network if a server stops.
+A matching fallback server is searched and the player is directed to it when one is found.
+
 ### Commands
 - _/cloud_ Sends the cloud system main information.
 - _/l_, _/lobby_, _/hub_ Sends the player to a random lobby (fallback) server.

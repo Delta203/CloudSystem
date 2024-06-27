@@ -22,6 +22,7 @@ import de.cloud.api.delta203.core.packets.CloudPacketConnect;
 import de.cloud.api.delta203.core.utils.CloudServiceState;
 import de.cloud.api.delta203.proxy.commands.CloudCmdCloud;
 import de.cloud.api.delta203.proxy.commands.CloudCmdLobby;
+import de.cloud.api.delta203.proxy.listeners.CloudListenerKickHub;
 import de.cloud.api.delta203.proxy.utils.CloudServerManager;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -68,6 +69,9 @@ public class CloudAPI extends Plugin {
         .getPluginManager()
         .registerCommand(plugin, new CloudCmdLobby("lobby"));
     ProxyServer.getInstance().getPluginManager().registerCommand(plugin, new CloudCmdLobby("hub"));
+    ProxyServer.getInstance()
+        .getPluginManager()
+        .registerListener(plugin, new CloudListenerKickHub());
   }
 
   private void loadConfig() {
