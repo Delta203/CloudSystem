@@ -109,7 +109,7 @@ public class PathManager {
     try {
       Files.copy(from, to, StandardCopyOption.REPLACE_EXISTING);
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      // throw new RuntimeException(e);
     }
   }
 
