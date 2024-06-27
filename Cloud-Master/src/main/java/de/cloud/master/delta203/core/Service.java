@@ -165,7 +165,7 @@ public class Service extends Thread {
   private void addEula() {
     if (group.getType() != GroupType.SERVER) return;
     List<String> data = new ArrayList<>();
-    data.add("# Cloud System generated file");
+    data.add("# Cloud-System generated file");
     data.add(
         "# By changing the setting below to TRUE you are indicating your agreement to our EULA (https://aka.ms/MinecraftEULA).");
     data.add("eula=true");
@@ -175,7 +175,7 @@ public class Service extends Thread {
   private void modifyProxy() {
     if (group.getType() != GroupType.PROXY) return;
     List<String> data = new ArrayList<>();
-    data.add("# Cloud System generated file");
+    data.add("# Cloud-System generated file");
     File config = new File(path + "/config.yml");
     if (config.exists()) {
       // read config data
@@ -198,9 +198,9 @@ public class Service extends Thread {
   private void modifyServer() {
     if (group.getType() != GroupType.SERVER) return;
     List<String> dataProperties = new ArrayList<>();
-    dataProperties.add("# Cloud System generated file");
+    dataProperties.add("# Cloud-System generated file");
     List<String> dataSpigot = new ArrayList<>();
-    dataSpigot.add("# Cloud System generated file");
+    dataSpigot.add("# Cloud-System generated file");
     File properties = new File(path + "/server.properties");
     File spigot = new File(path + "/spigot.yml");
     if (properties.exists()) {
@@ -240,7 +240,7 @@ public class Service extends Thread {
     File config = new File(path + "/plugins/Cloud-API");
     if (!config.exists()) config.mkdirs();
     List<String> data = new ArrayList<>();
-    data.add("# Cloud System generated file");
+    data.add("# Cloud-System generated file");
     data.add("name: " + name);
     data.add("server:");
     data.add("  ip: " + Cloud.server.getIp());
@@ -315,7 +315,7 @@ public class Service extends Thread {
             .replace("%memory%", String.valueOf(group.getMemory()))
             .replace("%file%", group.getType().version)
             .split(" ");
-    if (OSType.valueOf(Cloud.config.getData().get("os").getAsString()) == OSType.WINDOWS) {
+    if (Cloud.os == OSType.WINDOWS) {
       command =
           Constants.Locals.START_WINDOWS
               .replace("%memory%", String.valueOf(group.getMemory()))
@@ -332,6 +332,7 @@ public class Service extends Thread {
     ProcessBuilder builder = buildProcess();
     try {
       process = builder.start();
+      // run console in background
       try (BufferedReader reader =
           new BufferedReader(new InputStreamReader(process.getInputStream()))) {
         String line;

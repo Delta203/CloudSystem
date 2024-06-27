@@ -20,6 +20,7 @@ import de.cloud.master.delta203.core.Group;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.security.KeyGenerator;
 import de.cloud.master.delta203.core.utils.Constants;
+import de.cloud.master.delta203.core.utils.OSType;
 import de.cloud.master.delta203.main.Cloud;
 import de.cloud.master.delta203.main.sockets.Server;
 import java.io.File;
@@ -83,6 +84,10 @@ public class Start {
     }
   }
 
+  private void os() {
+    Cloud.os = OSType.valueOf(Cloud.config.getData().get("os").getAsString());
+  }
+
   private void service() {
     Cloud.pathManager.deleteDirectory(Paths.get(Cloud.pathManager.getPathServicesTemp()));
     Cloud.services = new HashMap<>();
@@ -98,6 +103,7 @@ public class Start {
     api();
     Cloud.console.print("All data has been loaded successfully.");
     server();
+    os();
     service();
   }
 }

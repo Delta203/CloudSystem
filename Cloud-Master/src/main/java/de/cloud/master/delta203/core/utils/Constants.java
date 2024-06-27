@@ -40,7 +40,8 @@ public class Constants {
     public static int MAX_PORT = 49999;
 
     /** The start command for Linux systems. */
-    public static String START_LINUX = "Linux start";
+    public static String START_LINUX =
+        "java -Xms%memory%M -Xmx%memory%M -XX:+UseG1GC -DIReallyKnowWhatIAmDoingISwear -jar %file% nogui";
 
     /** The start command for Windows systems. */
     public static String START_WINDOWS =

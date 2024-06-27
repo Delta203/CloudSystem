@@ -63,6 +63,9 @@ public class Main {
         case "SHOWKEY":
           new ShowKey().execute();
           break;
+        case "OS":
+          new OperatingSystem().execute();
+          break;
         default:
           sendTypeHelp();
           break;
@@ -86,6 +89,7 @@ public class Main {
     Cloud.console.print("§fstopGroup <group>§r - Stop a server group.");
     Cloud.console.print("§fservices§r - Shows the list of active services.");
     Cloud.console.print("§fshowKey§r - Shows the communication key.");
+    Cloud.console.print("§fos§r - Shows the operating system data.");
     Cloud.console.printRaw("");
     Cloud.console.print("Host: " + Cloud.server.getIp() + ":" + Cloud.server.getPort());
     Cloud.console.print(

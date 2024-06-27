@@ -22,6 +22,7 @@ import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.files.PathManager;
 import de.cloud.master.delta203.core.utils.Constants;
+import de.cloud.master.delta203.core.utils.OSType;
 import de.cloud.master.delta203.main.sockets.Server;
 
 import java.util.HashMap;
@@ -34,6 +35,7 @@ public class Cloud {
 
   public static Console console;
   public static Server server;
+  public static OSType os;
 
   public static String key;
   public static int memory = 0;
