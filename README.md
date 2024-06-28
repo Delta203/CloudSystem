@@ -1,5 +1,6 @@
 # Cloud System
 Single root cloud system for minecraft servers. <br>
+Version: 1.0.1-SNAPSHOT <br>
 ![](https://github.com/Delta203/CloudSystem/blob/main/.img/icon.png)
 
 ## Single Root
@@ -36,5 +37,5 @@ much more.
 3. Paste `Cloud-API.jar` into _assets/api/_
 4. Restart `Cloud-Master.jar`
 ### Start Scrips
-- Windows: `java -Xms256M -Xmx512M -jar Cloud-Master-1.0.0-SNAPSHOT.jar -NOROOT`
-- Linux: `screen -S CloudSystem java -Xms256M -Xmx512M -jar Cloud-Master-1.0.0-SNAPSHOT.jar -NOROOT`
+- Windows: `java -Xms256M -Xmx512M -jar Cloud-Master.jar -NOROOT`
+- Linux: `screen -S CloudSystem java -Xms256M -Xmx512M -jar Cloud-Master.jar -NOROOT`
