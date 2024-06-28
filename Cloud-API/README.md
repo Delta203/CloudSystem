@@ -1,5 +1,7 @@
 # Cloud-API
-All necessary API usages and information about the Cloud-API will be documented in this file.
+All necessary API usages and information about the Cloud-API will be documented in this file. <br>
+Version: 1.0.1-SNAPSHOT <br>
+![](https://github.com/Delta203/CloudSystem/blob/main/.img/icon.png)
 
 ## Core
 ### Cloud Channel
