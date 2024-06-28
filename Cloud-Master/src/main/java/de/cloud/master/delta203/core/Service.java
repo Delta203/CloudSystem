@@ -186,11 +186,14 @@ public class Service extends Thread {
     } else {
       // add default
       data.add("ip_forward: true");
+      data.add("log_pings: false");
+      data.add("log_commands: false");
       data.add("listeners:");
       data.add("- query_port: 25577");
       data.add("  query_enabled: false");
       data.add("  bind_local_address: true");
       data.add("  host: " + Cloud.server.getIp() + ":" + port);
+      data.add("  force_default_server: true");
     }
     writeFile(config, data);
   }
