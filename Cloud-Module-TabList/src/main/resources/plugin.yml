@@ -1,0 +1,6 @@
+name: Cloud-Module-TabList
+version: 1.0
+api-version: 1.13
+author: Delta203
+
+main: de.cloud.module.syncproxy.delta203.server.SyncProxyModule
