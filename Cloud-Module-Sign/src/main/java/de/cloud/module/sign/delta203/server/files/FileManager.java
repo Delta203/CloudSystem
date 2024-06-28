@@ -14,6 +14,6 @@
  * limitations under the License.
  */
 
-package de.cloud.module.syncproxy.delta203.server;
+package de.cloud.module.sign.delta203.server.files;
 
-public class SyncProxy {}
+public class FileManager {}

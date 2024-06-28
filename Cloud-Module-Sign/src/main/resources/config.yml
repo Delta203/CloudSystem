@@ -1,0 +1,13 @@
+# Cloud-System Module Sync-Proxy
+
+# Tab list
+# Placeholders:
+# - %server%  | current server name
+# - %group%   | current service group
+# -
+tabList:
+  update: 20
+  header:
+    - '§3Cloud-System §bSyncProxy'
+    - '§7Online Network: §e0§7/§e0'
+    - '§7Online Local: §e0§7/§e0'
