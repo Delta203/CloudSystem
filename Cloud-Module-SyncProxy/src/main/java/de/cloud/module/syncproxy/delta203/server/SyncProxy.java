@@ -17,20 +17,22 @@
 package de.cloud.module.syncproxy.delta203.server;
 
 import de.cloud.module.syncproxy.delta203.server.files.FileManager;
+import de.cloud.module.syncproxy.delta203.server.listeners.Join;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
-public class SyncProxyModule extends JavaPlugin {
+public class SyncProxy extends JavaPlugin {
 
-  public static SyncProxyModule plugin;
-
+  public static SyncProxy plugin;
   public static Configuration config;
-  public static Configuration database;
-
 
   @Override
   public void onEnable() {
     plugin = this;
+    registerConfigs();
+
+    Bukkit.getPluginManager().registerEvents(new Join(), plugin);
   }
 
   private void registerConfigs() {
@@ -39,10 +41,5 @@ public class SyncProxyModule extends JavaPlugin {
     configManager.create();
     configManager.load();
     config = configManager.get();
-    // load sign database
-    FileManager databaseManager = new FileManager("database.yml");
-    databaseManager.create();
-    databaseManager.load();
-    database = databaseManager.get();
   }
 }

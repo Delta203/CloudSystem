@@ -14,17 +14,16 @@
  * limitations under the License.
  */
 
-package de.cloud.module.syncproxy.delta203.server.files;
+package de.cloud.module.syncproxy.delta203.proxy.files;
 
-import de.cloud.module.syncproxy.delta203.server.SyncProxy;
+import de.cloud.module.syncproxy.delta203.proxy.SyncProxy;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.util.Objects;
-import org.bukkit.configuration.Configuration;
-import org.bukkit.configuration.InvalidConfigurationException;
-import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
+import net.md_5.bungee.config.Configuration;
+import net.md_5.bungee.config.ConfigurationProvider;
+import net.md_5.bungee.config.YamlConfiguration;
 
 /**
  * <b>File Manager</b><br>
@@ -38,7 +37,7 @@ public class FileManager {
 
   private final String filename;
   private final File file;
-  private FileConfiguration cfg;
+  private Configuration cfg;
 
   /**
    * Register a FileManager with the specified filename to handle a configuration file.
@@ -60,9 +59,10 @@ public class FileManager {
     }
     try {
       if (!file.exists()) {
-        Files.copy(Objects.requireNonNull(SyncProxy.plugin.getResource(filename)), file.toPath());
+        Files.copy(
+            Objects.requireNonNull(SyncProxy.plugin.getResourceAsStream(filename)), file.toPath());
       }
-      cfg = YamlConfiguration.loadConfiguration(file);
+      cfg = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
     } catch (IOException e) {
       e.printStackTrace();
     }
@@ -71,8 +71,8 @@ public class FileManager {
   /** Loads the configuration from the file. */
   public void load() {
     try {
-      cfg.load(file);
-    } catch (IOException | InvalidConfigurationException e) {
+      cfg = ConfigurationProvider.getProvider(YamlConfiguration.class).load(file);
+    } catch (IOException e) {
       e.printStackTrace();
     }
   }
@@ -80,7 +80,7 @@ public class FileManager {
   /** Saves the configuration to the file. */
   public void save() {
     try {
-      cfg.save(file);
+      ConfigurationProvider.getProvider(YamlConfiguration.class).save(cfg, file);
     } catch (IOException e) {
       e.printStackTrace();
     }

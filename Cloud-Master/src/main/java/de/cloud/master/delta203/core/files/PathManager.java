@@ -31,6 +31,7 @@ public class PathManager {
   private final File assets_proxy;
   private final File assets_server;
   private final File data_groups;
+  private final File modules;
   private final File templates_default_proxy;
   private final File templates_default_server;
   private final File services_static;
@@ -43,6 +44,7 @@ public class PathManager {
     assets_proxy = new File(root + "assets/proxy");
     assets_server = new File(root + "assets/server");
     data_groups = new File(root + "data/groups");
+    modules = new File(root + "modules");
     templates_default_proxy = new File(root + "templates/default/proxy");
     templates_default_server = new File(root + "templates/default/server");
     services_static = new File(root + "services/static");
@@ -55,6 +57,7 @@ public class PathManager {
         && assets_proxy.mkdirs()
         && assets_server.mkdirs()
         && data_groups.mkdirs()
+        && modules.mkdirs()
         && templates_default_proxy.mkdirs()
         && templates_default_server.mkdirs()
         && services_static.mkdirs()
@@ -83,6 +86,10 @@ public class PathManager {
 
   public String getPathDataGroup() {
     return root + "data/groups";
+  }
+
+  public String getPathModules() {
+    return root + "modules";
   }
 
   public String getPathTemplates() {

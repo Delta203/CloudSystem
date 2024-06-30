@@ -1,0 +1,7 @@
+de\cloud\module\syncproxy\delta203\server\TabManager.class
+de\cloud\module\syncproxy\delta203\server\listeners\Join.class
+de\cloud\module\syncproxy\delta203\server\SyncProxy.class
+de\cloud\module\syncproxy\delta203\proxy\SyncProxy.class
+de\cloud\module\syncproxy\delta203\proxy\files\FileManager.class
+de\cloud\module\syncproxy\delta203\server\files\FileManager.class
+de\cloud\module\syncproxy\delta203\proxy\listeners\Ping.class

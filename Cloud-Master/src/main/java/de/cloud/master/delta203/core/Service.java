@@ -252,6 +252,15 @@ public class Service extends Thread {
     writeFile(new File(config.getPath() + "/config.yml"), data);
   }
 
+  private void addCloudModules() {
+    // copy modules
+    File plugins = new File(path + "/plugins");
+    if (!plugins.exists()) plugins.mkdirs();
+    String from = Cloud.pathManager.getPathModules();
+    Cloud.pathManager.copyDirectory(new File(from).toPath(), plugins.toPath());
+    System.out.println("Modules " + from);
+  }
+
   /**
    * This method copies all necessary data into the respective service directory. The essential data
    * are already initialised when {@link Service} is created.
@@ -270,6 +279,7 @@ public class Service extends Thread {
     modifyProxy();
     modifyServer();
     addCloudAPI();
+    addCloudModules();
     Cloud.services.put(name, this);
     Cloud.memory += group.getMemory();
     Cloud.console.print(name + " files loaded...", "§3Service§r");
