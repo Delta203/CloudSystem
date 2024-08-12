@@ -19,22 +19,21 @@ package de.cloud.master.delta203.core.utils;
 /** This class contains all minecraft alternate color codes as ANSI code. */
 public enum ANSIColors {
   RESET("\033[0m"),
-  DARK_RED("\033[38;2;190;0;0m"),
-  RED("\033[38;2;254;63;63m"),
-  GOLD("\033[38;2;217;163;52m"),
-  YELLOW("\033[38;2;254;254;63m"),
-  DARK_GREEN("\033[38;2;0;190;0m"),
-  GREEN("\033[38;2;63;254;63m"),
-  AQUA("\033[38;2;63;254;254m"),
-  DARK_AQUA("\033[38;2;0;190;190m"),
-  DARK_BLUE("\033[38;2;0;0;190m"),
-  BLUE("\033[38;2;63;63;254m"),
-  LIGHT_PURPLE("\033[38;2;254;63;254m"),
-  PURPLE("\033[38;2;190;0;190m"),
-  WHITE("\033[38;2;255;255;255m"),
-  GRAY("\033[38;2;190;190;190m"),
-  DARK_GRAY("\033[38;2;63;63;63m"),
-  BLACK("\033[38;2;0;0;0m");
+  DARK_RED("\033[0;31m"),
+  RED("\033[0;91m"),
+  YELLOW("\033[0;33m"),
+  DARK_GREEN("\033[0;32m"),
+  GREEN("\033[0;92m"),
+  AQUA("\033[0;96m"),
+  DARK_AQUA("\033[0;36m"),
+  DARK_BLUE("\033[0;34m"),
+  BLUE("\033[0;94m"),
+  LIGHT_PURPLE("\033[0;35m"),
+  PURPLE("\033[0;95m"),
+  WHITE("\033[0;97m"),
+  GRAY("\033[0;37m"),
+  DARK_GRAY("\033[0;90m"),
+  BLACK("\033[0;30m");
 
   public final String code;
 
@@ -43,7 +42,8 @@ public enum ANSIColors {
   }
 
   /**
-   * This method translates alternate color codes in a string to ANSI color codes.
+   * This method translates alternate color codes in a string to ANSI color codes. (§6 gold is not
+   * possible)
    *
    * @param altColorChar the character of alternate color code
    * @param remove if the color code should be removed or be translated
@@ -54,7 +54,6 @@ public enum ANSIColors {
     return textToTranslate
         .replace(altColorChar + "4", remove ? "" : DARK_RED.code)
         .replace(altColorChar + "c", remove ? "" : RED.code)
-        .replace(altColorChar + "6", remove ? "" : GOLD.code)
         .replace(altColorChar + "e", remove ? "" : YELLOW.code)
         .replace(altColorChar + "2", remove ? "" : DARK_GREEN.code)
         .replace(altColorChar + "a", remove ? "" : GREEN.code)

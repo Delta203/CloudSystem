@@ -258,7 +258,6 @@ public class Service extends Thread {
     if (!plugins.exists()) plugins.mkdirs();
     String from = Cloud.pathManager.getPathModules();
     Cloud.pathManager.copyDirectory(new File(from).toPath(), plugins.toPath());
-    System.out.println("Modules " + from);
   }
 
   /**
