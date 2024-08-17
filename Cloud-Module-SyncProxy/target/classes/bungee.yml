@@ -1,5 +1,0 @@
-name: Cloud-Module-SyncProxy
-version: 1.0.1
-author: Delta203
-
-main: de.cloud.module.syncproxy.delta203.proxy.SyncProxy

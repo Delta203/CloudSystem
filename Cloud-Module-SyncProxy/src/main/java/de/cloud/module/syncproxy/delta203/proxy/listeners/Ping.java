@@ -35,12 +35,12 @@ public class Ping implements Listener {
     ServerPing.Protocol version = ping.getVersion();
     ServerPing.Players players = ping.getPlayers();
     ping.setDescriptionComponent(
-        new TextComponent(SyncProxy.config.getString("proxy.motd").replace("\\n", "\n")));
-    version.setName(SyncProxy.config.getString("proxy.version.name"));
-    int id = SyncProxy.config.getInt("proxy.version.id");
+        new TextComponent(SyncProxy.config.getString("serverList.motd").replace("\\n", "\n")));
+    version.setName(SyncProxy.config.getString("serverList.version.name"));
+    int id = SyncProxy.config.getInt("serverList.version.id");
     if (id != 0) version.setProtocol(id);
     List<ServerPing.PlayerInfo> infos = new ArrayList<>();
-    for (String s : SyncProxy.config.getStringList("proxy.description")) {
+    for (String s : SyncProxy.config.getStringList("serverList.description")) {
       infos.add(new ServerPing.PlayerInfo(s, UUID.randomUUID()));
     }
     players.setSample(infos.toArray(new ServerPing.PlayerInfo[0]));
