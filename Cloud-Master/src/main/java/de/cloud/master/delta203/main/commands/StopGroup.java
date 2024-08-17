@@ -47,7 +47,7 @@ public class StopGroup {
       if (service.getServiceGroup() != group) continue;
       service.stopProcess();
       try {
-        Thread.sleep(50);
+        Thread.sleep(100);
       } catch (InterruptedException e) {
         throw new RuntimeException(e);
       }
