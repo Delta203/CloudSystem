@@ -38,4 +38,4 @@ much more.
 4. Restart `Cloud-Master.jar`
 ### Start Scrips
 - Windows: `java -Xms256M -Xmx512M -jar Cloud-Master.jar -NOROOT`
-- Linux: `screen -S CloudSystem java -Xms256M -Xmx512M -jar Cloud-Master.jar -NOROOT`
+- Linux: `screen -S Cloud-Master java -Xms256M -Xmx512M -jar Cloud-Master.jar -NOROOT`
