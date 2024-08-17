@@ -39,6 +39,9 @@ public class CloudInstance {
   /** Get the Cloud-Service channel. */
   public static CloudChannel channel;
 
+  /** Get the Cloud-Service state. */
+  public static CloudServiceState state;
+
   /** Get all Cloud-Services with it states. */
   public static HashMap<CloudServiceState, List<CloudService>> services;
 

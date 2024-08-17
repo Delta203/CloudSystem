@@ -102,7 +102,7 @@ public class CloudCommunication {
         {
           JsonObject data = message.get("data").getAsJsonObject();
           String command = data.get("command").getAsString();
-          if (CloudAPI.runningOnProxy()) {
+          if (CloudInstance.state == CloudServiceState.PROXY) {
             // proxy server
             ProxyServer.getInstance()
                 .getPluginManager()

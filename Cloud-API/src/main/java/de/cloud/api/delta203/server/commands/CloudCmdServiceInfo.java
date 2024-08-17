@@ -17,7 +17,6 @@
 package de.cloud.api.delta203.server.commands;
 
 import de.cloud.api.delta203.core.CloudInstance;
-import de.cloud.api.delta203.server.CloudAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.Command;
@@ -41,7 +40,7 @@ public class CloudCmdServiceInfo implements CommandExecutor {
             + ":"
             + Bukkit.getServer().getPort()
             + " ["
-            + CloudAPI.getServiceState().name()
+            + CloudInstance.state.name()
             + "]");
     sender.sendMessage(CloudInstance.services.toString());
     return false;

@@ -38,22 +38,21 @@ public class CloudAPI extends JavaPlugin {
   /** Get the Cloud-API file configuration. */
   public static Configuration config;
 
-  private static CloudServiceState state;
-
   @Override
   public void onEnable() {
     plugin = this;
     loadConfig();
-    state = CloudServiceState.LOBBY;
-    CloudInstance.services = new HashMap<>();
-    CloudInstance.services.put(CloudServiceState.PROXY, new ArrayList<>());
-    CloudInstance.services.put(CloudServiceState.LOBBY, new ArrayList<>());
-    CloudInstance.services.put(CloudServiceState.INGAME, new ArrayList<>());
 
     CloudInstance.name = config.getString("name");
     CloudInstance.ip = config.getString("server.ip");
     CloudInstance.port = config.getInt("server.port");
     CloudInstance.key = config.getString("server.key");
+    CloudInstance.state = CloudServiceState.LOBBY;
+
+    CloudInstance.services = new HashMap<>();
+    CloudInstance.services.put(CloudServiceState.PROXY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.LOBBY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.INGAME, new ArrayList<>());
 
     connect();
 
@@ -83,18 +82,9 @@ public class CloudAPI extends JavaPlugin {
     CloudInstance.channel.start();
   }
 
-  /**
-   * This method gets the Cloud-Service state.
-   *
-   * @return the service state
-   */
-  public static CloudServiceState getServiceState() {
-    return state;
-  }
-
   /** This method sets the {@link CloudServiceState} to INGAME. */
   public static void updateServiceState() {
-    state = CloudServiceState.INGAME;
+    CloudInstance.state = CloudServiceState.INGAME;
     CloudPacketInGame packetInGame = new CloudPacketInGame();
     packetInGame.k(CloudInstance.key);
     CloudInstance.channel.sendMessage(packetInGame.message());

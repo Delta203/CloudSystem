@@ -41,23 +41,22 @@ public class CloudAPI extends Plugin {
   /** Get the Cloud-API server manager. */
   public static CloudServerManager serverManager;
 
-  /** Get the Cloud-Service state. */
-  public static final CloudServiceState state = CloudServiceState.PROXY;
-
   @Override
   public void onEnable() {
     plugin = this;
     loadConfig();
     serverManager = new CloudServerManager();
-    CloudInstance.services = new HashMap<>();
-    CloudInstance.services.put(CloudServiceState.PROXY, new ArrayList<>());
-    CloudInstance.services.put(CloudServiceState.LOBBY, new ArrayList<>());
-    CloudInstance.services.put(CloudServiceState.INGAME, new ArrayList<>());
 
     CloudInstance.name = config.getString("name");
     CloudInstance.ip = config.getString("server.ip");
     CloudInstance.port = config.getInt("server.port");
     CloudInstance.key = config.getString("server.key");
+    CloudInstance.state = CloudServiceState.PROXY;
+
+    CloudInstance.services = new HashMap<>();
+    CloudInstance.services.put(CloudServiceState.PROXY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.LOBBY, new ArrayList<>());
+    CloudInstance.services.put(CloudServiceState.INGAME, new ArrayList<>());
 
     connect();
 
@@ -93,14 +92,5 @@ public class CloudAPI extends Plugin {
     CloudInstance.channel.sendMessage(packetConnect.message());
     // start main thread
     CloudInstance.channel.start();
-  }
-
-  /**
-   * This method shows whether the Cloud API is running on a proxy server.
-   *
-   * @return server is running on proxy
-   */
-  public static boolean runningOnProxy() {
-    return plugin != null;
   }
 }
