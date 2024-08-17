@@ -16,6 +16,7 @@
 
 package de.cloud.module.syncproxy.delta203.proxy.listeners;
 
+import de.cloud.api.delta203.core.CloudInstance;
 import de.cloud.module.syncproxy.delta203.proxy.SyncProxy;
 import net.md_5.bungee.api.ServerPing;
 import net.md_5.bungee.api.chat.TextComponent;
@@ -35,7 +36,11 @@ public class Ping implements Listener {
     ServerPing.Protocol version = ping.getVersion();
     ServerPing.Players players = ping.getPlayers();
     ping.setDescriptionComponent(
-        new TextComponent(SyncProxy.config.getString("serverList.motd").replace("\\n", "\n")));
+        new TextComponent(
+            SyncProxy.config
+                .getString("serverList.motd")
+                .replace("\\n", "\n")
+                .replace("%service%", CloudInstance.name)));
     version.setName(SyncProxy.config.getString("serverList.version.name"));
     int id = SyncProxy.config.getInt("serverList.version.id");
     if (id != 0) version.setProtocol(id);

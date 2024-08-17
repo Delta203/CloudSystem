@@ -1,9 +1,9 @@
 # Cloud-System Module Sync-Proxy
 
 # Placeholders:
-#
+# %service% : Service name
 serverList:
-  motd: '§b§lCloud§3§lSystem §8- §7§lDynamic §f§oserver §7handling\n§8» §aOnline§7: §eBungee-1'
+  motd: '§b§lCloud§3§lSystem §8- §7§lDynamic §f§oserver §7handling\n§8» §aOnline§7: §e%service%'
   version:
     name: '§8» §cMaintenance'
     id: 0
@@ -11,7 +11,13 @@ serverList:
     - 'Join my'
     - 'network!'
 
+# Placeholders:
+#   %service% : Service name
+#   %online%  : Online players
+#   %max%     : Max players
+#   %ping%    : Player ping
+#   %Time%    : Time
 tabList:
   update: 20
-  header: ' §b§lCloud§3§lSystem §8- \n'
-  footer: '\n §7Date: §f%date% \n §7Time: §f%time% '
+  header: ' §b§lCloud§3§lSystem §e%service% \n §7§lDynamic §f§oserver §7handling \n §7Ping§8: §3%ping%ms \n'
+  footer: '\n §7Players§8: §b%online%§7/§b%max% \n §7Time§8: §3%time% '

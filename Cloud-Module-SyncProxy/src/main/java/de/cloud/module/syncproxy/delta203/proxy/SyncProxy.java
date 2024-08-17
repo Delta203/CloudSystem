@@ -30,16 +30,15 @@ public class SyncProxy extends Plugin {
   @Override
   public void onEnable() {
     plugin = this;
-    registerConfigs();
+    loadConfig();
 
     ProxyServer.getInstance().getPluginManager().registerListener(plugin, new Ping());
   }
 
-  private void registerConfigs() {
-    // load config
-    FileManager configManager = new FileManager("config.yml");
-    configManager.create();
-    configManager.load();
-    config = configManager.get();
+  private void loadConfig() {
+    FileManager configYml = new FileManager("config.yml");
+    configYml.create();
+    configYml.load();
+    config = configYml.get();
   }
 }

@@ -16,45 +16,61 @@
 
 package de.cloud.module.syncproxy.delta203.server;
 
-import java.time.LocalDate;
+import de.cloud.api.delta203.core.CloudInstance;
 import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
 
 public class TabManager extends BukkitRunnable {
 
-  private final Player player;
   private final int update;
-  private String header;
-  private String footer;
+  private final String header;
+  private final String footer;
 
-  public TabManager(Player player) {
-    this.player = player;
+  public TabManager() {
     update = SyncProxy.config.getInt("tabList.update");
     header = SyncProxy.config.getString("tabList.header");
     footer = SyncProxy.config.getString("tabList.footer");
-  }
-
-  private String getDate() {
-    return LocalDate.now().toString();
-  }
-
-  private String getTime() {
-    return LocalTime.now().toString();
   }
 
   public int getUpdate() {
     return update;
   }
 
-  private void tabList() {
-    player.setPlayerListHeaderFooter(header, footer);
+  private String getHeader(Player player) {
+    return header
+        .replace("\\n", "\n")
+        .replace("%service%", CloudInstance.name)
+        .replace("%online%", "0")
+        .replace("%max%", "0")
+        .replace("%ping%", String.valueOf(getPing(player)))
+        .replace("%time%", getTime());
+  }
+
+  private String getFooter(Player player) {
+    return footer
+        .replace("\\n", "\n")
+        .replace("%service%", CloudInstance.name)
+        .replace("%online%", "0")
+        .replace("%max%", "0")
+        .replace("%ping%", String.valueOf(getPing(player)))
+        .replace("%time%", getTime());
+  }
+
+  private int getPing(Player player) {
+    return player.getPing();
+  }
+
+  private String getTime() {
+    return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
   }
 
   @Override
   public void run() {
-    header = header.replace("\\n", "\n").replace("%date%", getDate()).replace("%time%", getTime());
-    footer = footer.replace("\\n", "\n").replace("%date%", getDate()).replace("%time%", getTime());
-    tabList();
+    for (Player all : Bukkit.getOnlinePlayers()) {
+      all.setPlayerListHeaderFooter(getHeader(all), getFooter(all));
+    }
   }
 }
