@@ -17,6 +17,8 @@
 package de.cloud.module.syncproxy.delta203.server;
 
 import de.cloud.module.syncproxy.delta203.server.files.FileManager;
+import de.cloud.module.syncproxy.delta203.server.utils.PlayerCount;
+import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,10 +30,19 @@ public class SyncProxy extends JavaPlugin {
   @Override
   public void onEnable() {
     plugin = this;
+    Bukkit.getMessenger().registerOutgoingPluginChannel(plugin, "BungeeCord");
+    Bukkit.getMessenger().registerIncomingPluginChannel(plugin, "BungeeCord", new PlayerCount());
+
     loadConfig();
 
     TabManager tabManager = new TabManager();
     tabManager.runTaskTimer(plugin, 0, tabManager.getUpdate());
+  }
+
+  @Override
+  public void onDisable() {
+    Bukkit.getMessenger().unregisterOutgoingPluginChannel(plugin);
+    Bukkit.getMessenger().unregisterIncomingPluginChannel(plugin);
   }
 
   private void loadConfig() {

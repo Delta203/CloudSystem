@@ -13,11 +13,12 @@ serverList:
 
 # Placeholders:
 #   %service% : Service name
-#   %online%  : Online players
-#   %max%     : Max players
+#   %online%  : Online players server
+#   %max%     : Max players server
+#   %onlineP% : Online players proxy
 #   %ping%    : Player ping
 #   %Time%    : Time
 tabList:
   update: 20
   header: ' §b§lCloud§3§lSystem §e%service% \n §7§lDynamic §f§oserver §7handling \n §7Ping§8: §3%ping%ms \n'
-  footer: '\n §7Players§8: §b%online%§7/§b%max% \n §7Time§8: §3%time% '
+  footer: '\n §7Players§8: §b%onlineP%§7/§b%max% \n §7Time§8: §3%time% '

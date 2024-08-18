@@ -19,6 +19,10 @@ package de.cloud.module.syncproxy.delta203.server;
 import de.cloud.api.delta203.core.CloudInstance;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
+import java.util.List;
+
+import de.cloud.module.syncproxy.delta203.server.utils.PlayerCount;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -43,8 +47,9 @@ public class TabManager extends BukkitRunnable {
     return header
         .replace("\\n", "\n")
         .replace("%service%", CloudInstance.name)
-        .replace("%online%", "0")
-        .replace("%max%", "0")
+        .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()))
+        .replace("%onlineP%", String.valueOf(PlayerCount.getPlayerCount()))
+        .replace("%max%", String.valueOf(Bukkit.getMaxPlayers()))
         .replace("%ping%", String.valueOf(getPing(player)))
         .replace("%time%", getTime());
   }
@@ -53,8 +58,9 @@ public class TabManager extends BukkitRunnable {
     return footer
         .replace("\\n", "\n")
         .replace("%service%", CloudInstance.name)
-        .replace("%online%", "0")
-        .replace("%max%", "0")
+        .replace("%online%", String.valueOf(Bukkit.getOnlinePlayers().size()))
+        .replace("%onlineP%", String.valueOf(PlayerCount.getPlayerCount()))
+        .replace("%max%", String.valueOf(Bukkit.getMaxPlayers()))
         .replace("%ping%", String.valueOf(getPing(player)))
         .replace("%time%", getTime());
   }
@@ -69,8 +75,10 @@ public class TabManager extends BukkitRunnable {
 
   @Override
   public void run() {
-    for (Player all : Bukkit.getOnlinePlayers()) {
-      all.setPlayerListHeaderFooter(getHeader(all), getFooter(all));
+    List<Player> players = new ArrayList<>(Bukkit.getOnlinePlayers());
+    if (!players.isEmpty()) PlayerCount.flushPlayerCount(players.get(0));
+    for (Player player : players) {
+      player.setPlayerListHeaderFooter(getHeader(player), getFooter(player));
     }
   }
 }
