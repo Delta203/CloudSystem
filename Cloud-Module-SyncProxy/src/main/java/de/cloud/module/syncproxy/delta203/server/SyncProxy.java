@@ -17,7 +17,9 @@
 package de.cloud.module.syncproxy.delta203.server;
 
 import de.cloud.module.syncproxy.delta203.server.files.FileManager;
+import de.cloud.module.syncproxy.delta203.server.listeners.Join;
 import de.cloud.module.syncproxy.delta203.server.utils.PlayerCount;
+import de.cloud.module.syncproxy.delta203.server.utils.TabManager;
 import org.bukkit.Bukkit;
 import org.bukkit.configuration.Configuration;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,6 +29,8 @@ public class SyncProxy extends JavaPlugin {
   public static SyncProxy plugin;
   public static Configuration config;
 
+  public static TabManager tabManager;
+
   @Override
   public void onEnable() {
     plugin = this;
@@ -35,7 +39,9 @@ public class SyncProxy extends JavaPlugin {
 
     loadConfig();
 
-    TabManager tabManager = new TabManager();
+    Bukkit.getPluginManager().registerEvents(new Join(), plugin);
+
+    tabManager = new TabManager();
     tabManager.runTaskTimer(plugin, 0, tabManager.getUpdate());
   }
 

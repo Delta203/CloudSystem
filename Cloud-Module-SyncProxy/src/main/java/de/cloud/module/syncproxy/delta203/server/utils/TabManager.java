@@ -14,15 +14,14 @@
  * limitations under the License.
  */
 
-package de.cloud.module.syncproxy.delta203.server;
+package de.cloud.module.syncproxy.delta203.server.utils;
 
 import de.cloud.api.delta203.core.CloudInstance;
+import de.cloud.module.syncproxy.delta203.server.SyncProxy;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
-
-import de.cloud.module.syncproxy.delta203.server.utils.PlayerCount;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.scheduler.BukkitRunnable;
@@ -39,11 +38,19 @@ public class TabManager extends BukkitRunnable {
     footer = SyncProxy.config.getString("tabList.footer");
   }
 
+  private int getPing(Player player) {
+    return player.getPing();
+  }
+
+  private String getTime() {
+    return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
+  }
+
   public int getUpdate() {
     return update;
   }
 
-  private String getHeader(Player player) {
+  public String getHeader(Player player) {
     return header
         .replace("\\n", "\n")
         .replace("%service%", CloudInstance.name)
@@ -54,7 +61,7 @@ public class TabManager extends BukkitRunnable {
         .replace("%time%", getTime());
   }
 
-  private String getFooter(Player player) {
+  public String getFooter(Player player) {
     return footer
         .replace("\\n", "\n")
         .replace("%service%", CloudInstance.name)
@@ -63,14 +70,6 @@ public class TabManager extends BukkitRunnable {
         .replace("%max%", String.valueOf(Bukkit.getMaxPlayers()))
         .replace("%ping%", String.valueOf(getPing(player)))
         .replace("%time%", getTime());
-  }
-
-  private int getPing(Player player) {
-    return player.getPing();
-  }
-
-  private String getTime() {
-    return LocalTime.now().format(DateTimeFormatter.ofPattern("HH:mm:ss"));
   }
 
   @Override
