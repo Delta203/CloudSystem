@@ -39,7 +39,7 @@ public class CloudInstance {
   /** Get the Cloud-Service channel. */
   public static CloudChannel channel;
 
-  /** Get the Cloud-Service state. */
+  /** Get the Cloud-Service state. (Read only!) */
   public static CloudServiceState state;
 
   /** Get all Cloud-Services with it states. */

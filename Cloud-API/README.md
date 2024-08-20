@@ -26,6 +26,9 @@ public static String key;
 /** Get the Cloud-Service channel. */
 public static CloudChannel channel;
 
+/** Get the Cloud-Service state. (Read only!) */
+public static CloudServiceState state;
+
 /** Get all Cloud-Services with it states. */
 public static HashMap<CloudServiceState, List<CloudService>> services;
 
@@ -62,12 +65,6 @@ public static Configuration config;
 
 /** Get the Cloud-API server manager. */
 public static CloudServerManager serverManager;
-
-/** Get the Cloud-Service state. */
-public static final CloudServiceState state = CloudServiceState.PROXY
-
-/** This method shows whether the Cloud API is running on a proxy server. */
-public static boolean runningOnProxy() {}
 ```
 
 ### Server Manager
@@ -90,9 +87,6 @@ public static CloudAPI plugin;
 
 /** Get the Cloud-API file configuration. */
 public static Configuration config;
-
-/** This method gets the cloud service state. */
-public static CloudServiceState getServiceState() {}
 
 /** This method sets the CloudServiceState to INGAME. */
 public static void updateServiceState() {}
