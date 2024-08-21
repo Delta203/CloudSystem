@@ -21,4 +21,4 @@ serverList:
 tabList:
   update: 20
   header: ' §b§lCloud§3§lSystem §e%service% \n §7§lDynamic §f§oserver §7handling \n §7Ping§8: §3%ping%ms \n'
-  footer: '\n §7Players§8: §b%onlineP%§7/§b%max% \n §7Time§8: §3%time% '
+  footer: '\n §7Global players§8: §b%onlineP%§7/§b%max% \n §7Time§8: §3%time% '

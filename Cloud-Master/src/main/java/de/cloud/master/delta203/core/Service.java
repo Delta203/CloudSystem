@@ -270,6 +270,9 @@ public class Service extends Thread {
       Cloud.console.print("§c" + name + " not enough memory!", "§3Service§r");
       return false;
     }
+    Cloud.services.put(name, this);
+    Cloud.memory += group.getMemory();
+
     if (!group.isStatic()) {
       copyDefault();
       copyTemplate();
@@ -279,10 +282,16 @@ public class Service extends Thread {
     modifyServer();
     addCloudAPI();
     addCloudModules();
-    Cloud.services.put(name, this);
-    Cloud.memory += group.getMemory();
     Cloud.console.print(name + " files loaded...", "§3Service§r");
     return true;
+  }
+
+  public boolean filesRegistered() {
+    return (group.getType() == GroupType.PROXY
+        ? new File(path + "/config.yml").exists()
+        : new File(path + "/server.properties").exists()
+            && new File(path + "/spigot.yml").exists()
+            && new File(path + "/eula.txt").exists());
   }
 
   /**
@@ -355,8 +364,7 @@ public class Service extends Thread {
       process.waitFor();
       int exitCode = process.exitValue();
       Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
-    } catch (IOException | InterruptedException e) {
-      throw new RuntimeException(e);
+    } catch (IOException | InterruptedException ignored) {
     } finally {
       unregister();
     }
@@ -368,10 +376,12 @@ public class Service extends Thread {
     Cloud.services.remove(name);
     Cloud.memory -= group.getMemory();
     // restart services if needed
-    try {
-      Thread.sleep(2000);
-    } catch (InterruptedException e) {
-      throw new RuntimeException(e);
+    while (new File(path).exists()) {
+      try {
+        Thread.sleep(2000);
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
+      }
     }
     group.runServices();
   }
