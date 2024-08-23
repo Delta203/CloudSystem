@@ -109,7 +109,7 @@ public class Channel extends Thread {
 
     Cloud.console.print(
         service.getServiceName() + ":" + service.getServicePort() + " has disconnected.",
-        "§bChannel§r");
+        "§cChannel§r");
     // send remove server
     PacketRemoveServer removeServer = new PacketRemoveServer();
     removeServer.n(service.getServiceName());
@@ -119,6 +119,6 @@ public class Channel extends Thread {
     serviceInfo.s(new ArrayList<>(Cloud.services.values()));
     broadcast(serviceInfo.message(), false);
     // stop service
-    service.stopProcess();
+    service.stopProcess(false);
   }
 }

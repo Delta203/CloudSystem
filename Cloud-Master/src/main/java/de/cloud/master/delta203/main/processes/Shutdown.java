@@ -30,7 +30,7 @@ public class Shutdown {
     Cloud.console.print("The cloud is stopping...");
     Application.scanner.close();
     for (Service service : Cloud.services.values()) {
-      service.stopProcess();
+      service.stopProcess(false);
     }
     while (aServiceIsActive()) {
       try {

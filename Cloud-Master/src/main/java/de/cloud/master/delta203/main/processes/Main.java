@@ -88,8 +88,8 @@ public class Main {
     Cloud.console.print("§fgroupInfo <group>§r - Shows group information.");
     Cloud.console.print("§fconsole <service>§r - Shows the server console of service.");
     Cloud.console.print("§fcommand <service> <args>§r - Dispatch a command on a service.");
-    Cloud.console.print("§fstop <service>§r - Stop a specific service.");
-    Cloud.console.print("§fstopGroup <group>§r - Stop a server group.");
+    Cloud.console.print("§fstop <service>§r -F - Stop a specific service.");
+    Cloud.console.print("§fstopGroup <group>§r -F - Stop a server group.");
     Cloud.console.print("§fservices§r - Shows the list of active services.");
     Cloud.console.print("§fos§r - Shows the operating system data.");
     Cloud.console.print("§fshowKey§r - Shows the communication key.");

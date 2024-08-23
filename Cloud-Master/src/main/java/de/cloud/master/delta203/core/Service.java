@@ -282,7 +282,7 @@ public class Service extends Thread {
     modifyServer();
     addCloudAPI();
     addCloudModules();
-    Cloud.console.print(name + " files loaded...", "§3Service§r");
+    Cloud.console.print("Loaded: " + name + " " + group, "§3Service§r");
     return true;
   }
 
@@ -300,7 +300,7 @@ public class Service extends Thread {
    */
   public void registerChannel(Channel channel) {
     this.channel = channel;
-    Cloud.console.print(name + ":" + port + " successfully connected.", "§bChannel§r");
+    Cloud.console.print(name + ":" + port + " successfully connected.", "§aChannel§r");
     if (group.getType() == GroupType.PROXY) {
       // broadcast online channels to new proxy
       for (Service connected : Cloud.services.values()) {
@@ -363,7 +363,7 @@ public class Service extends Thread {
       }
       process.waitFor();
       int exitCode = process.exitValue();
-      Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
+      Cloud.console.print(name + " exited with code: " + exitCode, "§cService§r");
     } catch (IOException | InterruptedException ignored) {
     } finally {
       unregister();
@@ -386,15 +386,15 @@ public class Service extends Thread {
     group.runServices();
   }
 
-  public void stopProcess() {
+  public void stopProcess(boolean forced) {
     if (!isProcessAlive()) return;
-    if (channel != null) {
+    if (channel != null && !forced) {
       String command = group.getType() == GroupType.PROXY ? "end" : "stop";
       PacketCommand packetCommand = new PacketCommand();
       packetCommand.c(command);
       channel.sendMessage(packetCommand.message());
-    } else {
-      process.destroy();
+      return;
     }
+    process.destroy();
   }
 }

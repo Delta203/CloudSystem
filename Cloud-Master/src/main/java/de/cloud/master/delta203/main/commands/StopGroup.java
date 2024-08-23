@@ -20,6 +20,9 @@ import de.cloud.master.delta203.core.Group;
 import de.cloud.master.delta203.core.Service;
 import de.cloud.master.delta203.main.Cloud;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class StopGroup {
 
   private final String command;
@@ -30,8 +33,8 @@ public class StopGroup {
 
   public void execute() {
     String[] args = command.split(" ");
-    if (args.length != 2) {
-      Cloud.console.print("Usage: stopGroup <group>");
+    if (args.length != 2 && args.length != 3) {
+      Cloud.console.print("Usage: stopGroup <group> -F");
       return;
     }
     String name = args[1];
@@ -43,9 +46,15 @@ public class StopGroup {
       Cloud.console.print("The name of group is invalid.");
       return;
     }
+    // store services to prevent modification bug
+    List<Service> services = new ArrayList<>();
     for (Service service : Cloud.services.values()) {
       if (service.getServiceGroup() != group) continue;
-      service.stopProcess();
+      services.add(service);
+    }
+    // stop services
+    for (Service service : services) {
+      service.stopProcess(command.contains("-F"));
     }
   }
 }

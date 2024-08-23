@@ -19,6 +19,7 @@ package de.cloud.master.delta203.core;
 import com.google.gson.JsonObject;
 import de.cloud.master.delta203.core.files.FileManager;
 import de.cloud.master.delta203.core.utils.GroupType;
+import de.cloud.master.delta203.core.utils.ServiceState;
 import de.cloud.master.delta203.main.Cloud;
 import java.io.File;
 
@@ -83,6 +84,21 @@ public class Group {
     return statisch;
   }
 
+  @Override
+  public String toString() {
+    return "Group{type="
+        + type
+        + ", memory="
+        + memory
+        + ", min="
+        + minAmount
+        + ", max="
+        + maxAmount
+        + ", static="
+        + statisch
+        + "}";
+  }
+
   private void mkdir() {
     String target =
         statisch ? Cloud.pathManager.getPathServicesStatic() : Cloud.pathManager.getPathTemplates();
@@ -117,52 +133,31 @@ public class Group {
 
   public void runServices() {
     int registered = 0;
+    int inGame = 0;
     for (Service service : Cloud.services.values()) {
       if (service.getServiceGroup().equals(this)) {
         registered++;
+        if (service.getServiceState() == ServiceState.INGAME) inGame++;
       }
     }
-    int needed = minAmount - registered;
-    System.out.println("Registered: " + registered + " Needed: " + needed + " Max: " + maxAmount);
+    int needed = minAmount - registered + inGame;
+    /* System.out.println("Registered: " + registered + " Needed: " + needed + " Max: " + maxAmount); */
     for (int i = 0; i < needed && registered < maxAmount; i++) {
-      Service service = new Service(this);
-      if (service.register()) {
-        while (!service.filesRegistered()) {
-          try {
-            Thread.sleep(2000);
-          } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-          }
-        }
-        service.start();
-      }
+      registerService();
     }
   }
 
-  /*
-  public void runServices() {
-    int total = 0;
-    int online = 0;
-    for (Service service : Cloud.services.values()) {
-      if (service.getServiceGroup().equals(this)) {
-        total++;
-        if (service.getServiceState() == ServiceState.LOBBY) online++;
-      }
-    }
-    int needed = minAmount - online;
-    System.out.println("Needed: " + needed + " Online: " + online + " Min: " + minAmount);
-    for (int i = 0; i < needed && total < maxAmount; i++) {
-      Service service = new Service(this);
-      if (service.register()) {
-        while (!service.filesRegistered()) {
-          try {
-            Thread.sleep(2000);
-          } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-          }
+  private void registerService() {
+    Service service = new Service(this);
+    if (service.register()) {
+      while (!service.filesRegistered()) {
+        try {
+          Thread.sleep(2000);
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
         }
-        service.start();
       }
+      service.start();
     }
-  }*/
+  }
 }

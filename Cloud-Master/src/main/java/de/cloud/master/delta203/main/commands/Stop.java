@@ -29,8 +29,8 @@ public class Stop {
 
   public void execute() {
     String[] args = command.split(" ");
-    if (args.length != 2) {
-      Cloud.console.print("Usage: stop <service>");
+    if (args.length != 2 && args.length != 3) {
+      Cloud.console.print("Usage: stop <service> -F");
       return;
     }
     String name = args[1];
@@ -39,6 +39,6 @@ public class Stop {
       return;
     }
     Service service = Cloud.services.get(name);
-    service.stopProcess();
+    service.stopProcess(command.contains("-F"));
   }
 }
