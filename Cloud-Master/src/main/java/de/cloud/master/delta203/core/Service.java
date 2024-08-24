@@ -363,7 +363,7 @@ public class Service extends Thread {
       }
       process.waitFor();
       int exitCode = process.exitValue();
-      Cloud.console.print(name + " exited with code: " + exitCode, "§cService§r");
+      Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
     } catch (IOException | InterruptedException ignored) {
     } finally {
       unregister();

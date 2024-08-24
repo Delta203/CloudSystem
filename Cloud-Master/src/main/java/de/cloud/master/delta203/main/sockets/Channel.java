@@ -97,7 +97,7 @@ public class Channel extends Thread {
         if (!communication.isValid(Cloud.key, message)) {
           // invalid -> close socket and stop loop
           socket.close();
-          return;
+          break;
         }
         // valid -> handle message
         communication.handle(this, message);
@@ -119,6 +119,6 @@ public class Channel extends Thread {
     serviceInfo.s(new ArrayList<>(Cloud.services.values()));
     broadcast(serviceInfo.message(), false);
     // stop service
-    service.stopProcess(false);
+    service.stopProcess(true);
   }
 }
