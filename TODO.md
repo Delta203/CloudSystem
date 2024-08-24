@@ -1,21 +1,49 @@
 # Fix
 ```
-[01:20:05.438] [Service]: Lobby-1 files loaded...
-[01:20:05.463] [Service]: Lobby-1 exited with code: 1
-Exception in thread "Thread-41" java.lang.RuntimeException: java.io.FileNotFoundException: services/temp/Lobby-1/eula.txt (No such file or directory)
-        at de.cloud.master.delta203.core.Service.writeFile(Service.java:148)
-        at de.cloud.master.delta203.core.Service.addEula(Service.java:172)
-        at de.cloud.master.delta203.core.Service.register(Service.java:277)
-        at de.cloud.master.delta203.core.Group.runServices(Group.java:131)
-        at de.cloud.master.delta203.core.Service.unregister(Service.java:376)
-        at de.cloud.master.delta203.core.Service.run(Service.java:361)
-Caused by: java.io.FileNotFoundException: services/temp/Lobby-1/eula.txt (No such file or directory)
-        at java.base/java.io.FileOutputStream.open0(Native Method)
-        at java.base/java.io.FileOutputStream.open(FileOutputStream.java:293)
-        at java.base/java.io.FileOutputStream.<init>(FileOutputStream.java:235)
-        at de.cloud.master.delta203.core.Service.writeFile(Service.java:145)
-        ... 5 more
-[01:20:05.567] [Service]: Lobby-2 files loaded...
-[01:20:07.682] [Service]: Lobby-1 files loaded...
-[01:20:41.281] [Channel]: Lobby-2:47531 successfully connected.
+[03:59:39] [Netty Worker IO Thread #1/WARN]: Error in dispatching command
+java.lang.IllegalArgumentException: bound must be positive
+	at java.util.Random.nextInt(Random.java:322) ~[?:?]
+	at de.cloud.api.delta203.proxy.utils.CloudServerManager.getRandomFallback(CloudServerManager.java:55) ~[?:?]
+	at de.cloud.api.delta203.proxy.commands.CloudCmdLobby.execute(CloudCmdLobby.java:40) ~[?:?]
+	at net.md_5.bungee.api.plugin.PluginManager.dispatchCommand(PluginManager.java:213) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at net.md_5.bungee.api.plugin.PluginManager.dispatchCommand(PluginManager.java:164) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at net.md_5.bungee.connection.UpstreamBridge.handleChat(UpstreamBridge.java:230) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at net.md_5.bungee.connection.UpstreamBridge.handle(UpstreamBridge.java:205) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at net.md_5.bungee.protocol.packet.UnsignedClientCommand.handle(UnsignedClientCommand.java:36) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at net.md_5.bungee.netty.HandlerBoss.channelRead(HandlerBoss.java:128) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.handler.timeout.IdleStateHandler.channelRead(IdleStateHandler.java:289) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:442) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.handler.codec.ByteToMessageDecoder.fireChannelRead(ByteToMessageDecoder.java:346) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.handler.codec.ByteToMessageDecoder.channelRead(ByteToMessageDecoder.java:318) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.handler.codec.MessageToMessageDecoder.channelRead(MessageToMessageDecoder.java:103) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:444) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.fireChannelRead(AbstractChannelHandlerContext.java:412) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.DefaultChannelPipeline$HeadContext.channelRead(DefaultChannelPipeline.java:1407) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:440) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.AbstractChannelHandlerContext.invokeChannelRead(AbstractChannelHandlerContext.java:420) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.DefaultChannelPipeline.fireChannelRead(DefaultChannelPipeline.java:918) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.epoll.AbstractEpollStreamChannel$EpollStreamUnsafe.epollInReady(AbstractEpollStreamChannel.java:799) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.epoll.EpollEventLoop.processReady(EpollEventLoop.java:501) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.channel.epoll.EpollEventLoop.run(EpollEventLoop.java:399) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.util.concurrent.SingleThreadEventExecutor$4.run(SingleThreadEventExecutor.java:994) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at io.netty.util.internal.ThreadExecutorMap$2.run(ThreadExecutorMap.java:74) ~[Waterfall-1.21.jar:git:Waterfall-Bootstrap:1.21-R0.1-SNAPSHOT:de8345a:579]
+	at java.lang.Thread.run(Thread.java:840) [?:?]
 ```
+Stop Service after crashing
