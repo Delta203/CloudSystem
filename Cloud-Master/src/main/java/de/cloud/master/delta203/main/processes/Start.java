@@ -28,6 +28,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Objects;
 
 public class Start {
@@ -75,6 +76,18 @@ public class Start {
     }
   }
 
+  private void modules() {
+    List<String> result = new ArrayList<>();
+    File[] modules = new File(Cloud.pathManager.getPathModules()).listFiles();
+    if (modules == null) return;
+    for (File file : modules) {
+      String name = file.getName();
+      result.add(name);
+    }
+    int size = result.size();
+    Cloud.console.print("Running " + size + " module" + (size != 1 ? "s" : "") + ": " + result);
+  }
+
   private void server() {
     try {
       Cloud.server = new Server();
@@ -101,6 +114,7 @@ public class Start {
     groups();
     key();
     api();
+    modules();
     Cloud.console.print("All data has been loaded successfully.");
     server();
     os();

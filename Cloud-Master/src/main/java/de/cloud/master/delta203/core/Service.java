@@ -351,6 +351,7 @@ public class Service extends Thread {
   @Override
   public void run() {
     ProcessBuilder builder = buildProcess();
+    int exitCode = 0;
     try {
       process = builder.start();
       // run console in background
@@ -362,10 +363,10 @@ public class Service extends Thread {
         }
       }
       process.waitFor();
-      int exitCode = process.exitValue();
-      Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
+      exitCode = process.exitValue();
     } catch (IOException | InterruptedException ignored) {
     } finally {
+      Cloud.console.print(name + " exited with code: " + exitCode, "§3Service§r");
       unregister();
     }
   }
