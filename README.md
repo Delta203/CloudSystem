@@ -1,7 +1,7 @@
 # Cloud System
 Single root cloud system for minecraft servers. <br>
 Version: 1.0.1-SNAPSHOT <br>
-![](https://github.com/Delta203/CloudSystem/blob/main/.img/icon.png)
+![](https://github.com/Delta203/CloudSystem/blob/develop/.img/thumbnail.png)
 
 ## Single Root
 The **single root** cloud concept is based on the fact that there is only one proxy and all other servers
