@@ -1,8 +1,8 @@
-# Cloud-System Module Sync-Proxy
+# Cloud-Module-SyncProxy
 
 # Placeholders:
 # %service% : Service name
-serverList:
+ping:
   motd: '§b§lCloud§3§lSystem §8- §7§lDynamic §f§oserver §7handling\n§8» §aOnline§7: §e%service%'
   version:
     name: '§8» §cMaintenance'

@@ -38,14 +38,14 @@ public class Ping implements Listener {
     ping.setDescriptionComponent(
         new TextComponent(
             SyncProxy.config
-                .getString("serverList.motd")
+                .getString("ping.motd")
                 .replace("\\n", "\n")
                 .replace("%service%", CloudInstance.name)));
-    version.setName(SyncProxy.config.getString("serverList.version.name"));
-    int id = SyncProxy.config.getInt("serverList.version.id");
+    version.setName(SyncProxy.config.getString("ping.version.name"));
+    int id = SyncProxy.config.getInt("ping.version.id");
     if (id != 0) version.setProtocol(id);
     List<ServerPing.PlayerInfo> infos = new ArrayList<>();
-    for (String s : SyncProxy.config.getStringList("serverList.description")) {
+    for (String s : SyncProxy.config.getStringList("ping.description")) {
       infos.add(new ServerPing.PlayerInfo(s, UUID.randomUUID()));
     }
     players.setSample(infos.toArray(new ServerPing.PlayerInfo[0]));
