@@ -73,6 +73,12 @@ public class CloudAPI extends Plugin {
         .registerListener(plugin, new CloudListenerKickHub());
   }
 
+  @Override
+  public void onDisable() {
+    // Essential manuel socket disconnect
+    CloudInstance.channel.disconnect();
+  }
+
   private void loadConfig() {
     CloudFileManager configYml = new CloudFileManager("config.yml");
     configYml.create();

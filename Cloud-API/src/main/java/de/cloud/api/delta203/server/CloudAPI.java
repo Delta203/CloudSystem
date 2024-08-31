@@ -61,6 +61,12 @@ public class CloudAPI extends JavaPlugin {
     Bukkit.getPluginManager().registerEvents(new CloudListenerOnlyProxy(), plugin);
   }
 
+  @Override
+  public void onDisable() {
+    // Essential manuel socket disconnect
+    CloudInstance.channel.disconnect();
+  }
+
   private void loadConfig() {
     CloudFileManager configYml = new CloudFileManager("config.yml");
     configYml.create();

@@ -1,16 +1,16 @@
-# Cloud System
-Single root cloud system for minecraft servers. <br>
-Version: 1.0.1-SNAPSHOT <br>
-![](https://github.com/Delta203/CloudSystem/blob/develop/.img/thumbnail.png)
+# Cloud System: 1.0.1-SNAPSHOT
+![](https://github.com/Delta203/CloudSystem/blob/main/.img/thumbnail.png)
 
-## Single Root
-The **single root** cloud concept is based on the fact that there is only one proxy and all other servers
-connect to it. As a result, a multi root function is not yet possible!
+## Single-Root
+The **single-root** cloud concept is based on the fact that there is only one root server that operates
+the cloud. There is one proxy and all other servers connect to this. As a result, a multi-root function 
+where the proxy and the servers run on different root servers is not yet possible!
 
 ## Cloud-API
-The Cloud-API handles the individual **services**, i.e. the proxy or the server. This is used to create
+The Cloud-API handles the individual **service**, i.e. the proxy or the server. This is used to create
 a socket connection with the **Cloud-Master** so that these components can communicate with each other.
-[Here](https://github.com/Delta203/CloudSystem/tree/main/Cloud-API) you can find more information about the API.
+[Here](https://github.com/Delta203/CloudSystem/tree/main/Cloud-API) you can find more information about 
+the API.
 
 ## Cloud-Master
 The cloud master is the **main component** of the cloud and takes care of all service handling. It can
@@ -18,8 +18,8 @@ be operated using a console and can be used to create service groups, send comma
 much more.
 
 ## Cloud-Modules
-- Sign
 - SyncProxy
+- ~~Sign~~
 
 ## Supported Versions
 ### Proxy

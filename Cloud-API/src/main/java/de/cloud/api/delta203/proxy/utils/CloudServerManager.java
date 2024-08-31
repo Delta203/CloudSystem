@@ -28,7 +28,7 @@ import net.md_5.bungee.api.config.ServerInfo;
 /** This class manages the incoming servers and registers them as fallbacks if necessary. */
 public class CloudServerManager {
 
-  private final List<ServerInfo> fallbacks;
+  public final List<ServerInfo> fallbacks;
   private final String fallbackPrefix = "lobby";
 
   /** Create a server manager to add and remove servers from proxy. */
@@ -62,7 +62,7 @@ public class CloudServerManager {
    * @return a random fallback server
    */
   public ServerInfo getRandomFallback(ServerInfo except) {
-    List<ServerInfo> fallbacks = this.fallbacks;
+    List<ServerInfo> fallbacks = new ArrayList<>(this.fallbacks);
     fallbacks.remove(except);
     if (fallbacks.isEmpty()) return null;
     return fallbacks.get(new Random().nextInt(fallbacks.size()));
@@ -88,12 +88,13 @@ public class CloudServerManager {
     ServerInfo serverInfo =
         ProxyServer.getInstance().constructServerInfo(name, address, "Cloud Server", false);
     ProxyServer.getInstance().getServers().put(name, serverInfo);
+    String suffix = "";
     if (name.toLowerCase().startsWith(fallbackPrefix)) {
       // server is a fallback
       fallbacks.add(serverInfo);
       updateFallbacks();
+      suffix = "*";
     }
-    String suffix = fallbacks.contains(serverInfo) ? "*" : "";
     // debug
     System.out.println("+ " + name + suffix + " (" + address.toString() + ")");
   }
@@ -106,12 +107,14 @@ public class CloudServerManager {
   public void removeServer(String name) {
     ServerInfo serverInfo = ProxyServer.getInstance().getServerInfo(name);
     ProxyServer.getInstance().getServers().remove(name);
+    String suffix = "";
     if (name.toLowerCase().startsWith(fallbackPrefix)) {
       // server is a fallback
       fallbacks.remove(serverInfo);
       updateFallbacks();
+      suffix = "*";
     }
     // debug
-    System.out.println("- " + name);
+    System.out.println("- " + name + suffix);
   }
 }

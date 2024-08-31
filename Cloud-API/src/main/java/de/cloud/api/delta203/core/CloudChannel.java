@@ -69,6 +69,14 @@ public class CloudChannel extends Thread {
     return false;
   }
 
+  /** This method disconnects the channel from the server socket. */
+  public void disconnect() {
+    try {
+      socket.close();
+    } catch (IOException ignored) {
+    }
+  }
+
   /**
    * This method sends a message to the server socket.
    *
