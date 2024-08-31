@@ -351,7 +351,7 @@ public class Service extends Thread {
   @Override
   public void run() {
     ProcessBuilder builder = buildProcess();
-    int exitCode = 0;
+    int exitCode = -1;
     try {
       process = builder.start();
       // run console in background

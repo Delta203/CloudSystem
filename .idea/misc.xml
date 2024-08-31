@@ -9,13 +9,7 @@
       <list>
         <option value="$PROJECT_DIR$/Cloud-Module-Sign/pom.xml" />
         <option value="$PROJECT_DIR$/Cloud-Module-SyncProxy/pom.xml" />
-        <option value="$PROJECT_DIR$/Cloud-Module-TabList/pom.xml" />
       </list>
-    </option>
-    <option name="ignoredFiles">
-      <set>
-        <option value="$PROJECT_DIR$/Cloud-Module-TabList/pom.xml" />
-      </set>
     </option>
     <option name="workspaceImportForciblyTurnedOn" value="true" />
   </component>
