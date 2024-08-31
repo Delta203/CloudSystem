@@ -1,0 +1,24 @@
+# Cloud-Module-SyncProxy
+
+# Placeholders:
+# %service% : Service name
+ping:
+  motd: '§b§lCloud§3§lSystem §8- §7§lDynamic §f§oserver §7handling\n§8» §aOnline§7: §e%service%'
+  version:
+    name: '§8» §cMaintenance'
+    id: 0
+  description:
+    - 'Join my'
+    - 'network!'
+
+# Placeholders:
+#   %service% : Service name
+#   %online%  : Online players server
+#   %max%     : Max players server
+#   %onlineP% : Online players proxy
+#   %ping%    : Player ping
+#   %Time%    : Time
+tabList:
+  update: 20
+  header: ' §b§lCloud§3§lSystem §e%service% \n §7§lDynamic §f§oserver §7handling \n §7Ping§8: §3%ping%ms \n'
+  footer: '\n §7Global players§8: §b%onlineP%§7/§b%max% \n §7Time§8: §3%time% '

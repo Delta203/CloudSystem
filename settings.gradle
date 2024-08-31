@@ -1,0 +1,4 @@
+rootProject.name = 'CloudSystem'
+include 'Cloud-API'
+include 'Cloud-Master'
+
