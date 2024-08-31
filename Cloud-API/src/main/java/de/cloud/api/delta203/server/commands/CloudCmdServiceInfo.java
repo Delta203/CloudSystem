@@ -31,6 +31,12 @@ public class CloudCmdServiceInfo implements CommandExecutor {
 
   @Override
   public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
+    /* Crash server for test only!!!
+    if (sender instanceof Player p) {
+      for (int i = 0; i < 100000; i++) {
+        p.getWorld().spawnEntity(p.getLocation(), EntityType.PIG);
+      }
+    } */
     if (!sender.isOp()) {
       sender.sendMessage(ChatColor.RED + "You must be op to execute the command!");
       return false;

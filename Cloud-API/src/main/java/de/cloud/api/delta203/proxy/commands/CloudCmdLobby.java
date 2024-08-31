@@ -19,9 +19,7 @@ package de.cloud.api.delta203.proxy.commands;
 import de.cloud.api.delta203.proxy.CloudAPI;
 import net.md_5.bungee.api.ChatColor;
 import net.md_5.bungee.api.CommandSender;
-import net.md_5.bungee.api.ProxyServer;
 import net.md_5.bungee.api.chat.TextComponent;
-import net.md_5.bungee.api.config.ListenerInfo;
 import net.md_5.bungee.api.connection.ProxiedPlayer;
 import net.md_5.bungee.api.plugin.Command;
 
@@ -34,11 +32,6 @@ public class CloudCmdLobby extends Command {
   @Override
   public void execute(CommandSender sender, String[] args) {
     if (sender instanceof ProxiedPlayer p) {
-      for (ListenerInfo info : ProxyServer.getInstance().getConfig().getListeners()) {
-        for (String n : info.getServerPriority()) {
-          p.sendMessage(new TextComponent(n));
-        }
-      }
       if (CloudAPI.serverManager.isFallback(p.getServer().getInfo())) {
         // player is already on a lobby server
         p.sendMessage(new TextComponent(ChatColor.RED + "You are already on a lobby server!"));
