@@ -37,6 +37,15 @@ public class Start {
     Cloud.groups = new ArrayList<>();
   }
 
+  private String listToString(List<String> list) {
+    if (list.isEmpty()) return "[]";
+    StringBuilder result = new StringBuilder();
+    for (String s : list) {
+      result.append("§e").append(s).append("§r, ");
+    }
+    return "[" + result.substring(0, result.length() - 2) + "]";
+  }
+
   private void config() {
     Cloud.config.load();
   }
@@ -85,7 +94,8 @@ public class Start {
       result.add(name);
     }
     int size = result.size();
-    Cloud.console.print("Running " + size + " module" + (size != 1 ? "s" : "") + ": " + result);
+    Cloud.console.print(
+        "Running " + size + " module" + (size != 1 ? "s" : "") + ": " + listToString(result));
   }
 
   private void server() {

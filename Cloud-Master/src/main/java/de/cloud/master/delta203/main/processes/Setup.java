@@ -23,9 +23,13 @@ import de.cloud.master.delta203.core.utils.OSType;
 import de.cloud.master.delta203.main.Application;
 import de.cloud.master.delta203.main.Cloud;
 
+import java.io.BufferedReader;
 import java.io.IOException;
-import java.net.InetAddress;
-import java.net.UnknownHostException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 public class Setup {
 
@@ -35,9 +39,20 @@ public class Setup {
     config = new JsonObject();
   }
 
+  private String listToString(List<String> list) {
+    if (list.isEmpty()) return "[]";
+    StringBuilder result = new StringBuilder();
+    for (String s : list) {
+      result.append("§e").append(s).append("§r, ");
+    }
+    return "[" + result.substring(0, result.length() - 2) + "]";
+  }
+
   private String os() {
     Cloud.console.print(
-        "On which system is the cloud running? [" + OSType.LINUX + ", " + OSType.WINDOWS + "]");
+        "On which system is the cloud running? "
+            + listToString(
+                new ArrayList<>(Arrays.asList(OSType.LINUX.name(), OSType.WINDOWS.name()))));
     String os = Application.scanner.nextLine();
     while (!os.equals(OSType.LINUX.name()) && !os.equals(OSType.WINDOWS.name())) {
       Cloud.console.print("The specified os version is invalid.");
@@ -50,8 +65,10 @@ public class Setup {
     Cloud.console.print("On which address should the server run?");
     String ip = "localhost";
     try {
-      ip = InetAddress.getLocalHost().getHostAddress();
-    } catch (UnknownHostException ignored) {
+      URL url = new URL("https://checkip.amazonaws.com");
+      BufferedReader in = new BufferedReader(new InputStreamReader(url.openStream()));
+      ip = in.readLine();
+    } catch (IOException ignored) {
     }
     Cloud.console.print("Press enter for default value: " + ip + ":" + 1550);
     String input = Application.scanner.nextLine();
@@ -79,7 +96,8 @@ public class Setup {
 
   private String proxy() {
     Cloud.console.print(
-        "What kind of proxy version do you want to use? " + Constants.Links.PROXIES.keySet());
+        "What kind of proxy version do you want to use? "
+            + listToString(Constants.Links.PROXIES.keySet().stream().toList()));
     String proxy = Application.scanner.nextLine();
     while (!Constants.Links.PROXIES.containsKey(proxy)) {
       Cloud.console.print("The specified proxy version is invalid.");
@@ -99,7 +117,8 @@ public class Setup {
 
   private String server() {
     Cloud.console.print(
-        "What kind of server version do you want to use? " + Constants.Links.SERVERS.keySet());
+        "What kind of server version do you want to use? "
+            + listToString(Constants.Links.SERVERS.keySet().stream().toList()));
     String server = Application.scanner.nextLine();
     while (!Constants.Links.SERVERS.containsKey(server)) {
       Cloud.console.print("The specified server version is invalid.");

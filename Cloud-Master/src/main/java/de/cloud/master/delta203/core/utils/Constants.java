@@ -67,21 +67,24 @@ public class Constants {
         new HashMap<>() {
           {
             put("spigot-1.18.2", "https://download.getbukkit.org/spigot/spigot-1.18.2.jar");
+            put("spigot-1.19", "https://download.getbukkit.org/spigot/spigot-1.19.jar");
+            put("spigot-1.19.1", "https://download.getbukkit.org/spigot/spigot-1.19.1.jar");
+            put("spigot-1.19.2", "https://download.getbukkit.org/spigot/spigot-1.19.2.jar");
+            put("spigot-1.19.3", "https://download.getbukkit.org/spigot/spigot-1.19.3.jar");
+            put("spigot-1.19.4", "https://download.getbukkit.org/spigot/spigot-1.19.4.jar");
             put("spigot-1.20.1", "https://download.getbukkit.org/spigot/spigot-1.20.1.jar");
+            put("spigot-1.20.2", "https://download.getbukkit.org/spigot/spigot-1.20.2.jar");
             put("spigot-1.20.4", "https://download.getbukkit.org/spigot/spigot-1.20.4.jar");
-            put("spigot-1.20.6", "https://download.getbukkit.org/spigot/spigot-1.20.6.jar");
-            /* TODO: paper support
-            put(
-                "paper-1.20.6",
-                "https://api.papermc.io/v2/projects/paper/versions/1.20.6/builds/147/downloads/paper-1.20.6-147.jar");
-            */
 
-            /* GSON not supported in 1.8 and 1.12!
-            put("spigot-1.12.2", "https://cdn.getbukkit.org/spigot/spigot-1.12.2.jar");
             put(
-                "spigot-1.8.8",
-                "https://cdn.getbukkit.org/spigot/spigot-1.8.8-R0.1-SNAPSHOT-latest.jar");
-             */
+                "paper-1.20.1",
+                "https://api.papermc.io/v2/projects/paper/versions/1.20.1/builds/196/downloads/paper-1.20.1-196.jar");
+            put(
+                "paper-1.20.2",
+                "https://api.papermc.io/v2/projects/paper/versions/1.20.2/builds/318/downloads/paper-1.20.2-318.jar");
+            put(
+                "paper-1.20.4",
+                "https://api.papermc.io/v2/projects/paper/versions/1.20.4/builds/398/downloads/paper-1.20.4-398.jar");
           }
         };
   }
