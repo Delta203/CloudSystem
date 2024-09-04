@@ -118,7 +118,11 @@ public class Channel extends Thread {
     PacketServiceInfo serviceInfo = new PacketServiceInfo();
     serviceInfo.s(new ArrayList<>(Cloud.services.values()));
     broadcast(serviceInfo.message(), false);
-    // stop service
+    // forced stop service after 10 seconds, prevents keep alive at server crashes
+    try {
+      Thread.sleep(10000);
+    } catch (InterruptedException ignored) {
+    }
     service.stopProcess(true);
   }
 }
