@@ -377,7 +377,7 @@ public class Service extends Thread {
     Cloud.services.remove(name);
     Cloud.memory -= group.getMemory();
     // restart services if needed
-    while (new File(path).exists()) {
+    while (new File(path).exists() && !group.isStatic()) {
       try {
         Thread.sleep(2000);
       } catch (InterruptedException e) {
