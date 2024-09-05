@@ -18,6 +18,7 @@ be operated using a console and can be used to create service groups, send comma
 much more.
 
 ## Cloud-Modules
+- AntiVPN
 - SyncProxy
 - ~~Sign~~
 

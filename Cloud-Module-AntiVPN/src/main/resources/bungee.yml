@@ -1,0 +1,5 @@
+name: Cloud-Module-AntiVPN
+version: 1.0.1
+author: Delta203
+
+main: de.cloud.module.antivpn.delta203.proxy.AntiVPN

@@ -1,0 +1,5 @@
+# Cloud-Module-AntiVPN
+
+# Placeholders:
+# %ip% : Player address
+api: 'http://ip-api.com/json/%ip%?fields=192511'

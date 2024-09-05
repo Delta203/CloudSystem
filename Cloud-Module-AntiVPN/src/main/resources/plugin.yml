@@ -1,0 +1,8 @@
+name: Cloud-Module-AntiVPN
+version: 1.0.1
+api-version: 1.13
+author: Delta203
+depend:
+  - Cloud-API
+
+main: de.cloud.module.antivpn.delta203.server.AntiVPN
