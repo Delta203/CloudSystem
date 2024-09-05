@@ -12,3 +12,7 @@
 ### Tab List
 - Set the header
 - Set the footer
+
+## Others
+### Requirements
+- Cloud-API
