@@ -31,9 +31,7 @@ public class CloudListenerOnlyProxy implements Listener {
 
   @EventHandler(priority = EventPriority.HIGHEST)
   public void onLogin(PlayerLoginEvent e) {
-    if (e.getRealAddress().getHostAddress().equals(CloudInstance.ip)
-        || e.getAddress().getHostAddress().equals("localhost")
-        || e.getAddress().getHostAddress().equals("127.0.0.1")) return;
+    if (e.getRealAddress().getHostAddress().equals(CloudInstance.ip)) return;
     e.disallow(
         PlayerLoginEvent.Result.KICK_OTHER, ChatColor.RED + "You must join through the proxy.");
   }
